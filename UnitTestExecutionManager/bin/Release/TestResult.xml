@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Release\UnitTestExecutionManager.dll" total="1" errors="1" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-08-05" time="14:08:21">
+  <environment nunit-version="2.6.2.12296" clr-version="2.0.50727.5466" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.6.2\bin" machine-name="GLB-QA-06" user="maximgu" user-domain="TRAD" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Release\UnitTestExecutionManager.dll" executed="False" result="Cancelled">
+    <results>
+      <test-suite type="Namespace" name="UnitTestExecutionManager" executed="False" result="Cancelled">
+        <results>
+          <test-suite type="TestFixture" name="ObWebDriver" executed="False" result="Cancelled">
+            <results>
+              <test-case name="UnitTestExecutionManager.ObWebDriver.ObRegression" executed="False" result="Cancelled">
+                <failure>
+                  <message><![CDATA[Test cancelled by user]]></message>
+                  <stack-trace><![CDATA[at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+at NUnit.Core.Reflect.InvokeMethod(MethodInfo method, Object fixture, Object[] args)
+at NUnit.Core.TestMethod.RunTestMethod(TestResult testResult)
+at NUnit.Core.TestMethod.RunTestCase(TestResult testResult)
+]]></stack-trace>
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

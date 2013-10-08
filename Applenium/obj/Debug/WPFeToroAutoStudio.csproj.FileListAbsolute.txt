@@ -1,0 +1,39 @@
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\eToroAutoStudio.exe.config
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\MainWindow.baml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\MainWindow.g.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\App.g.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\eToroAutoStudio_MarkupCompile.cache
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\eToroAutoStudio.g.resources
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\WPFeToroAutoStudio.Properties.SQLResources.resources
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\WPFeToroAutoStudio.csproj.GenerateResource.Cache
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\eToroAutoStudio.json
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\DataSetAutoTest.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\DataSetAutoTest.Designer.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\DataSetAutoTest.xsc
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\DataSetAutoTest.xsd
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\DataSetAutoTest.xss
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\eToroAutoStudio.exe
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\eToroAutoStudio.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\log4net.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\Newtonsoft.Json.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\WebDriver.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\WebDriver.Support.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\protobuf-net.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\BadgesPrerequisites.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\Common.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\log4net.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\Newtonsoft.Json.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\WebDriver.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\WebDriver.Support.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\protobuf-net.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\protobuf-net.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\eToroAutoStudio.exe
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\eToroAutoStudio.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\eToroAutoStudio_Content.g.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\ChromeDriver.exe
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\obj\Debug\WPFeToroAutoStudio.csprojResolveAssemblyReference.cache
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\nunit.framework.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\WPFeToroAutoStudio\bin\Debug\nunit.framework.xml
+C:\Users\maximgu\Documents\GitHub\Applenium\WPFeToroAutoStudio\bin\Debug\eToroAutoStudio.exe.config
+C:\Users\maximgu\Documents\GitHub\Applenium\WPFeToroAutoStudio\obj\Debug\eToroAutoStudio.exe
+C:\Users\maximgu\Documents\GitHub\Applenium\WPFeToroAutoStudio\obj\Debug\eToroAutoStudio.pdb

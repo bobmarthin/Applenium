@@ -1,0 +1,836 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>eToroAutoStudio</name>
+    </assembly>
+    <members>
+        <member name="T:WPFeToroAutoStudio.Constants">
+            <summary>
+                All constants is described in that class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.ExecutionManager">
+            <summary>
+            Run execution manager from outside 
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.ExecutionManager.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.ExecutionManager.#ctor(System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="runExecutionId"></param>
+        </member>
+        <member name="M:WPFeToroAutoStudio.ExecutionManager.ExecuteOneBatch(System.String)">
+            <summary>
+            Unitest will cal this one
+            </summary>
+            <param name="batchId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WPFeToroAutoStudio.Logger">
+            <summary>
+                Logger - public class to deal with Logs
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Logger.Debug(System.String,System.Exception)">
+            <summary>
+                Debug is public function to report debug events
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Logger.Info(System.String,System.Exception)">
+            <summary>
+                Info is public function to report Information events
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Logger.Warn(System.String,System.Exception)">
+            <summary>
+                public function to report warnings
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Logger.Error(System.String,System.Exception)">
+            <summary>
+                is public function to report error events
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Logger.Fatal(System.String,System.Exception)">
+            <summary>
+                Debug is public function to report fatal events
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Logger.Passed(System.String)">
+            <summary>
+                To report passed test/step or scenario
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Logger.Failed(System.String)">
+            <summary>
+                To report failed test/step or scenario
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Logger.Done(System.String)">
+            <summary>
+                To report Done passed test/step or scenario
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.Singleton">
+            <summary>
+                This is singleton class to cimunicate between threads. Mainly in use for stopping /kill execution thread
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Singleton.Instance">
+            <summary>
+                Create instance od singleton class
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Singleton.StopExecution">
+            <summary>
+                get or set stopexecution flag(bool true or false)
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Singleton.BatchResult">
+            <summary>
+                Set batch result multi threading scenario execution
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.SqlTableCreator">
+            <summary>
+                SqlTableCreator - public class to deal with Tables creating in DB
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.#ctor">
+            <summary>
+                Empty consructor for TableCreator class
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.#ctor(System.Data.SqlClient.SqlConnection)">
+            <summary>
+                Consructor for TableCreator class
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.#ctor(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction)">
+            <summary>
+                Consructor for TableCreator class
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.Create(System.Data.DataTable)">
+            <summary>
+                Create schema in DB
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.Create(System.Data.DataTable,System.Int32)">
+            <summary>
+                Create schema in DB with primary key
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.Create(System.Data.DataTable,System.Int32[])">
+            <summary>
+                Create schema in DB with set of primary keys
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.CreateFromDataTable(System.Data.DataTable)">
+            <summary>
+                Create table based on DataTable
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.GetCreateSql(System.String,System.Data.DataTable,System.Int32[])">
+            <summary>
+                Create table in DN based on SQl query
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.Create(System.String,System.Int32)">
+            <summary>
+                Creates table in DB with certain number of columns
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.GetCreateFromDataTableSql(System.String,System.Data.DataTable)">
+            <summary>
+                Return SQL based on Data table and Table name
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.GetPrimaryKeys(System.Data.DataTable)">
+            <summary>
+                Get primary key from DB
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.SqlGetType(System.Object,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Return DB column type
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.SqlGetType(System.Data.DataRow)">
+            <summary>
+                SQLGetType
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.SqlGetType(System.Data.DataColumn)">
+            <summary>
+                Return type of Column in Table from Data Base
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.SqlTableCreator.BulkInsertDataTable(System.String,System.String,System.Data.DataTable)">
+            <summary>
+                Insert data to Table in Data Base ( table already created)
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.SqlTableCreator.Connection">
+            <summary>
+                Connection - public property for connection string
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.SqlTableCreator.Transaction">
+            <summary>
+                Transaction - public property for transaction
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.SqlTableCreator.DestinationTableName">
+            <summary>
+                DestinationTable - public property for DestinationTable to create
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest">
+             <summary>
+            Represents a strongly typed in-memory cache of data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiMapDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiPageSectionDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiScenarioLogicDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiTestStepsDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiTagTypeDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestCommandDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BatchesDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiProjectPageDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.ProjectsDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.ScenarioDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.RowIDBlankDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestFailiureLogDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.AgentMachinesDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BrowsersDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BatchLogicDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestResultsDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.LogStatusDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiMapRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiTagTypeRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiScenarioLogicRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestCommandRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiTestStepsRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BatchesRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiProjectPageRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.ProjectsRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.ScenarioRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.RowIDBlankRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestFailiureLogRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.AgentMachinesRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BrowsersRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BatchLogicRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestResultsRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.LogStatusRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiPageSectionRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiMapRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiTagTypeRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiScenarioLogicRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestCommandRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiTestStepsRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BatchesRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiProjectPageRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.ProjectsRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.ScenarioRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.RowIDBlankRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestFailiureLogRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.AgentMachinesRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BrowsersRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.BatchLogicRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.TestResultsRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.LogStatusRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTest.GuiPageSectionRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.GuiTagTypeTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.BatchLogicTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.GuiPageSectionTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TestTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.BatchesTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.GuiScenarioLogicTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.GuiMapTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.ScenarioTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.GuiProjectPageTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.GuiTestStepsTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TestCommandTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.ProjectsTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.RowIDBlankTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TestFailiureLogTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.AgentMachinesTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.BrowsersTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TestResultsTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.LogStatusTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TableAdapterManager">
+             <summary>
+            TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TableAdapterManager.UpdateUpdatedRows(WPFeToroAutoStudio.DataSetAutoTest,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Update rows in top-down order.
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TableAdapterManager.UpdateInsertedRows(WPFeToroAutoStudio.DataSetAutoTest,System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Insert rows in top-down order.
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TableAdapterManager.UpdateDeletedRows(WPFeToroAutoStudio.DataSetAutoTest,System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Delete rows in bottom-up order.
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TableAdapterManager.UpdateAll(WPFeToroAutoStudio.DataSetAutoTest)">
+             <summary>
+            Update all changes to the dataset.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TableAdapterManager.UpdateOrderOption">
+             <summary>
+            Update Order Option
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.DataSetAutoTestTableAdapters.TableAdapterManager.SelfReferenceComparer">
+             <summary>
+            Used to sort self-referenced table's rows
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.Properties.SQLResources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_BatchScenariosToSelenium">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.BatchLogic.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_Columns">
+             <summary>
+               Looks up a localized string similar to select *
+            from QA_Autotest.INFORMATION_SCHEMA.COLUMNS.
+             </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_Delete_GuiMap">
+            <summary>
+              Looks up a localized string similar to DELETE QA_Autotest.Test.GuiMap WHERE GuiMapObjectName= .
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_GuiBatchLogicSelect">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.BatchLogic.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_GuiBatchSelect">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.Batches.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_GuiMapSelect">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.GuiMap.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_GuiProjectsSelect">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.GuiProjectPage.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_GuiScenarioLogicSelect">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.GuiScenarioLogic.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_GuiScenarioSelect">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.Scenario.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_GuiTestSelect">
+            <summary>
+              Looks up a localized string similar to SELECT TestName FROM QA_Autotest.Test.Test.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_GuiTestStepsSelect">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.GuiTestSteps.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_InputTableNameSelect">
+            <summary>
+              Looks up a localized string similar to Select InputTableName From QA_Autotest.Test.Test.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_RowsID">
+            <summary>
+              Looks up a localized string similar to select rowID from .
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_ScenarioTestsToSelenium">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.GuiScenarioLogic.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_Tables">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.sys.tables.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_TagTypeSelect">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.GuiTagType.
+            </summary>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Properties.SQLResources.Query_TestStepsToSlenium">
+            <summary>
+              Looks up a localized string similar to SELECT * FROM QA_Autotest.Test.GuiTestSteps.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.ScreenShotRemoteWebDriver">
+            <summary>
+            Implement ScreenShotRemoteWebDriver
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.ScreenShotRemoteWebDriver.#ctor(System.Uri,OpenQA.Selenium.ICapabilities)">
+            <summary>
+            Override ScreenShotRemoteWebDriver
+            </summary>
+            <param name="remoteAddress"></param>
+            <param name="desiredCapabilities"></param>
+        </member>
+        <member name="M:WPFeToroAutoStudio.ScreenShotRemoteWebDriver.GetScreenshot">
+            <summary> 
+            Gets a <see cref="T:OpenQA.Selenium.Screenshot"/> object representing the image of the page on the screen. 
+            </summary> 
+            <returns>A <see cref="T:OpenQA.Selenium.Screenshot"/> object containing the image.</returns> 
+        </member>
+        <member name="T:WPFeToroAutoStudio.Selenium">
+            <summary>
+                Class for dealing with Selenium functions
+            </summary>
+        </member>
+        <member name="F:WPFeToroAutoStudio.Selenium._lastCreatedValue">
+            <summary>
+                this value to save value between tests
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Selenium.SetLastCreatedValue(System.String,System.String)">
+            <summary>
+                FailuerMessage to read in other class
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Selenium.GetLastCreatrdValue(System.String)">
+            <summary>
+                Get Last Created global value
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Selenium.ScreenShot(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+                Take snapshot when error accured
+            </summary>
+            <param name="driver"></param>
+            <param name="folderName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Selenium.HTMLShot(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+                Take snapshot when error accured
+            </summary>
+            <param name="driver"></param>
+            <param name="folderName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Selenium.DrawBorder(System.Int32,System.String,OpenQA.Selenium.IWebDriver)">
+            <summary>
+                Drow borfer around web element (higlihgt it )
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Selenium.ExecuteJavaScript(System.String,OpenQA.Selenium.IWebDriver)">
+            <summary>
+                Execute any java script
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Selenium.ExecuteOneStep(System.Data.DataRow,System.String,System.String,OpenQA.Selenium.IWebDriver)">
+            <summary>
+                Execute one step generaly called from execution manger (gets vlaue from data table )
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.Selenium.SetWebDriverBrowser(OpenQA.Selenium.IWebDriver,System.String,System.Boolean)">
+            <summary>
+                set driver with browser
+            </summary>
+            <param name="driver"></param>
+            <param name="browserId"></param>
+            <param name="islocal"></param>
+            <returns></returns>
+        </member>
+        <member name="P:WPFeToroAutoStudio.Selenium.LastFailureMessage">
+            <summary>
+                FailuerMessage to read in other class
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.App">
+            <summary>
+                Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:WPFeToroAutoStudio.MainWindow">
+            <summary>
+                Interaction logic for MainWindow.xaml
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.MainWindow.#ctor">
+            <summary>
+                This is main window of eToroAutoStudio
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.MainWindow.DataViewAsDataTable(System.Data.DataView)">
+            <summary>
+                Show data view from datagrid as DataTable
+            </summary>
+        </member>
+        <member name="M:WPFeToroAutoStudio.MainWindow.DataGridBatchEditor_SetStatus(System.Int32,System.Int32)">
+            <summary>
+            This fuction sets ongoing status for each scenario
+            </summary>
+            <param name="status"></param>
+            <param name="row"></param>
+        </member>
+        <member name="M:WPFeToroAutoStudio.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>

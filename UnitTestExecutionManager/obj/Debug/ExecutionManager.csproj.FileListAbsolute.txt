@@ -1,0 +1,73 @@
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\ChromeDriver.exe
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\eToroAutoStudio.json
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.Designer.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xsc
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xsd
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xss
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.dll.config
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\AutomaticTest.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\Common.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\eToroAutoStudio.exe
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\nunit.framework.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\WebDriver.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\log4net.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\Newtonsoft.Json.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\WebDriver.Support.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\BadgesPrerequisites.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\eToroAutoStudio.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\nunit.framework.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\WebDriver.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\log4net.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\Newtonsoft.Json.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\WebDriver.Support.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\bin\Debug\BadgesPrerequisites.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\obj\Debug\ExecutionManager.csprojResolveAssemblyReference.cache
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\obj\Debug\UnitTestExecutionManager.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\eToroAutoStudio\UnitTestExecutionManager\obj\Debug\UnitTestExecutionManager.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\obj\Debug\ExecutionManager.csprojResolveAssemblyReference.cache
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\obj\Debug\UnitTestExecutionManager.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\obj\Debug\UnitTestExecutionManager.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\eToroAutoStudio.json
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.Designer.cs
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xsc
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xsd
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xss
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.dll.config
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\eToroAutoStudio.exe
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\log4net.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\Newtonsoft.Json.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\nunit.framework.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\WebDriver.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\WebDriver.Support.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\BadgesPrerequisites.dll
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\eToroAutoStudio.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\log4net.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\Newtonsoft.Json.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\nunit.framework.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\WebDriver.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\WebDriver.Support.xml
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\BadgesPrerequisites.pdb
+C:\Users\maximgu\Documents\Visual Studio 2012\Projects\AutoStudio\UnitTestExecutionManager\bin\Debug\ChromeDriver.exe
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\ChromeDriver.exe
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\Configuration.json
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.cs
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.Designer.cs
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xsc
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xsd
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\DataSetAutoTest.xss
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.dll.config
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.dll
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\UnitTestExecutionManager.pdb
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\nunit.framework.dll
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\nunit.framework.xml
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\obj\Debug\ExecutionManager.csprojResolveAssemblyReference.cache
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\obj\Debug\UnitTestExecutionManager.dll
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\obj\Debug\UnitTestExecutionManager.pdb
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\Applenium.exe
+C:\Users\maximgu\Documents\GitHub\Applenium\UnitTestExecutionManager\bin\Debug\Applenium.pdb
