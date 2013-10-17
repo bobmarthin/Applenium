@@ -22,7 +22,7 @@ namespace Applenium
             dt.Columns.Add("Name");
             dt.Columns.Add("Value");
 
-            string text = File.ReadAllText("Applenium.json");
+            string text = File.ReadAllText("Configuration.json");
             JObject json = JObject.Parse(text);
             foreach (var jv in json)
             {

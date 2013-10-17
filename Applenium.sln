@@ -4,31 +4,94 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecutionManager", "UnitTestExecutionManager\ExecutionManager.csproj", "{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CF590BCD-99B8-401C-A158-17EDC8E204A4}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Applenium", "Applenium\Applenium.csproj", "{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D2626043-6DC8-4105-B4F0-C2F0436CE340}"
+	ProjectSection(SolutionItems) = preProject
+		packages\WebDriver.ChromeDriver.26.0.1383.1\tools\ChromeDriver.exe = packages\WebDriver.ChromeDriver.26.0.1383.1\tools\ChromeDriver.exe
+	EndProjectSection
+EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "AppleniumInstall", "AppleniumInstall\AppleniumInstall.isproj", "{760C816D-87FF-4487-A8A7-7305550D2E00}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD} = {C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
+		CD_ROM|x86 = CD_ROM|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		DVD-5|Any CPU = DVD-5|Any CPU
+		DVD-5|x86 = DVD-5|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
+		SingleImage|Any CPU = SingleImage|Any CPU
+		SingleImage|x86 = SingleImage|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.CD_ROM|x86.ActiveCfg = Release|Any CPU
 		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.DVD-5|x86.ActiveCfg = Debug|Any CPU
 		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{C9E3D2BE-6178-43CC-84C2-ABB53F7AB2DD}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.CD_ROM|x86.ActiveCfg = Release|x86
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.CD_ROM|x86.Build.0 = Release|x86
 		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.Debug|x86.ActiveCfg = Debug|x86
 		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.Debug|x86.Build.0 = Debug|x86
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.DVD-5|x86.ActiveCfg = Debug|x86
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.DVD-5|x86.Build.0 = Debug|x86
 		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.Release|x86.ActiveCfg = Release|x86
 		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.Release|x86.Build.0 = Release|x86
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.SingleImage|x86.ActiveCfg = Release|x86
+		{19D2D0B6-5CC8-43BD-BC3C-DD95B8BC774B}.SingleImage|x86.Build.0 = Release|x86
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.CD_ROM|Any CPU.Build.0 = CD_ROM
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.CD_ROM|x86.ActiveCfg = CD_ROM
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.CD_ROM|x86.Build.0 = CD_ROM
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.Debug|Any CPU.ActiveCfg = DVD-5
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.Debug|Any CPU.Build.0 = DVD-5
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.Debug|x86.ActiveCfg = DVD-5
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.Debug|x86.Build.0 = DVD-5
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.DVD-5|Any CPU.ActiveCfg = DVD-5
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.DVD-5|Any CPU.Build.0 = DVD-5
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.DVD-5|x86.ActiveCfg = DVD-5
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.DVD-5|x86.Build.0 = DVD-5
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.Release|Any CPU.ActiveCfg = SingleImage
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.Release|Any CPU.Build.0 = SingleImage
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.Release|x86.ActiveCfg = SingleImage
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.Release|x86.Build.0 = SingleImage
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.SingleImage|Any CPU.ActiveCfg = SingleImage
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.SingleImage|Any CPU.Build.0 = SingleImage
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.SingleImage|x86.ActiveCfg = SingleImage
+		{760C816D-87FF-4487-A8A7-7305550D2E00}.SingleImage|x86.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
