@@ -5,7 +5,7 @@ Automation UI tool  to create, execute and analyze Web and Mobile applications b
 The tool was designed and developed by Maxim Guenis and Alon Engler.
 
 
-What you need in order to run it:
+What do you need in order to run it:
 Download c# source code from :https://github.com/bobmarthin/Applenium
 Dependencies that  you need:
 - Selenium : http://docs.seleniumhq.org/download/
