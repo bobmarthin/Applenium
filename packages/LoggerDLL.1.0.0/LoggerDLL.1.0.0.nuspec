@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>LoggerDLL</id>
+    <version>1.0.0</version>
+    <title>LoggerDLL</title>
+    <authors>Yosi Mizrachi</authors>
+    <owners>Yosi Mizrachi</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A DLL for writing to log files. Used by automation framework (backend and frontend).</description>
+  </metadata>
+</package>

@@ -159,6 +159,9 @@ from QA_Autotest.INFORMATION_SCHEMA.COLUMNS</value>
     <value>Select InputTableName From QA_Autotest.Test.Test</value>
     <comment>Query_InputTableName description</comment>
   </data>
+  <data name="Query_LogResults" xml:space="preserve">
+    <value>SELECT QA_Autotest.Test.TestResults.Description, QA_Autotest.Test.TestResults.Occured, QA_Autotest.Test.Scenario.ScenarioName, QA_Autotest.Test.Test.TestName, QA_Autotest.Test.Batches.BatchName, QA_Autotest.Test.LogStatus.LogStatusDescription FROM QA_Autotest.Test.TestResults FULL OUTER JOIN QA_Autotest.Test.Batches ON QA_Autotest.Test.TestResults.BatchID = QA_Autotest.Test.Batches.BatchID FULL OUTER JOIN QA_Autotest.Test.Scenario ON QA_Autotest.Test.TestResults.ScenarioID = QA_Autotest.Test.Scenario.ScenarioID FULL OUTER JOIN QA_Autotest.Test.Test ON QA_Autotest.Test.TestResults.TestID = QA_Autotest.Test.Test.TestId FULL OUTER JOIN QA_Autotest.Test.LogStatus ON QA_Autotest.Test.TestResults.Status = QA_Autotest.Test.LogStatus.LogStatusID</value>
+  </data>
   <data name="Query_RowsID" xml:space="preserve">
     <value>select rowID from </value>
   </data>

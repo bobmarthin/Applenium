@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading;
 using Applenium.DataSetAutoTestTableAdapters;
@@ -20,7 +21,8 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using TradeAPITypes.Data;
 using WebAPI;
-
+using System.Windows.Forms;
+using Microsoft.VisualBasic;
 namespace Applenium
 {
 
@@ -39,6 +41,9 @@ namespace Applenium
         private static string _lastFailureMessage;
         private static bool _ismobile = false;
 
+        private string guiMapCommandName = string.Empty;
+        private static readonly AppleniumLogger logger = new AppleniumLogger();
+
         /// <summary>
         ///     FailuerMessage to read in other class
         /// </summary>
@@ -51,7 +56,7 @@ namespace Applenium
         /// <summary>
         ///     FailuerMessage to read in other class
         /// </summary>
-        private static void SetLastCreatedValue(string name, string value)
+        private static ResultModel SetLastCreatedValue(string name, string value)
         {
             if (_lastCreatedValue.ContainsKey(name))
             {
@@ -64,7 +69,8 @@ namespace Applenium
                 _lastCreatedValue.Add(name, value);
 
             }
-            Logger.Done(string.Format("NewValueCreated:{0}={1}", name, value));
+
+            return new ResultModel(true, string.Format("NewValueCreated:{0}={1}", name, value));
         }
 
         /// <summary>
@@ -113,7 +119,13 @@ namespace Applenium
                 }
                 catch (Exception e)
                 {
-                    Logger.Failed("Error taking picture" + e.Message);
+                    LogObject exceptionLogger = new LogObject();
+                    exceptionLogger.Description = "Error taking snapshot - " + e.Message;
+                    exceptionLogger.CommandName = guiMapCommandName;
+                    exceptionLogger.StatusTag = Constants.FAILED;
+                    exceptionLogger.Exception = e;
+                    logger.Print(exceptionLogger);
+
                 }
                 if (driver.GetType().Name.IndexOf("RemoteWebDriver", StringComparison.Ordinal) >= 0)
                 {
@@ -167,13 +179,31 @@ namespace Applenium
             return string.Format("{0}\\{1}", createdFolderLocation, time + ".png");
         }
 
-        private static void LocalLogFailure(string logmessage, Exception exception, int failedOrError)
+        private static void LocalLogFailure(string stepName, string logmessage, Exception exception, int failedOrError)
         {
-            _lastFailureMessage = logmessage; //("Can't run this command:" + guiMapTagTypeValue.Trim());
-            if (failedOrError == Constants.Failed) //failed
-                Logger.Failed(logmessage);
-            if (failedOrError == Constants.Error)
-                Logger.Error(logmessage, exception);
+            _lastFailureMessage = logmessage; //("Can't run this command: " + guiMapTagTypeValue.Trim());
+            if (failedOrError == Constants.FAILED)
+            { //failed
+
+
+                LogObject exceptionLogger2 = new LogObject();
+                exceptionLogger2.StatusTag = Constants.FAILED;
+                exceptionLogger2.Description = logmessage;
+                exceptionLogger2.StepName = stepName;
+                exceptionLogger2.Exception = exception;
+                logger.Print(exceptionLogger2);
+            }
+
+            else if (failedOrError == Constants.ERROR)
+            {
+                LogObject exceptionLogger2 = new LogObject();
+                exceptionLogger2.StatusTag = Constants.ERROR;
+                exceptionLogger2.Description = logmessage;
+                exceptionLogger2.StepName = stepName;
+                exceptionLogger2.Exception = exception;
+                logger.Print(exceptionLogger2);
+            }
+
         }
 
         private bool SwitchTowindow(RemoteWebDriver driver, string windowname)
@@ -232,8 +262,7 @@ namespace Applenium
                     findelement = By.TagName(guiMapTagTypeValue);
                     break;
                 default:
-                    LocalLogFailure("Can't run this command:" + guiMapTagTypeValue, null, Constants.Error);
-                    //3 for error
+                    LocalLogFailure(guiMapCommandName, "Couldn't run the command = " + guiMapCommandName + " on the element = " + guiMapTagTypeValue, null, Constants.ERROR);
                     break;
             }
 
@@ -273,7 +302,7 @@ namespace Applenium
             }
             catch (Exception exception)
             {
-                LocalLogFailure(exception.Message, exception, Constants.Error);
+                LocalLogFailure(guiMapCommandName, exception.Message, exception, Constants.ERROR);
                 result = false;
             }
 
@@ -296,11 +325,17 @@ namespace Applenium
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(waitElementDisplayedTime));
             IWebElement iresult = driver.FindElement(webelement);
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(0));
-            Logger.Info(webelement + " waited to find  ");
+
+
+            LogObject exceptionLogger2 = new LogObject();
+            exceptionLogger2.StatusTag = Constants.PASSED;
+            exceptionLogger2.Description = "Waiting to find " + webelement;
+            logger.Print(exceptionLogger2);
+
             if (iresult != null)
                 return true;
-            LocalLogFailure("can't find element " + webelement + "after " + waitElementDisplayedTime + " seconds",
-                            null, Constants.Failed);
+            LocalLogFailure(guiMapCommandName, "Couldn't find element - " + webelement + ". after: " + waitElementDisplayedTime + " seconds.",
+                            null, Constants.FAILED);
             return false;
         }
 
@@ -344,18 +379,23 @@ namespace Applenium
                     }
                     catch (StaleElementReferenceException)
                     {
-                        //Logger.Error("Stale"+e.Message);
+                        //Logger.LogResult("Stale"+e.Message);
                     }
                 }
             }
 
             else
-                LocalLogFailure(
-                    "can't find displayed element " + webelement + "after " + waitElementDisplayedTime + " seconds",
-                    null, Constants.Failed);
+                LocalLogFailure(guiMapCommandName,
+                    "Couldn't find element - " + webelement + ". after: " + waitElementDisplayedTime + " seconds.",
+                    null, Constants.FAILED);
 
 
-            Logger.Info(webelement + " waited to display    ");
+            LogObject exceptionLogger2 = new LogObject();
+            exceptionLogger2.StatusTag = Constants.PASSED;
+            exceptionLogger2.Description = "Waited to display - " + webelement;
+            exceptionLogger2.StepName = guiMapCommandName;
+            logger.Print(exceptionLogger2);
+
             return result;
         }
 
@@ -363,7 +403,7 @@ namespace Applenium
         /// <summary>
         ///     Execute one step generaly called from execution manger (gets vlaue from data table )
         /// </summary>
-        public bool ExecuteOneStep(DataRow dr, string inputDataColumn, string inputTableValue, RemoteWebDriver driver)
+        public ResultModel ExecuteOneStep(DataRow dr, string inputDataColumn, string inputTableValue, RemoteWebDriver driver)
         {
             int guiMapCommandId = -1;
             string guiMapTagTypeValue = string.Empty;
@@ -374,6 +414,7 @@ namespace Applenium
             Sql sql = new Sql();
 
             bool result = true;
+            ResultModel res = new ResultModel(false, "");
             int waitElementDisplayed = Convert.ToInt32(jp.ReadJson("WaitElementDisplayed"));
             int waitElementExists = Convert.ToInt32(jp.ReadJson("WaitElementExists"));
             int expandedWaitFindElement = Convert.ToInt32(jp.ReadJson("ExpandedWaitFindElement"));
@@ -392,11 +433,17 @@ namespace Applenium
             try
             {
                 int guiMapId;
+
                 using (var adapterGuimap = new GuiMapTableAdapter())
                 {
                     guiMapId = Convert.ToInt32(dr["GuiMapID"].ToString().Trim());
                     guiMapCommandId = Convert.ToInt32(dr["GuiMapCommandID"].ToString().Trim());
                     int guiMapTagTypeId = Convert.ToInt32(adapterGuimap.GetTagTypeID(guiMapId));
+                    if (guiMapCommandId != 0)
+                    {
+                        var adapterCommand = new TestCommandTableAdapter();
+                        guiMapCommandName = adapterCommand.GetTestCommandName(guiMapCommandId).Trim();
+                    }
                     if (guiMapId != 0)
                     {
                         guiMapTagTypeValue = adapterGuimap.GetTagTypeValue(guiMapId).Trim();
@@ -423,86 +470,185 @@ namespace Applenium
                                     try
                                     {
                                         driver.FindElement(webelement).Click();
-                                        Logger.Done(webelement + " clicked");
+                                        logIt(guiMapCommandName, "Clicked sucessfully", Constants.DONE);
+                                        res.Returnresult = true;
                                         break;
+
                                     }
 
-                                    catch (StaleElementReferenceException)
+                                    catch (Exception ex)
                                     {
-
+                                        //Logger.LogResult("Couldn't click " + webelement, Constants.Error, ex);
+                                        res.Returnresult = false;
+                                        res.Message = ex.Message;
                                     }
                                     attempts++;
                                 }
-                            } break;
+                            }
+                            break;
 
                         case 2: //"sendkey":
-                            driver.FindElement(webelement).Clear();
-                            driver.FindElement(webelement).SendKeys(inputTableValue);
-                            Logger.Done(webelement + " Sentkey with " + inputTableValue);
+                            try
+                            {
+                                driver.FindElement(webelement).Clear();
+                                driver.FindElement(webelement).SendKeys(inputTableValue);
+                                logIt(guiMapCommandName, "Sent keys (" + inputTableValue + ") to element - " + webelement, Constants.DONE);
+                                res.Returnresult = true;
 
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
                         case 3: //navigate
+                            try
+                            {
+                                driver.Navigate().GoToUrl(inputTableValue);
+                                isPageLoaded(driver);
+                                logIt(guiMapCommandName, "Navigated to " + inputTableValue, Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
 
-                            driver.Navigate().GoToUrl(inputTableValue);
-                            isPageLoaded(driver);
-                            Logger.Done("navigated to " + inputTableValue);
                             break;
                         case 4: //findelementt
-                            driver.FindElement(webelement);
-                            Logger.Done(webelement + " Found");
+                            try
+                            {
+                                driver.FindElement(webelement);
+                                logIt(guiMapCommandName, "Found -" + webelement, Constants.DONE);
+                                res.Returnresult = true;
+                            }
+
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
 
                             break;
                         case 6: //"check":
-                            driver.FindElement(webelement).Click();
+                            try
+                            {
+                                driver.FindElement(webelement).Click();
+                                logIt(guiMapCommandName, "Checked -" + webelement, Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
                         case 7: //"mouseover":
-                            var builder = new Actions(driver);
-
-                            builder.MoveToElement(driver.FindElement(webelement)).Build().Perform();
-
-                            Thread.Sleep(1000);
-                            Logger.Done(webelement + " Mouse Overed");
-
+                            try
+                            {
+                                var builder = new Actions(driver);
+                                builder.MoveToElement(driver.FindElement(webelement)).Build().Perform();
+                                Thread.Sleep(1000);
+                                logIt(guiMapCommandName, "Mouse Over -" + webelement, Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
 
                         case 8: //"waituntill-findelement":
-                            result = Waituntilfindelement(webelement, waitElementExists, driver);
-                            Logger.Done(webelement.ToString().Trim() + " waited");
+                            try
+                            {
+                                result = Waituntilfindelement(webelement, waitElementExists, driver);
+                                logIt(guiMapCommandName, "Waited to find - " + webelement.ToString().Trim(), Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
                         case 9: //"compare text
-                            if (String.CompareOrdinal(driver.FindElement(webelement).Text, inputTableValue) != 0)
+                            try
                             {
-                                result = false;
-                                LocalLogFailure(
-                                    "The Expected text is wrong actual: " + driver.FindElement(webelement).Text +
-                                    " vs expected :" + inputTableValue, null, Constants.Failed);
-                            }
+                                if (String.CompareOrdinal(driver.FindElement(webelement).Text, inputTableValue) != 0)
+                                {
+                                    result = false;
+                                    LocalLogFailure(guiMapCommandName,
+                                        "The Expected text is wrong actual: " + driver.FindElement(webelement).Text +
+                                        " vs expected: " + inputTableValue, null, Constants.FAILED);
+                                }
 
-                            Logger.Done(webelement + " compared text to " + inputTableValue);
+                                logIt(guiMapCommandName, "Compared the text - " + webelement + " to " + inputTableValue, Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
                         case 10: //select drop down by Index
                             // select the drop down list////System.Windows.MessageBox
+
                             IWebElement dropdown = driver.FindElement(webelement);
                             //create select element object 
                             var selectElement = new SelectElement(dropdown);
                             //select by index
                             selectElement.SelectByIndex(Convert.ToInt32(inputTableValue));
+                            try
+                            {
+                                ExecuteJavaScript(
+                                    "$('" + guiMapTagTypeValue + "').val('" + inputTableValue + "').change()", driver);
 
-                            ExecuteJavaScript(
-                                "$('" + guiMapTagTypeValue + "').val('" + inputTableValue + "').change()", driver);
+                                logIt(guiMapCommandName, "Dropdown element - " + webelement + ", with index   " + inputTableValue, Constants.DONE);
+                                res.Returnresult = true;
+                            }
 
-                            Logger.Done(webelement + " dropeddown with index   " + inputTableValue);
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
+
                             break;
                         case 11: //wait untill  displayed 
+                            try
+                            {
+                                result = WaituntilelementDisplayed(webelement, waitElementDisplayed, driver, false);
+                                logIt(guiMapCommandName, "Waited to display - " + webelement, Constants.DONE);
 
-                            result = WaituntilelementDisplayed(webelement, waitElementDisplayed, driver, false);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = "Waited to display element - " + webelement + ". " + ex.Message;
+                            }
+
                             break;
                         case 12: //verify is exists 
 
                             IWait<IWebDriver> wait = new WebDriverWait(driver, TimeSpan.FromSeconds(waitElementExists));
                             //IWebElement a = ExpectedConditions.ElementExists(webelement);
-                            wait.Until(ExpectedConditions.ElementExists(webelement));
+                            try
+                            {
+                                wait.Until(ExpectedConditions.ElementExists(webelement));
+                                logIt(guiMapCommandName, "Element exists - " + webelement, Constants.DONE);
 
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
                         case 13: //select drop down
                             // select the drop down list////System.Windows.MessageBox
@@ -515,10 +661,20 @@ namespace Applenium
                                 // select by text
                                 //selectElement.SelecyByText("HighSchool");
                             }
-                            ExecuteJavaScript(
-                                "$('" + guiMapTagTypeValue + " option:selected').val('" + inputTableValue +
-                                "').change()", driver);
-                            Logger.Done(webelement + " dropeddown with text   " + inputTableValue);
+                            try
+                            {
+                                ExecuteJavaScript(
+                                    "$('" + guiMapTagTypeValue + " option:selected').val('" + inputTableValue +
+                                    "').change()", driver);
+
+                                logIt(guiMapCommandName, "Dropdown element - " + webelement + ", with index   " + inputTableValue, Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
                         case 14: //select drop down
                             // select the drop down list////System.Windows.MessageBox
@@ -530,9 +686,20 @@ namespace Applenium
                                 //select by Value
                                 selectElement.SelectByValue(inputTableValue);
                             }
-                            ExecuteJavaScript(
-                                "$('" + guiMapTagTypeValue + "').val('" + inputTableValue + "').change()", driver);
-                            Logger.Done(webelement + " dropeddown with value   " + inputTableValue);
+                            try
+                            {
+                                ExecuteJavaScript(
+                                    "$('" + guiMapTagTypeValue + "').val('" + inputTableValue + "').change()", driver);
+
+                                logIt(guiMapCommandName, "Dropdown element - " + webelement + ", with index   " + inputTableValue, Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
+
                             break;
                         case 15: //SetlocalStorage Run JavaScript(any java script)
                             // select the drop down list////System.Windows.MessageBox
@@ -547,45 +714,81 @@ namespace Applenium
                                     string[] paramarr = script[i].Split(':');
                                     paramdict.Add(paramarr[0].Trim(), paramarr[1].Trim());
                                 }
+
                                 driver.ExecuteScript(script[0], paramdict);
                             }
-                            Logger.Done("Java script executed with   " + inputTableValue);
+                            logIt(guiMapCommandName, "Java script executed with   " + inputTableValue, Constants.DONE);
+
+                            res.Returnresult = true;
                             break;
                         case 16: //wait untill  find element long time expanded 
-                            WaituntilelementDisplayed(webelement, expandedWaitFindElement, driver, false);
+                            try
+                            {
+                                WaituntilelementDisplayed(webelement, expandedWaitFindElement, driver, false);
+                                res.Returnresult = true;
+                                logIt(guiMapCommandName, "Expanded wait for element success - " + inputTableValue, Constants.DONE);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = "Waited to display (ExpandedWait) element - " + webelement + ". " + ex.Message;
+                            }
                             break;
                         case 17: //Count number of elements and Compare
                             int elementcount = driver.FindElements(webelement).Count();
                             if (elementcount != Convert.ToInt32(inputTableValue))
                             {
                                 result = false;
-                                LocalLogFailure(
-                                    "The Expected count is wrong:" + inputTableValue + " vs actual: " + elementcount,
-                                    null, Constants.Failed);
+                                LocalLogFailure(guiMapCommandName,
+                                    "The Expected count is wrong. EXPECTED: " + inputTableValue + " vs ACTUAL(Found): " + elementcount,
+                                    null, Constants.FAILED);
+                                res.Returnresult = false;
                             }
 
-                            Logger.Done("number of elements " + webelement + "is " + elementcount + "compared to:   " +
-                                        inputTableValue);
+                            logIt(guiMapCommandName, "Number of elements - " + webelement + " is " + elementcount + " compared to:   " +
+                                    inputTableValue, Constants.DONE);
+
+                            res.Returnresult = true;
                             break;
                         case 18: //scrolldown
-                            ExecuteJavaScript("window.scroll(0,document.body.scrollHeight)", driver);
-                            Logger.Done("Scrolled Down");
-
+                            try
+                            {
+                                ExecuteJavaScript("window.scroll(0,document.body.scrollHeight)", driver);
+                                logIt(guiMapCommandName, "Scrolled Down", Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
                         case 19: //scrollup
-                            ExecuteJavaScript("window.scroll(0,0)", driver);
-                            Logger.Done("Scrolled Up");
+                            try
+                            {
+                                ExecuteJavaScript("window.scroll(0,0)", driver);
+                                logIt(guiMapCommandName, "Scrolled Up", Constants.DONE);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
                             break;
                         case 20: //switchtowindow
                             string currentWindow = null;
                             try
                             {
                                 currentWindow = driver.CurrentWindowHandle;
+
+
                             }
-                            catch (Exception e)
+                            catch (Exception exception)
                             {
-                                Logger.Error(e.Message);
-                                result = false;
+                                res.Returnresult = false;
+                                res.Message = exception.Message;
                             }
 
                             var availableWindows = new List<string>(driver.WindowHandles);
@@ -597,7 +800,9 @@ namespace Applenium
                                     if (w != currentWindow)
                                     {
                                         driver.SwitchTo().Window(w);
-                                        return true;
+                                        res.Returnresult = true;
+
+                                        return res;
                                     }
                                     else if (currentWindow != null) driver.SwitchTo().Window(currentWindow);
 
@@ -606,7 +811,7 @@ namespace Applenium
 
                             else
                             {
-                                result = SwitchTowindow(driver, inputTableValue);
+                                res.Returnresult = SwitchTowindow(driver, inputTableValue);
                             }
                             break;
                         case 21: //validateOpenTrades
@@ -614,17 +819,20 @@ namespace Applenium
                             string usernameorig = inputTableValue;
                             var openbook = new OpenBookValidator(true);
                             // get positions from UI
-                            List<OpenBookPositionData> openbookpositiondata = openbook.GetOpenBookPositionData(driver, guiMapId);
+                            List<OpenBookPositionData> openbookpositiondata = openbook.GetOpenBookPositionData(driver,
+                                guiMapId);
                             // Compare positions from UI to DB
                             //string eranstring = ConfigurationManager.AppSettings["ConnectionString"];
-                            OpenBookValidator.ValidationResponse validationResponseresult = openbook.ValidateClientOpenBookOpenTrades(usernameorig, openbookpositiondata, 888,
-                                                                               888, "OpenbookPositionData", 888,
-                                                                                "OB_OpenTrades");
-                            result = validationResponseresult.Successful;
+                            OpenBookValidator.ValidationResponse validationResponseresult =
+                                openbook.ValidateClientOpenBookOpenTrades(usernameorig, openbookpositiondata, 888,
+                                    888, "OpenbookPositionData", 888,
+                                    "OB_OpenTrades");
+                            res.Returnresult = validationResponseresult.Successful;
                             LastFailureMessage = validationResponseresult.Information;
                             break;
                         case 22: //case close current window
                             driver.Close();
+                            res.Returnresult = true;
                             break;
                         case 23: //close  window by name 
                             string currentwindowhandle = driver.CurrentWindowHandle;
@@ -632,38 +840,62 @@ namespace Applenium
                             driver.Close();
                             //back to current window 
                             driver.SwitchTo().Window(currentwindowhandle);
+                            res.Returnresult = false;
                             break;
                         case 24: //clear cookeis
 
                             driver.Manage().Cookies.DeleteAllCookies();
                             // driver.Navigate().Refresh();
+                            res.Returnresult = true;
 
                             break;
                         case 25: //wait untill  find element with refresh
-                            WaituntilelementDisplayed(webelement, waitElementDisplayed, driver, true);
+                            try
+                            {
+                                WaituntilelementDisplayed(webelement, waitElementDisplayed, driver, true);
+                                res.Returnresult = true;
+                            }
+
+                            catch (Exception exception)
+                            {
+                                res.Returnresult = false;
+                                res.Message = exception.Message;
+
+                            }
                             break;
+
                         case 26: //create new user 
-                            result = CreateUser(guiMapId, inputTableValue);
+                            try
+                            {
+                                res.Returnresult = CreateUser(guiMapId, inputTableValue);
+                            }
 
+                            catch (Exception exception)
+                            {
+                                res.Message = exception.Message;
+                                res.Returnresult = false;
+                            }
                             break;
 
-                        case 28://refresh page 
+                        case 28: //refresh page 
                             driver.Navigate().Refresh();
+                            res.Returnresult = true;
                             break;
-                        case 29://runhedge
+                        case 29: //runhedge
                             string automaticHedgerPath = jp.ReadJson("AutomaticHedgerPath");
                             Process newProcess = Process.Start(automaticHedgerPath);
                             Thread.Sleep(10000);
                             if (newProcess != null)
                                 newProcess.Kill();
-
+                            res.Returnresult = true;
                             break;
-                        case 30://sleep
+                        case 30: //sleep
                             sleep(guiMapId);
+                            res.Returnresult = true;
                             break;
 
 
-                        case 31://ComapreDB to savedText or value in the input table
+                        case 31: //ComapreDB to savedText or value in the input table
                             // connect string + query split
 
                             conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
@@ -673,33 +905,35 @@ namespace Applenium
                             dbResult = sql.GetDbSingleValue(conStringQuerySplit[0], conStringQuerySplit[1]);
                             if (String.CompareOrdinal(dbResult, inputTableValue) != 0)
                             {
-                                result = false;
-                                LocalLogFailure(
-                                    "The Expected text is wrong actual: " + dbResult +
-                                    " vs expected :" + inputTableValue, null, Constants.Failed);
+                                res.Returnresult = false;
+                                LocalLogFailure(guiMapCommandName,
+                                    "The Expected text is wrong. ACTUAL: " + dbResult +
+                                    " vs EXPECTED: " + inputTableValue, null, Constants.FAILED);
                             }
 
-                            Logger.Done(conStringQuerySplit[1] + " compared text to " + inputTableValue);
+                            logIt(guiMapCommandName, "Compared " + conStringQuerySplit[1] + " to " + inputTableValue, Constants.DONE);
+                            res.Returnresult = true;
                             break;
-                        case 32://SaveElementText to a dictionary. Value can be retrieved with GetLastCreatrdValue method.
+                        case 32:
+                            //SaveElementText to a dictionary. Value can be retrieved with GetLastCreatrdValue method.
                             SetLastCreatedValue(inputDataColumn, driver.FindElement(webelement).Text);
-
+                            res.Returnresult = true;
 
                             break;
-                        case 33://Accept Alert
+                        case 33: //Accept Alert
                             driver.SwitchTo().Alert().Accept();
-
+                            res.Returnresult = true;
 
                             break;
-                        case 34://Accept Dissmiss
+                        case 34: //Accept Dissmiss
                             driver.SwitchTo().Alert().Dismiss();
-
+                            res.Returnresult = true;
                             break;
-                        case 35://SaveElementText to memmory
+                        case 35: //SaveElementText to memmory
                             SetLastCreatedValue("memmory", driver.FindElement(webelement).Text);
-
+                            res.Returnresult = true;
                             break;
-                        case 36://ComapreDB to... savedText or value in memmory
+                        case 36: //ComapreDB to... savedText or value in memmory
                             // connect string + query split
 
                             conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
@@ -710,15 +944,17 @@ namespace Applenium
                             dbResult = sql.GetDbSingleValue(conStringQuerySplit[0], conStringQuerySplit[1]);
                             if (String.CompareOrdinal(dbResult, GetLastCreatrdValue("memmory")) != 0)
                             {
-                                result = false;
-                                LocalLogFailure(
-                                    "The Expected text is wrong. Actual: " + dbResult +
-                                    " vs expected: " + GetLastCreatrdValue("memmory"), null, Constants.Failed);
+                                res.Returnresult = false;
+                                LocalLogFailure(guiMapCommandName,
+                                    "The text comparison is wrong. ACTUAL: " + dbResult +
+                                    " vs EXPECTED: " + GetLastCreatrdValue("memmory"), null, Constants.FAILED);
                             }
 
-                            Logger.Done(conStringQuerySplit[1] + " compared text to " + inputTableValue);
+                            logIt(guiMapCommandName, "Compared " + conStringQuerySplit[1] + " to " + inputTableValue, Constants.DONE);
+
+                            res.Returnresult = true;
                             break;
-                        case 1038://Comapre text property of an element to formerly saved value in memmory
+                        case 1038: //Comapre text property of an element to formerly saved value in memmory
                             // connect string + query split
                             // var guimapadapter1038 = new GuiMapTableAdapter();
                             // string ConString_Query1038 = guimapadapter1038.GetTagTypeValue(guiMapId);
@@ -732,74 +968,129 @@ namespace Applenium
                             string text = inputTableValue;
                             if (String.CompareOrdinal(text, GetLastCreatrdValue("memmory")) != 0)
                             {
-                                result = false;
-                                LocalLogFailure(
-                                    "The Expected text is wrong. actual: " + text +
-                                    " vs expected: " + GetLastCreatrdValue("memmory"), null, Constants.Failed);
+                                res.Returnresult = false;
+
+                                LocalLogFailure(guiMapCommandName,
+                                    "The text is wrong. ACTUAL: " + text +
+                                    " vs EXPECTED: " + GetLastCreatrdValue("memmory"), null, Constants.FAILED);
                             }
 
-                            Logger.Done(text + " was compared text to " + inputTableValue);
+                            logIt(guiMapCommandName, "Compared " + text + " to " + inputTableValue, Constants.DONE);
+
+                            res.Returnresult = true;
+
                             break;
 
                         case 37: //"compare text not equal
                             if (String.CompareOrdinal(driver.FindElement(webelement).Text, inputTableValue) == 0)
                             {
-                                result = false;
-                                LocalLogFailure(
+                                res.Returnresult = false;
+
+                                LocalLogFailure(guiMapCommandName,
                                     "The Expected text is wrong (Shouldn't be equal). actual is: " + driver.FindElement(webelement).Text +
-                                    " vs expected :" + inputTableValue, null, Constants.Failed);
+                                    driver.FindElement(webelement).Text +
+                                    " vs expected :" + inputTableValue, null, Constants.FAILED);
 
                             }
 
+                            else
+                            {
+                                res.Returnresult = true;
+                            }
+
                             break;
-                        case 1041://bring mobile application activity up
+                        case 1041: //bring mobile application activity up
                             driver.ExecuteScript("mobile: reset");
+                            res.Returnresult = true;
                             break;
-                        case 1042://back button
+                        case 1042: //back button
                             driver.Navigate().Back();
+                            res.Returnresult = true;
                             break;
                         case 1039: //"compare value equals
-                            if (String.CompareOrdinal(driver.FindElement(webelement).GetAttribute("value"), inputTableValue) != 0)
+                            if (
+                                String.CompareOrdinal(driver.FindElement(webelement).GetAttribute("value"),
+                                    inputTableValue) != 0)
                             {
-                                result = false;
-                                LocalLogFailure(
+                                res.Returnresult = false;
+                                LocalLogFailure(guiMapCommandName,
                                     "The Expected value is wrong (Shouldn't be equal). actual is: " + driver.FindElement(webelement).GetAttribute("value") +
-                                    " vs expected :" + inputTableValue, null, Constants.Failed);
+                                    driver.FindElement(webelement).GetAttribute("value") +
+                                    " vs expected :" + inputTableValue, null, Constants.FAILED);
+
+                            }
+                            else res.Returnresult = true;
+                            break;
+
+                        case 1049:
+                            // edit user's document status in BackOffice for KYC screen 10 (instead of uploading a real document, chane it's status to "new upload")
+
+                            int rowsChangedCount = 0;
+                            //long real_CID;
+                            //string userName = GetLastCreatrdValue("memmory");
+                            //string conString = ConfigurationManager.AppSettings["RealMirrorQAConnectionString"];
+
+                            //string getUserCidByUserNameCommand =
+                            //    @"Select CID FROM [RealMirrorQA].[Customer].[Customer]" +
+                            //    @" WHERE userName  = " + userName;
+
+
+                            //dbResult = sql.GetDbSingleValue(conString, getUserCidByUserNameCommand);
+
+                            long real_CID = Int32.Parse(_lastCreatedValue["CID"]);
+
+                            string updateVerificationLevelIdCommand =
+                                @"UPDATE [RealMirrorQA].[BackOffice].[Customer]" +
+                                @" SET [DocumentStatusID]  = 2" +
+                                @" WHERE [CID]  = " + real_CID;
+                            rowsChangedCount = sql.UpdateBackOfficeCustomerTable(updateVerificationLevelIdCommand);
+                            if (rowsChangedCount != 1) //could not update
+                            {
+
+                                logIt(guiMapCommandName, "Could not update user document status to NEW UPLOAD. ", Constants.DONE);
+                                res.Returnresult = true;
 
                             }
                             break;
 
+
                         default:
-                            LocalLogFailure("Can't run this command:" + guiMapTagTypeValue.Trim(), null,
-                                            Constants.Failed);
+                            LocalLogFailure(guiMapCommandName, "Can't run this command: " + guiMapTagTypeValue.Trim(), null,
+                                            Constants.FAILED);
+                            res.Returnresult = false;
                             break;
 
                         case 1043: // compare if text (2 strings) start with the same substring
                             if (!driver.FindElement(webelement).Text.StartsWith(inputTableValue))
                             {
-                                result = false;
-                                LocalLogFailure(
+                                res.Returnresult = false;
+                                LocalLogFailure(guiMapCommandName,
                                     "The Expected text is wrong actual: " + driver.FindElement(webelement).Text +
-                                    " vs expected :" + inputTableValue, null, Constants.Failed);
+                                    " vs expected :" + inputTableValue, null, Constants.FAILED);
                             }
 
-                            Logger.Done(webelement + " compared text to " + inputTableValue);
-                            break;
-                        case 1044://Get Alert Text and svae to memory 
-                            SetLastCreatedValue("memmory", driver.SwitchTo().Alert().Text);
+                            logIt(guiMapCommandName, webelement + " compared text to " + inputTableValue, Constants.DONE);
 
+                            res.Returnresult = true;
+                            break;
+                        case 1044: //Get Alert Text and svae to memory 
+                            SetLastCreatedValue("memmory", driver.SwitchTo().Alert().Text);
+                            res.Returnresult = true;
                             break;
 
                         case 1045: // Positive test for streams API
                             try
                             {
                                 StreamScenario ss = new StreamScenario();
-                                result = ss.Scenario(inputTableValue, true);
+                                res.Returnresult = ss.Scenario(inputTableValue, true);
                             }
 
-                            catch (Exception)
+                            catch (Exception exception)
                             {
-                                Logger.Failed("Failed to complete Streams scenario");
+
+                                logIt(guiMapCommandName, "Failed to complete Streams scenario", Constants.DONE, exception);
+                                res.Message = exception.Message;
+                                res.Returnresult = false;
                             }
                             break;
 
@@ -812,20 +1103,26 @@ namespace Applenium
 
                                 if (code.ToString() == "OK")
                                 {
-                                    Logger.Done("Navigated to " + inputTableValue);
-                                    result = true;
+
+                                    logIt(guiMapCommandName, "Navigated to " + inputTableValue, Constants.DONE);
+
+                                    res.Returnresult = true;
                                 }
                                 else
                                 {
-                                    result = false;
-                                    LocalLogFailure("Status code is " + code.ToString(), null, Constants.Failed);
+                                    res.Returnresult = false;
+                                    LocalLogFailure(guiMapCommandName, "Status code is " + code.ToString(), null, Constants.FAILED);
                                 }
                             }
 
                             catch (Exception ex)
                             {
-                                Logger.Failed("Failed to complete scenario" + ex.Message);
-                                result = false;
+
+                                logIt(guiMapCommandName, "Failed to complete scenario", Constants.ERROR, ex);
+
+
+                                res.Message = ex.Message;
+                                res.Returnresult = false;
                             }
                             break;
 
@@ -833,40 +1130,374 @@ namespace Applenium
                             try
                             {
                                 StreamScenario ss = new StreamScenario();
-                                result = ss.Scenario(inputTableValue, false);
+                                res.Returnresult = ss.Scenario(inputTableValue, false);
                             }
 
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                Logger.Failed("Failed to complete Streams scenario");
-                                result = false;
+                                logIt(guiMapCommandName, "Failed to complete Streams scenario", Constants.ERROR, ex);
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
                             }
                             break;
-                    }
 
+
+                        case 1050: // upload document 
+
+                            System.EventArgs args = null;
+                            object sender = null;
+
+                            if (inputTableValue.Equals("internalUploadMethod"))
+                            {
+                                try
+                                {
+                                    UploadUserDocInternal(sender, args, driver, guiMapTagTypeValue);
+                                    //uses html file element to inject the file, without actually use the windows file system (good for silent run automation).
+                                }
+                                catch
+                                    (Exception exception)
+                                {
+                                    result = false;
+                                    logIt(guiMapCommandName, "Failed to upload document internally", Constants.ERROR, exception);
+
+                                }
+                            }
+
+                            if (inputTableValue.Equals("externalUploadMethod"))
+                            //actually sends the path of the file to windows file system windows.
+                            {
+                                try
+                                {
+                                    UploadUserDocExternal(sender, args, driver);
+                                }
+                                catch
+                                    (Exception exception)
+                                {
+                                    res.Returnresult = false;
+
+                                    logIt(guiMapCommandName, "Failed to upload document externally", Constants.ERROR, exception);
+
+                                }
+                            }
+
+
+                            break;
+                        case 1051:
+                            // calculate expected new balance for user (based on the former balance and a new change like deposit and withdrawal) and save it into the memory.
+
+                            //char[] MyChar = { '$',',', '.'};
+                            Double oldBalance = 0;
+                            Double balanceChange = 0;
+                            Double newBalance = 0;
+                            try
+                            {
+                                if (inputTableValue.All(char.IsDigit))
+                                //is input from the table a digit that can be added to the new balance
+                                {
+
+                                    oldBalance = Double.Parse((driver.FindElement(webelement).Text).Trim('$'));
+                                    balanceChange = Int32.Parse(inputTableValue);
+                                    newBalance = oldBalance + balanceChange;
+                                    SetLastCreatedValue("memmory", String.Format("{0:C}", newBalance));
+                                }
+                                else
+                                {
+                                    res.Returnresult = false;
+
+                                    logIt(guiMapCommandName, "Failed to calculate expected new balance for user because input from the table is  NOT a digit that can be added to the new balance", Constants.ERROR);
+
+
+
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+
+                                logIt(guiMapCommandName, "Failed to calculate expected new balance for user", Constants.ERROR, exception);
+
+                                res.Returnresult = false;
+                                res.Message = exception.Message;
+                            }
+
+
+                            break;
+
+                        case 1052: //editFTDdate - this command updates the Ftd date of the user's deposit. Please notice that the responsibility for the correct sql date representation is on the user of the command.
+
+                            string command =
+                                @"UPDATE [RealMirrorQA].[Billing].[Deposit]" +
+                                @" SET [PaymentDate] =  " + "'" + inputTableValue + "'" +
+                                @" WHERE  IsFTD=1  and [CID]  = " + GetLastCreatrdValue("CID");
+                            try
+                            {
+                                var ctu = new CreateTestUser();
+                                if (ctu.UpdateFtdUser(command, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                {
+                                    res.Returnresult = false;
+
+                                    logIt(guiMapCommandName, "The Expected result of changing FTD date wrong actual: 0" +
+                                    " vs expected : 1", Constants.FAILED);
+
+
+
+                                }
+
+                            }
+                            catch (Exception exception)
+                            {
+
+                                logIt(guiMapCommandName, "Failed to edit user's FTD date", Constants.FAILED, exception);
+
+                                //LocalLogFailure(exception.Message, exception, Constants.Error);
+                                res.Returnresult = false;
+                            }
+                            break;
+
+                        case 1053: //edit "is user signed the risk disclaimer" in KYC 
+
+                            string insertSignedRiskAnswerCommand =
+                                    @"INSERT INTO UserApiDB.KYC.CustomerAnswers (GCID, QuestionId, AnswerId, OccurredAt) " +
+                                    @"VALUES (" + GetLastCreatrdValue("GCID") + ", 2, 2, GETDATE() )";
+
+                            string insertSignedRiskAnswerCommand2 =
+                                    @"INSERT INTO UserApiDB.KYC.CustomerAnswers (GCID, QuestionId, AnswerId, OccurredAt) " +
+                                    @"VALUES (" + GetLastCreatrdValue("GCID") + ", 3, 7, GETDATE() )";
+
+                            try
+                            {
+                                // string riskDiscQuest = guimapadapter.GetTagTypeValue(guiMapId).Trim();
+                                var ctu = new CreateTestUser();
+
+                                if (inputTableValue.Equals("noKnowledge") || inputTableValue.Equals("noExperience"))
+                                {
+                                    if (inputTableValue.Equals("noKnowledge"))
+                                        ctu.UpdateFtdUser(insertSignedRiskAnswerCommand,
+                                            ctu._dbConnectionStrGlobalRegistry);
+                                    if (inputTableValue.Equals("noExperience"))
+                                        ctu.UpdateFtdUser(insertSignedRiskAnswerCommand2,
+                                            ctu._dbConnectionStrGlobalRegistry);
+                                }
+                                else
+                                {
+
+                                    logIt(guiMapCommandName, "Failed to edit user's signed risk disc status because riskDiscQuest was not specified correctly", Constants.FAILED);
+
+                                    result = false;
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+
+                                logIt(guiMapCommandName, "Failed to edit user's signed risk disc status", Constants.ERROR, exception);
+
+
+                                //Logger.Failed("Failed to edit user's signed risk disc status" + exception.Message);
+                                // LocalLogFailure(exception.Message, exception, Constants.Error);
+                                res.Returnresult = false;
+                            }
+                            break;
+
+                        case 1054: //update docs status in BackOffice
+
+                            string updateDocsStatusCommand =
+                                    @"Update [RealMirrorQA].[BackOffice].[Customer] Set [DocumentStatusID] = " + inputTableValue +
+                                    @" Where CID =  " + GetLastCreatrdValue("CID");
+
+
+
+                            try
+                            {
+                                var ctu = new CreateTestUser();
+                                if (ctu.UpdateFtdUser(updateDocsStatusCommand, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                {
+
+                                    logIt(guiMapCommandName, " The Expected result of changing doc status is wrong actual: 0" +
+                                        " vs expected : 1" + inputTableValue, Constants.FAILED);
+
+                                    //Logger.Failed("Failed to edit user's signed risk disc status" + exception.Message);
+                                    // LocalLogFailure(exception.Message, exception, Constants.Error);
+                                    res.Returnresult = false;
+                                }
+
+                            }
+                            catch (Exception exception)
+                            {
+
+                                logIt(guiMapCommandName, "Failed to edit user's signed risk disc status", Constants.ERROR, exception);
+
+                                //Logger.Failed("Failed to edit user's signed risk disc status" + exception.Message);
+                                // LocalLogFailure(exception.Message, exception, Constants.Error);
+                                res.Returnresult = false;
+
+
+                            }
+                            break;
+
+                        case 1055: //update player status in BackOffice (usually to deposit block)
+
+                            string updatePlayerStatusCommand =
+                                    @"Update [RealMirrorQA].[Customer].[Customer] Set [PlayerStatusID] = " + inputTableValue +
+                                    @" Where CID =  " + GetLastCreatrdValue("CID");
+                            try
+                            {
+                                var ctu = new CreateTestUser();
+                                if (ctu.UpdateFtdUser(updatePlayerStatusCommand, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                {
+
+                                    logIt(guiMapCommandName, "The Expected result of changing playerID status is wrong actual: 0" +
+                                        " vs expected : 1" + inputTableValue, Constants.FAILED);
+                                    res.Returnresult = false;
+
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+
+                                logIt(guiMapCommandName, "Failed to edit user's playerID status", Constants.ERROR, exception);
+                                res.Returnresult = false;
+                            }
+                            break;
+                        case 1056: //update Identity Check  in BackOffice (usually to 2 sources)
+
+                            //string updateIdentityCheckCommand =
+                            //        @"Update [RealMirrorQA].[BackOffice].[ElectronicIdentityCheck] Set [ElectronicIdentityCheckID ] = " + inputTableValue +
+                            //       @" Where CID =  " + GetLastCreatrdValue("CID");
+
+
+                            string updateIdentityCheckCommand =
+                                @"INSERT INTO [RealMirrorQA].[BackOffice].[ElectronicIdentityCheck]  (CID, ElectronicIdentityCheckID, ElectronicIdentityProviderID, TransactionID, TransactionDate) " +
+                                @"VALUES (" + GetLastCreatrdValue("CID") + ", 2, 1, 'dadadad' ,GETDATE() )";
+
+
+                            try
+                            {
+                                var ctu = new CreateTestUser();
+                                if (ctu.UpdateFtdUser(updateIdentityCheckCommand, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                {
+                                    res.Returnresult = false;
+                                    logIt(guiMapCommandName, "The Expected result of changing playerID status is wrong actual: 0" +
+                                        " vs expected : 1" + inputTableValue, Constants.FAILED);
+
+
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+                                logIt(guiMapCommandName, "Failed to edit user's playerID status", Constants.ERROR, exception);
+                                res.Returnresult = false;
+
+                            }
+                            break;
+                        case 1057: //edit user's verification level
+
+                            string updateVerificationLevelCommand =
+                                   @"Update [RealMirrorQA].[BackOffice].[Customer] Set [VerificationLevelID] = " + inputTableValue +
+                                   @" Where CID =  " + GetLastCreatrdValue("CID");
+                            try
+                            {
+                                var ctu = new CreateTestUser();
+                                if (ctu.UpdateFtdUser(updateVerificationLevelCommand, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                {
+                                    logIt(guiMapCommandName, "The Expected result of changing playerID status is wrong actual: 0" +
+                                        " vs expected : 1" + inputTableValue, Constants.FAILED);
+
+
+                                    res.Returnresult = false;
+
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+
+                                logIt(guiMapCommandName, " Failed to edit user's verification level", Constants.ERROR, exception);
+                                res.Returnresult = false;
+
+                            }
+                            break;
+
+                        case 1058: // add/reduce amount to users account
+                            int cid = Int32.Parse(GetLastCreatrdValue("CID"));
+
+                            if (CreateTestUser.AddRemoveAmount(10000, cid) == null)
+                            {
+
+                                logIt(guiMapCommandName, " Failed to add/reduce amount", Constants.FAILED);
+                                res.Returnresult = false;
+
+
+                            }
+
+                            break;
+
+                        case 1059: // create new and original username and email
+
+                            string userName = "Front" + Guid.NewGuid().ToString().Substring(0, 7);
+                            string email = userName + "@aa.com";
+                            SetLastCreatedValue("userNameFront", userName);
+                            SetLastCreatedValue("emailFront", email);
+                            break;
+
+                        case 1060: // Is Element Enabled
+                            result = driver.FindElement(webelement).Enabled;
+                            break;
+
+                        case 1061: // is disabled
+                            result = !(driver.FindElement(webelement).Enabled);
+                            break;
+                    }
                 }
                 else
                 {
-                    result = false;
-                    LocalLogFailure(guiMapCommandId + ": web element was not found : " + guiMapTagTypeValue.Trim(), null,
-                                    Constants.Failed);
+                    res.Returnresult = false;
+                    LocalLogFailure(guiMapCommandName, guiMapCommandId + ": web element was not found : " + guiMapTagTypeValue.Trim(), null,
+                                    Constants.FAILED);
                 }
             }
 
 
             catch (Exception exception)
             {
-                LocalLogFailure(exception.Message, exception, Constants.Error);
-                result = false;
+                LocalLogFailure(guiMapCommandName, "While working on element - (" + guiMapTagTypeValue + "), Exception has occured in: " + exception.TargetSite, null, Constants.ERROR);
+                res.Returnresult = false;
             }
 
 
-            if (result)
-                Logger.Passed(guiMapCommandId + ": TestStep=" + guiMapTagTypeValue.Trim());
-            else
-                Logger.Failed(guiMapCommandId + ": TestStep=" + guiMapTagTypeValue.Trim());
-            return result;
+            //if (res.Returnresult)
+            //    AppleniumLogger.LogResult("TestStep: " + guiMapCommandName, Constants.Passed, null);
+            //else
+            //    AppleniumLogger.LogResult("TestStep: " + guiMapCommandName, Constants.Failed, null);
+            return res;
         }
+
+        private void UploadUserDocExternal(object sender, System.EventArgs e, RemoteWebDriver driver) //actually sends the path of the file to windows file system windows.
+        {
+            const int SUSPEND_TIMEOUT = 1000;
+            const string DIALOG_TITLE = "Open";
+            const string NETWORK_LOCATION = "\\\\192.168.11.4\\Data\\QA\\KYC2.0";
+            ;
+            const string FILE_NAME = "id.jpg";
+            const string ENTER_KEY = "{ENTER}";
+
+            Interaction.AppActivate(DIALOG_TITLE);
+            Thread.Sleep(SUSPEND_TIMEOUT);
+            SendKeys.SendWait(NETWORK_LOCATION);
+            Thread.Sleep(SUSPEND_TIMEOUT);
+            SendKeys.SendWait((ENTER_KEY));
+            Thread.Sleep(SUSPEND_TIMEOUT);
+            SendKeys.SendWait(FILE_NAME);
+            Thread.Sleep(SUSPEND_TIMEOUT);
+            SendKeys.SendWait((ENTER_KEY));
+        }
+
+        private void UploadUserDocInternal(object sender, System.EventArgs e, RemoteWebDriver driver, string guiMapTagTypeValue) //uses html file element to inject the file, without actually use the windows file system.
+        {
+            // string cssSelectorStr = guiMapTagTypeValue;
+
+            //IWebElement fileInput = driver.FindElement(By.CssSelector(".passport-container"));
+            IWebElement fileInput = driver.FindElement(By.CssSelector(guiMapTagTypeValue));
+            fileInput.SendKeys("\\\\192.168.11.4\\Data\\QA\\KYC2.0\\id.jpg");
+        }
+
 
         private void sleep(int guiMapId)
         {
@@ -875,7 +1506,7 @@ namespace Applenium
             Thread.Sleep(sleeptime * 1000);
         }
 
-        private bool CreateUser(int guiMapId, string input)
+        private bool CreateUser(int guiMapId, string veficationLevel)
         {
             try
             {
@@ -916,7 +1547,7 @@ namespace Applenium
                     case (Constants.FacebookTestUserFriends):
                         {
 
-                            int friendnumber = Convert.ToInt32(input);
+                            int friendnumber = Convert.ToInt32(veficationLevel);
                             var arrfacebookfriends =
                                 new FacebookTestUserResultModel[friendnumber];
 
@@ -979,12 +1610,13 @@ namespace Applenium
                         }
                     default:
                         {
-                            NewUser newUser = ctu.CreateUser(usertype);
+                            NewUser newUser = ctu.CreateUser(usertype, veficationLevel); //affWiz,KYC usage (input is actually a verification level of the user: for affWiz input = 3, for KYC input = 0,1,2,3)
                             if (newUser != null)
                             {
                                 SetLastCreatedValue("UserName", newUser.UserName);
                                 SetLastCreatedValue("Password", newUser.Password);
                                 SetLastCreatedValue("CID", newUser.Real_CID.ToString());
+                                SetLastCreatedValue("GCID", newUser.GCID.ToString());
 
                             }
                             else
@@ -998,7 +1630,15 @@ namespace Applenium
             }
             catch (Exception exception)
             {
-                Logger.Error(exception.Message);
+
+                LogObject logobj5 = new LogObject();
+                logobj5.CommandName = guiMapCommandName;
+                logobj5.Description = exception.Message;
+                logobj5.StatusTag = Constants.ERROR;
+                logobj5.Exception = exception;
+
+                logger.Print(logobj5);
+
                 return false;
             }
 
@@ -1055,43 +1695,60 @@ namespace Applenium
                         case "4":
                         case "android":
                             _ismobile = true;
-                            //run emulator 
-                            string emulatorExe = jp.ReadJson("AndroidEmulatorExe");
+
+                            //get configuration
+                            string emulatorExe;
+                            string appium = jp.ReadJson("Appium");
                             string emulatorName = jp.ReadJson("AndroidEmulatorDefaultName");
-                            Process newProcess;
-                            if (emulatorName != string.Empty)
-                            {
-                                newProcess = Process.Start(emulatorExe, "-avd " + emulatorName);
-                                Thread.Sleep(90000);
-                            }
-
-
-                            capability = new DesiredCapabilities();
-                            //capability.SetCapability("app-package", "com.etoro.mobileclient");
+                            string newCommandTimeout = jp.ReadJson("AndroidNewCommandTimeout");
                             string appPackage = jp.ReadJson("app-package");
+                            string appActivity = jp.ReadJson("app-activity");
+                            string app = jp.ReadJson("app");
+                            string AndroidEmulatorType = jp.ReadJson("AndroidEmulatorType");
+                           
+                           
+
+                            
+                            //Set new session capability
+                            capability = new DesiredCapabilities();
                             capability.SetCapability("app-package", appPackage);
+
                             capability.SetCapability("browserName", "");
                             capability.SetCapability("device", "Android");
-                            string appActivity = jp.ReadJson("app-activity");
-                            //capability.SetCapability("app-activity", "com.etoro.mobileclient.Views.Login");
-                            capability.SetCapability("app-activity", appActivity);
-                            //capability.SetCapability("takesScreenshot", true);
-                            //caps.SetCapability("version", "4.3.0");
+                            capability.SetCapability("app-activity", appActivity);                            
                             capability.SetCapability("device ID", "uniquedeviceid");
-                            //caps.SetCapability("app", @"C:\Temp\version 1.0.70-Maxim.apk");
-                            string app = jp.ReadJson("app");
+                            capability.SetCapability("newCommandTimeout", newCommandTimeout);
+                            //capability.SetCapability("takesScreenshot", true);
+                          
                             if (app != string.Empty)
                             {
-
                                 app = app.Replace(@"\\", @"\");
                                 capability.SetCapability("app", app);
                             }
+
+                            //run emulator and waiting for up
+                            Process newProcess;
+                            if (emulatorName != string.Empty)
+                            {
+                                if (AndroidEmulatorType == "Google")
+                                {
+                                    emulatorExe = jp.ReadJson("AndroidEmulatorExe");
+                                    newProcess = Process.Start(emulatorExe, "-avd " + emulatorName);
+                                    Thread.Sleep(90000);
+                                }
+                                else
+                                {
+                                    emulatorExe = jp.ReadJson("AndroidEmulatorGenymotionExe");
+                                    newProcess = Process.Start(emulatorExe, "--vm-name " + emulatorName);
+                                    Thread.Sleep(30000);
+                                }
+                            }
+
                             //run cmd 
-                            string appium = jp.ReadJson("Appium");
+                           
                             newProcess = Process.Start(appium);
                             Thread.Sleep(10000);
                             driver = new ScreenShotRemoteWebDriver(new Uri("http://localhost:4723/wd/hub/"), capability, TimeSpan.FromSeconds(120));
-
 
                             break;
                         case "5":
@@ -1181,7 +1838,15 @@ namespace Applenium
             }
             catch (Exception exception)
             {
-                Logger.Error(exception.Message);
+
+                LogObject logobj5 = new LogObject();
+                logobj5.CommandName = guiMapCommandName;
+                logobj5.Description = exception.Message;
+                logobj5.StatusTag = Constants.ERROR;
+                logobj5.Exception = exception;
+
+                logger.Print(logobj5);
+
                 return driver;
             }
         }
@@ -1212,5 +1877,25 @@ namespace Applenium
             return result;
         }
 
+        private void logIt(string guiMapCommandName, string description, int status)
+        {
+            LogObject logobj = new LogObject();
+            logobj.CommandName = guiMapCommandName;
+            logobj.Description = description;
+            logobj.StatusTag = status;
+
+            logger.Print(logobj);
+        }
+
+        private void logIt(string guiMapCommandName, string description, int status, Exception ex)
+        {
+            LogObject logobj = new LogObject();
+            logobj.CommandName = guiMapCommandName;
+            logobj.Description = description;
+            logobj.StatusTag = status;
+            logobj.Exception = ex;
+
+            logger.Print(logobj);
+        }
     }
 }

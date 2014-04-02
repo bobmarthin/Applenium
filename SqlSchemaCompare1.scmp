@@ -1,0 +1,1775 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SchemaComparison>
+  <Version>10</Version>
+  <SourceModelProvider>
+    <ConnectionBasedModelProvider>
+      <ConnectionString>Data Source=isr-sr-beaver;Initial Catalog=QA_Autotest;Integrated Security=True;Pooling=False</ConnectionString>
+    </ConnectionBasedModelProvider>
+  </SourceModelProvider>
+  <TargetModelProvider>
+    <ConnectionBasedModelProvider>
+      <ConnectionString>Data Source=(localdb)\v11.0;Initial Catalog=QA_Autotest;Integrated Security=True;Pooling=False</ConnectionString>
+    </ConnectionBasedModelProvider>
+  </TargetModelProvider>
+  <SchemaCompareSettingsService>
+    <SchemaCompareSettingsService>
+      <PropertyElementName>
+        <Name>Version</Name>
+        <Value>1</Value>
+      </PropertyElementName>
+    </SchemaCompareSettingsService>
+    <ConfigurationOptionsElement>
+      <PropertyElementName>
+        <Name>PlanGenerationType</Name>
+        <Value>SqlDeploymentOptions</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>AllowExistingModelErrors</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>AllowIncompatiblePlatform</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>BackupDatabaseBeforeChanges</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>BlockOnPossibleDataLoss</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>BlockWhenDriftDetected</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>CompareUsingTargetCollation</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>CommentOutSetVarDeclarations</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>CreateNewDatabase</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DeployDatabaseInSingleUserMode</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DisableAndReenableDdlTriggers</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DoNotAlterChangeDataCaptureObjects</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DoNotAlterReplicatedObjects</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DropConstraintsNotInSource</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DropDmlTriggersNotInSource</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DropExtendedPropertiesNotInSource</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DropIndexesNotInSource</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DropPermissionsNotInSource</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DropObjectsNotInSource</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>DropRoleMembersNotInSource</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>GenerateSmartDefaults</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreDdlTriggerOrder</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreDdlTriggerState</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreObjectPlacementOnPartitionScheme</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreAuthorizer</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreDefaultSchema</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreRouteLifetime</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreCryptographicProviderFilePath</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreComments</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreWhitespace</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreKeywordCasing</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreSemicolonBetweenStatements</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnorePartitionSchemes</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreWithNocheckOnCheckConstraints</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreWithNocheckOnForeignKeys</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreIdentitySeed</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreIncrement</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreFillFactor</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreIndexPadding</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreColumnCollation</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreLockHintsOnIndexes</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreTableOptions</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreIndexOptions</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreDmlTriggerOrder</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreDmlTriggerState</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreAnsiNulls</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreQuotedIdentifiers</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreUserSettingsObjects</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreFilegroupPlacement</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreFullTextCatalogFilePath</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreFileAndLogFilePath</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreLoginSids</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreNotForReplication</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreFileSize</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IncludeCompositeObjects</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IncludeTransactionalScripts</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>NoAlterStatementsToChangeCLRTypes</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>PopulateFilesOnFileGroups</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>RegisterDataTierApplication</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>ScriptDatabaseCollation</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>ScriptDatabaseCompatibility</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>ScriptDatabaseOptions</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>ScriptDeployStateChecks</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>ScriptFileSize</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>ScriptNewConstraintValidation</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>ScriptRefreshModule</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>TargetConnectionString</Name>
+        <Value>Integrated Security=True;Pooling=False;Connect Timeout=30</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>TreatVerificationErrorsAsWarnings</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>UnmodifiableObjectWarnings</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>VerifyCollationCompatibility</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>VerifyDeployment</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>AllowDropBlockingAssemblies</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlDatabaseOptions</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlErrorMessage</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlLogin</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlServerRoleMembership</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlLinkedServer</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlLinkedServerLogin</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlFile</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlServerDdlTrigger</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlMasterKey</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlCredential</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoute</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlEventNotification</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlEndpoint</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlDatabaseAuditSpecification</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlServerAudit</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlServerAuditSpecification</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlCryptographicProvider</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlDatabaseEncryptionKey</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlEventSession</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlUserDefinedServerRole</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlAssemblyFile</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+    </ConfigurationOptionsElement>
+  </SchemaCompareSettingsService>
+  <SchemaCompareViewSettings>
+    <GroupBy>2</GroupBy>
+    <ZoomLevel>100</ZoomLevel>
+    <Filter>Equals_Objects,Not_Supported_Deploy</Filter>
+  </SchemaCompareViewSettings>
+  <ExcludedSourceElements>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>Audit_GuiMap</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>PK_Audit</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>Audit_GuiScenarioLogic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>PK_GuiScenarioLogic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>Audit_GuiTestSteps</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>PK_Audit-GuiTestStep</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AgentMachines</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AgentMachines</Name>
+      <Name>MachineID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AddAffiliateType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_AddAf__4B58DA60F74AB90B</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AddNewAffiliateFromAdmin</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_AddNe__4B58DA6083A3BC46</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AddNewAffiliateFromViewTab</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_AddNe__4B58DA6040CD3EAE</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AddNewUser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_AddNe__4B58DA6072256715</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AffClicksFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_AffCl__4B58DA60C408F235</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AffImpressionsFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_AffIm__4B58DA60007F9E07</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AuditAffiliateTypesInsert</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Audit__4B58DA609E32D321</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_CalculateAffCommissionsFromLastWeek</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Calcu__4B58DA60BF1A7BC0</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_CreateAndEditFTDUserFromDB</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Creat__4B58DA60222C428E</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_dddd</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_dddd__4B58DA60A6F32ECA</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_DeleteType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Delet__4B58DA600A2E0C20</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_DepositInCashierFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Depos__4B58DA60583C67FC</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_EditAffiliate</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_EditA__4B58DA60E83EA25C</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_FooterLinksFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Foote__4B58DA60A7EEFC56</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_HeaderLinksFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Heade__4B58DA60F3299923</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LoggedInAdminLinksByLinkFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Logge__4B58DA60ABA0BC8A</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LoggedOutAdminLinksFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Logge__4B58DA604C447E77</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_Login</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Login__10216507</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LoginSuccessCashier</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Login__4B58DA60061BEA32</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LoginSuccessFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Login__4B58DA6024872BDC</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LogOutFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_LogOu__4B58DA60DDD37D4B</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_redirectToAddAffTabFromViewAffTab</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_redir__4B58DA60ADBADCA4</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_ToolsPayAffiliatesTabReview</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Tools__4B58DA609537C5C1</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyAdministrationLinksAliveLoggedIn</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Verif__4B58DA6045B9544D</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyAllCustomReportsLinks</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_VerifyAllCust__1209AD79</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyAuditSectionsExist</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Verif__4B58DA60F0C2374A</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyBigReportForFtdUser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Verif__4B58DA60EB5AFD99</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyLiveLinkAllReports</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_Verif__4B58DA60ACC1EB62</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_ViewTabSearchAffiliateType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__AW_ViewT__4B58DA60A29581B1</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Batches</Name>
+      <Name>BatchID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Batches</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Browsers</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Browsers</Name>
+      <Name>BrowserID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_asdas</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_asda__4B58DA6066D57CEA</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_CC_Deposit</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_CC_D__4B58DA60BEC4B9BF</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_DBQueryTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_DBQu__4B58DA6096953AB9</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Links</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Link__4B58DA60E35EF1A1</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Login</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Login__1C873BEC</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_LogOff</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_LogO__4B58DA60F830EF79</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Navigation</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Navi__4B58DA6080C5C64C</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Neteller_Deposit_P</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Nete__4B58DA606106C6D3</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_PageNavigation</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_PageNavigati__2057CCD0</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Reverse_CO</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Reve__4B58DA607F707199</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Submit_Promotion</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Subm__4B58DA601B964A67</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Verify_Actions_Dynamic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Veri__4B58DA60128F877C</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Verify_B_C_Details_Static</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Veri__4B58DA6011CE0024</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Verify_Promotion_Dynamic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Veri__4B58DA60843DCC54</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_VerifyApprovedDeposits_Static</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Veri__4B58DA60511E1BC6</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_VerifyCashoutDetails_Static</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_Veri__4B58DA6016A0AAE1</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_VerifyTotalActions</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_VerifyTotalA__22401542</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Withdraw_MB</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CSH_With__4B58DA603DCDA441</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiMap</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlDmlTrigger, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Tr_DB_Audit</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GuiMapObject1</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiPageSection</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiPageSection</Name>
+      <Name>GuiPageSectionID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiProjectPage</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GuiProject_1</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiScenarioLogic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlDmlTrigger, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Tr_DB_Audit_GuiScenarioLogic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GuiScenarioLogic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiTagType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GUIObjectDefenitionType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiTestSteps</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlDmlTrigger, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Tr_DB_Audit_GuiTestSteps</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GuiTestSteps1</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>LogStatus</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>LogStatus</Name>
+      <Name>LogStatusID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>MOB_LoginToReal</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__MOB_Logi__4B58DA608A28ACA6</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>nums</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Buy_More_Stock_LeftSIde</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_Buy_M__4B58DA603CCCAEA2</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Change_Language_Settings</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_Chang__4B58DA607232B0E8</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_clearcashe</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_clearcashe__13F1F5EB</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_CreateNewUser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_CreateNewUser</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_CreateNewUser_Login</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_CreateNewUser__0E391C95</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_discussion</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_discussion</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_discussion_chooser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_discussion_chooser</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_FeedItemCount</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_FeedItemCount__1A9EF37A</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_JavaScriptsCommands</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_JavaScriptsCommands</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Login</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Login</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_LogOut</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_LogOut</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Market_Buy_Button</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Market_Buy_Button</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Market_Page_validation</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Market_Page_validation</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_MiniPortfolio</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_MiniP__4B58DA60656EB2A5</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Navigate</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Navigate</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_NewStockBUY</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_NewStockBUY__1E6F845E</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_OpenTrades</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_OpenTrades__7B264821</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Search_User</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__OB_Searc__4B58DA60F74D2D6E</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_SelectFlag</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_SelectFlag</Name>
+      <Name>rowID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_CidsAssociatedToPhone</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_CodeVerification</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_CustomerInitiateCall</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_CustomerInitiateSMS</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_PhoneDetails</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Projects</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GuiProject</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Scenario</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_Flow</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Test</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_Test</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TestCommand</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_TestCommand</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TestFailiureLog</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlDefaultConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>DF_TestTestFailiureLog_Occurred</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_TestFailiureLog</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TestResults</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TestResults</Name>
+      <Name>ResultsIndex</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TST_Navigate2Gmail</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__TST_Navi__4B58DA60C89B6310</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TST_newdt</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__TST_newd__4B58DA60213CDD9E</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TST_SMTH</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__TST_SMTH__4B58DA60EF33ABCA</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoleMembership, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>
+      </Name>
+      <ParentItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRole, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Name>db_datareader</Name>
+      </ParentItem>
+      <ScriptHashCode>-1013891384</ScriptHashCode>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoleMembership, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>
+      </Name>
+      <ParentItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRole, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Name>db_datareader</Name>
+      </ParentItem>
+      <ScriptHashCode>1341117308</ScriptHashCode>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoleMembership, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>
+      </Name>
+      <ParentItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRole, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Name>db_datawriter</Name>
+      </ParentItem>
+      <ScriptHashCode>222357990</ScriptHashCode>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoleMembership, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>
+      </Name>
+      <ParentItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRole, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Name>db_owner</Name>
+      </ParentItem>
+      <ScriptHashCode>-657840991</ScriptHashCode>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoleMembership, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>
+      </Name>
+      <ParentItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRole, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Name>db_owner</Name>
+      </ParentItem>
+      <ScriptHashCode>1953638385</ScriptHashCode>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoleMembership, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>
+      </Name>
+      <ParentItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRole, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Name>db_owner</Name>
+      </ParentItem>
+      <ScriptHashCode>482065136</ScriptHashCode>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoleMembership, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>
+      </Name>
+      <ParentItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRole, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Name>db_owner</Name>
+      </ParentItem>
+      <ScriptHashCode>581731337</ScriptHashCode>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Dictionary</Name>
+      <Name>HedgeType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Dictionary</Name>
+      <Name>PK__HedgeTyp__2C6A71E093263D98</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>BasicPositionEditFlows</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_BasicPositionEditFlows</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CreateActivityTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CreateActivityTe__02C769E9</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CreateCaseTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK__CreateCaseTest__489AC854</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>EditPostionStopLossTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_EditPostionStopLossTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>EditPostionTakeProfitTest</Name>
+      <Name>EditTakeProfitTestID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>EditPostionTakeProfitTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GetClientOrderTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GetClientOrderTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GetClientPositionTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GetClientPositionTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GetCustomerDataTest</Name>
+      <Name>GetDataID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GetCustomerDataTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GetInstrumentsByCurrencyTypeTest</Name>
+      <Name>GetInstrumentsByCurrencyTypeTestID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GetInstrumentsByCurrencyTypeTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GetMarketRatesTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GetMarketRatesTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GetRatesTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GetRatesTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>LoginTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_LoginTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlIndex, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OpenOrderTest</Name>
+      <Name>OpenOrderTestID</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OpenOrderTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OpenPositionTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_OpenPositionTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OpenStockOrderTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_OpenStockOrderTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>QA1LoginTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_QA1LoginTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlUser, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>ETORO_ADMIN</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlUser, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>QAUser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlUser, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>TRAD\DEV Users Security</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlUser, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>TRAD\Finance-Analysis Users Group</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlUser, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>TRAD\QA Users</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlSchema, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Dictionary</Name>
+    </SelectedItem>
+  </ExcludedSourceElements>
+  <ExcludedTargetElements>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>Audit_GuiMap</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>Audit_GuiScenarioLogic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>Audit_GuiTestSteps</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>dbo</Name>
+      <Name>PK_Audit-GuiTestStep</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AgentMachines</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AddAffiliateType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AddNewAffiliateFromAdmin</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AddNewAffiliateFromViewTab</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AddNewUser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AffClicksFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AffImpressionsFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_AuditAffiliateTypesInsert</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_CalculateAffCommissionsFromLastWeek</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_CreateAndEditFTDUserFromDB</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_dddd</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_DeleteType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_DepositInCashierFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_EditAffiliate</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_FooterLinksFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_HeaderLinksFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LoggedInAdminLinksByLinkFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LoggedOutAdminLinksFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_Login</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LoginSuccessCashier</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LoginSuccessFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_LogOutFront</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_redirectToAddAffTabFromViewAffTab</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_ToolsPayAffiliatesTabReview</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyAdministrationLinksAliveLoggedIn</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyAllCustomReportsLinks</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyAuditSectionsExist</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyBigReportForFtdUser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_VerifyLiveLinkAllReports</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>AW_ViewTabSearchAffiliateType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Batches</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Browsers</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_asdas</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_CC_Deposit</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_DBQueryTest</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Links</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Login</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_LogOff</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Navigation</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Neteller_Deposit_P</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_PageNavigation</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Reverse_CO</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Submit_Promotion</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Verify_Actions_Dynamic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Verify_B_C_Details_Static</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Verify_Promotion_Dynamic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_VerifyApprovedDeposits_Static</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_VerifyCashoutDetails_Static</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_VerifyTotalActions</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>CSH_Withdraw_MB</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiMap</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiPageSection</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiProjectPage</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiScenarioLogic</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiTagType</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>GuiTestSteps</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PK_GuiTestSteps1</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>LogStatus</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>MOB_LoginToReal</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>nums</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Buy_More_Stock_LeftSIde</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Change_Language_Settings</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_clearcashe</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_CreateNewUser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_CreateNewUser_Login</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_discussion</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_discussion_chooser</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_FeedItemCount</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_JavaScriptsCommands</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Login</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_LogOut</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Market_Buy_Button</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Market_Page_validation</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_MiniPortfolio</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Navigate</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_NewStockBUY</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_OpenTrades</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_Search_User</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>OB_SelectFlag</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_CidsAssociatedToPhone</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_CodeVerification</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_CustomerInitiateCall</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_CustomerInitiateSMS</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>PHV_PhoneDetails</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Projects</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Scenario</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>Test</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TestCommand</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TestFailiureLog</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TestResults</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TST_Navigate2Gmail</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TST_newdt</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=10.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>Test</Name>
+      <Name>TST_SMTH</Name>
+    </SelectedItem>
+  </ExcludedTargetElements>
+</SchemaComparison>

@@ -1,7 +1,6 @@
 ﻿using System;
-using Applenium.DataSetAutoTestTableAdapters;
+using Applenium._3___DAL.DataSetAutoTestTableAdapters;
 using NUnit.Framework;
-using Applenium;
 using System.Configuration;
 using ExecutionManager = Applenium.ExecutionManager;
 
@@ -14,7 +13,7 @@ namespace UnitTestExecutionManager
         public void ObRegression()
         {
             var adapterTestresult = new TestResultsTableAdapter();
-            int runExecutionId = Convert.ToInt32(adapterTestresult.LastRunExecutionID()) + 1;
+            int runExecutionId = (Int32)(DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             ExecutionManager em = new ExecutionManager(runExecutionId);
             bool result = em.ExecuteOneBatch(ConfigurationManager.AppSettings["BatchToExecute"]);
             Assert.AreEqual(true, result,"The Gui Automation failed , please check Applenium log and snapshots on build machine");

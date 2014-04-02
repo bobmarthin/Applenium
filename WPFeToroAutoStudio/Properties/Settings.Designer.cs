@@ -26,7 +26,7 @@ namespace Applenium.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\v11.0;Initial Catalog=QA_Autotest;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=ISR-SR-BEAVER;Initial Catalog=QA_Autotest;Integrated Security=True")]
         public string QA_AutotestConnectionString {
             get {
                 return ((string)(this["QA_AutotestConnectionString"]));
