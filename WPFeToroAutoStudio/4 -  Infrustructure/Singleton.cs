@@ -6,6 +6,7 @@
     public class Singleton
     {
         private static Singleton _instance;
+        private static volatile bool run = false;
 
         private Singleton()
         {
@@ -29,7 +30,7 @@
         /// <summary>
         ///     get or set stopexecution flag(bool true or false)
         /// </summary>
-        public bool StopExecution { get; set; }
+        public bool StopExecution { get { return run; } set { run = value; } }
 
         /// <summary>
         ///     Set batch result multi threading scenario execution

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Applenium._3___DAL.DataSetAutoTestTableAdapters;
 using Applenium.Properties;
+using System.Text.RegularExpressions;
 
 namespace Applenium
 {
@@ -34,9 +36,9 @@ namespace Applenium
             using (var adapterEnvVer = new EnvironmentVersionTableAdapter())
             {
                 var jsonParser = new JsonParser();
-                string environmentVersion = jsonParser.ReadJson("TestingEnvironmentVersion");
-               string verid = adapterEnvVer.GetEnvironmnetVersionIDByVersionName(environmentVersion)
-                                 .ToString();
+                string environmentVersion = Constants.MemoryConf["TestingEnvironmentVersion"];
+                string verid = adapterEnvVer.GetEnvironmnetVersionIDByVersionName(environmentVersion)
+                                  .ToString();
                 string versionColumn = adapterEnvVer.GetColumnByID(Convert.ToInt32(verid)).ToString();
 
                 //string versionColumn = adapterEnvVer.GetColumnByID(Convert.ToInt32(2)).ToString();
@@ -45,7 +47,7 @@ namespace Applenium
         }
         public DataTable GetDataTable(string tableName, string input)
         {
-            
+
             var dt = new DataTable();
             string versionColumn = GetVersionColumn();
 
@@ -191,10 +193,10 @@ namespace Applenium
                             if (!string.IsNullOrEmpty(input))
                             {
                                 query = query + " Where Test.TestResults.RunExecutionID= '" + input + "' ORDER BY Occured ";
-                            }                        
+                            }
 
                             break;
-                        
+
                         default:
                             //Logger.LogResult("Default case");
                             break;
@@ -324,6 +326,118 @@ namespace Applenium
             return returnval;
         }
 
+        /// <summary>
+        /// VSH execute command line sql command
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public string ExecuteCMDQuery(string line)
+        {
+             //c=$$DataSource1 t=$$InitialDataTable cmd=select $$col from $$table $$db_serch
+             string command = "";
+             string connection = "";
+             string init_table = "";
+             string mode = "select";
+
+             string returnval = string.Empty;
+
+             Regex rem = new Regex(@"(,|;)?\s*$");
+             Regex nl = new Regex(@"\n\n");
+            
+            
+            var jp = new JsonParser();
+
+
+            line = jp.replaceVariable(line);
+            //s= -- server
+            //t= -- table
+            //c= -- command
+
+
+            Match match = Regex.Match(line, @"c=\s*((\w+).*?)(\s+s=|\s+t=|\s*$)",  RegexOptions.IgnoreCase);
+            if (match.Success)
+	        {
+                command = match.Groups[1].Value;
+                command = rem.Replace(command, "");
+                mode =  match.Groups[2].Value;
+                mode = mode.ToLower();
+
+            }
+            else
+            {
+                return "ERROR: DB command not found";
+            }
+
+            match = Regex.Match(line, @"s=\s*(.*?)(\s+c=|\s+t=|\s*$)",  RegexOptions.IgnoreCase);
+            if (match.Success)
+	        {
+                connection = match.Groups[1].Value;
+                connection = rem.Replace(connection, "");
+
+            }
+            else
+            {
+                return "ERROR: DB connection string not found";
+            }
+
+            match = Regex.Match(line, @"t=\s*(.*?)(\s+c=|\s+s=|\s*$)",  RegexOptions.IgnoreCase);
+            if (match.Success)
+	        {
+                init_table = match.Groups[1].Value;
+                init_table = rem.Replace(init_table, "");
+            }
+
+            //add init table to connection string (if table exists)
+            if (init_table != string.Empty)
+            {
+                connection = connection + ";" + init_table;
+            }
+
+            var con = new SqlConnection(connection);
+            
+            try 
+            {
+                using (SqlCommand cmd = new SqlCommand(command, con))
+                {
+                    con.Open();
+
+                    if (mode == "select")
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string row_line = "";
+
+                                for (int i = 0; i < reader.FieldCount; i++)
+                                {
+                                    row_line += reader.GetValue(i) + ", ";
+                                }
+                                row_line = rem.Replace(row_line, "\n");
+                                returnval += row_line;
+                            }
+                            returnval = nl.Replace(returnval, "\n");
+                        }
+                    }
+                    else
+                    {
+                        object data = cmd.ExecuteScalar();
+                        if (data != null)
+                        {
+                            returnval = data.ToString().Trim();
+                            returnval = mode + " action : OK";
+                        }
+                    }
+                }
+                
+            }
+            catch (SqlException ex)
+            {
+                returnval = ex.ToString();
+            }
+            return returnval;
+        }
+
 
         public string InputDataValue(string tablename, string rownumber, string columnname)
         {
@@ -344,7 +458,7 @@ namespace Applenium
 
         public bool CreateNewTable(string tableName)
         {
-           // string conString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+            // string conString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
             var con = new SqlConnection(conString);
             con.Open();
             var stc = new SqlTableCreator(con);
@@ -366,7 +480,7 @@ namespace Applenium
         {
             string dbConnectionStrBackOffice = ConfigurationManager.AppSettings["RealMirrorQAConnectionString"];
             int rows = 0;
-           
+
             using (SqlConnection aconn = new SqlConnection(dbConnectionStrBackOffice))
             {
                 try
@@ -388,8 +502,8 @@ namespace Applenium
                     logobj3.StatusTag = Constants.FAILED;
                     logobj3.Exception = e;
                     logger.Print(logobj3);
-                   
-                  
+
+
                 }
                 finally
                 {
@@ -400,12 +514,12 @@ namespace Applenium
             return rows;
         }
 
-       
-        public string AddColumn(string tableName, string columnName,string columnType)
+
+        public string AddColumn(string tableName, string columnName, string columnType)
         {
             columnName = ValidateColumnName(columnName);
-            string query = "ALTER TABLE QA_Autotest.Test." + tableName + " ADD " + columnName + " "+columnType;
-           
+            string query = "ALTER TABLE QA_Autotest.Test." + tableName + " ADD " + columnName + " " + columnType;
+
             return ExecuteQuery(query);
         }
 
@@ -428,7 +542,7 @@ namespace Applenium
         {
             //create column 
 
-           
+
             columnNameToo = ValidateColumnName(columnNameToo);
             columnNameFrom = ValidateColumnName(columnNameFrom);
 
@@ -439,7 +553,7 @@ namespace Applenium
         }
 
         //copy step using version column 
-        public string CopyStepByVersion(string guiTestId, string stepsOrder,string versionColumn)
+        public string CopyStepByVersion(string guiTestId, string stepsOrder, string versionColumn)
         {
             //copy step 
             string query = "INSERT INTO Test.GuiTestSteps (GuiTestID, GuiMapID, GuiMapCommandID, InputDataColumn, IsValidate, StepsOrder) SELECT GuiTestID, GuiMapID, GuiMapCommandID, InputDataColumn, IsValidate, StepsOrder FROM Test.GuiTestSteps WHERE (GuiTestID = " + guiTestId + ") AND (StepsOrder = " + stepsOrder + ") AND (" + versionColumn + " = 1)";
@@ -454,6 +568,52 @@ namespace Applenium
 
             return ExecuteQuery(query);
         }
+
+        //VSH: Common function Get One Parameter from DB
+        public string GetOneParameter(string outdata, string table, string search_data)
+        {
+            if (search_data != String.Empty)
+            {
+                search_data = " WHERE " + search_data;
+            }
+            string query = "SELECT " + outdata + "  FROM " + table  + search_data;
+
+            return ExecuteQuery(query);
+        }
+
+        //VSH: Common function Get One Parameter from DB
+        public string GetLastRowID ( string table)
+        {
+            
+            string query = "SELECT IDENT_CURRENT('" + table + "')";
+
+            return ExecuteQuery(query);
+        }
+
+        //VSH update one value
+        // UPDATE [QA_Autotest].[Test].[GuiTestSteps] SET [GuiMapID]= '"+ GuiMapID +"'  WHERE GuiTestID=3837  and StepsOrder=2 and Ver1=1
+        public string UpdateOneParameter(string col_name, string val, string table, string search_data)
+        {
+
+            string query = "UPDATE " + table + " SET " + col_name + "='" + val + "' WHERE " + search_data;
+            ExecuteQuery(query);
+
+            return( GetOneParameter(col_name , table, search_data));
+
+            //search_data = search_data + "AND " + col_name + "='"+ val+ "'";
+
+        }
+        
+        //VSH common insert cmd
+        // INSERT INTO table=[QA_Autotest].[Test].[GuiMap] data = ( [GuiMapObjectName], [TagTypeID], [TagTypeValue], [GuiProjectID], [Ver1]) VALUES ('AAA', 1, 'bbb', 2, 0)
+        public string InsertNewData(string table, string data)
+        {
+
+            string query = "INSERT " + table + "  " + data;
+            ExecuteQuery(query);
+            return  GetLastRowID(table);
+        }
+
 
         //copy step using version column 
         public string CopyObjectByVersion(string guiMapId, string versionColumn)
@@ -475,11 +635,11 @@ namespace Applenium
         //this function update Version column with true 
         //In 
 
-        public string UpdateVersion(string tableName ,string byColumnName, string byColumnValue, string versionColumn,int ischeck)
-        {       
+        public string UpdateVersion(string tableName, string byColumnName, string byColumnValue, string versionColumn, int ischeck)
+        {
 
             //Update
-            string query = "UPDATE QA_Autotest.Test." + tableName + " SET  [" + versionColumn + "]="+ischeck+" where [" + byColumnName+"] ="+byColumnValue;
+            string query = "UPDATE QA_Autotest.Test." + tableName + " SET  [" + versionColumn + "]=" + ischeck + " where [" + byColumnName + "] =" + byColumnValue;
 
             return ExecuteQuery(query);
         }
@@ -498,7 +658,7 @@ namespace Applenium
             {
                 cmdString = cmdString + rowView.Row.Table.Columns[i].ColumnName + ",";
             }
-            cmdString = cmdString.TrimEnd(new[] {',', '\n'});
+            cmdString = cmdString.TrimEnd(new[] { ',', '\n' });
 
             cmdString = cmdString + ") VALUES (";
 
@@ -507,7 +667,7 @@ namespace Applenium
                 string temprowvalue = rowView.Row[i].ToString().Replace("'", "''");
                 cmdString = cmdString + "'" + temprowvalue + "',";
             }
-            cmdString = cmdString.TrimEnd(new[] {',', '\n'});
+            cmdString = cmdString.TrimEnd(new[] { ',', '\n' });
 
             cmdString = cmdString + ")";
 
@@ -523,7 +683,7 @@ namespace Applenium
                 string temprowvalue = rowView.Row[i].ToString().Replace("'", "''");
                 cmdString = cmdString + rowView.Row.Table.Columns[i].ColumnName + "='" + temprowvalue + "',";
             }
-            cmdString = cmdString.TrimEnd(new[] {',', '\n'});
+            cmdString = cmdString.TrimEnd(new[] { ',', '\n' });
 
             cmdString = cmdString + " WHERE (" + rowView.Row.Table.Columns[0].ColumnName + "='" + rowView.Row[0] + "')";
 
@@ -558,8 +718,8 @@ namespace Applenium
         }
 
 
-         //copy step using version column and change guitestId
-        public string CopyStepsByVersion(string oldguiTestId, string newguiTestId,string versionColumn)
+        //copy step using version column and change guitestId
+        public string CopyStepsByVersion(string oldguiTestId, string newguiTestId, string versionColumn)
         {
             //copy step 
             string query = "INSERT INTO Test.GuiTestSteps (GuiTestID, GuiMapID, GuiMapCommandID, InputDataColumn, IsValidate, StepsOrder," + versionColumn + ") SELECT " + newguiTestId + " , GuiMapID, GuiMapCommandID, InputDataColumn, IsValidate, StepsOrder, 1 FROM Test.GuiTestSteps WHERE (GuiTestID = " + oldguiTestId + ") AND (" + versionColumn + " = 1)";
@@ -567,13 +727,96 @@ namespace Applenium
         }
 
         //copy all steps and change guimap
-        public string  UpdateTestStepsByGuiMap(string oldGuiMapId, string newGuiMapId, string versionColumn)
+        public string UpdateTestStepsByGuiMap(string oldGuiMapId, string newGuiMapId, string versionColumn)
         {
             string query = "INSERT INTO Test.GuiTestSteps (GuiTestID, GuiMapID, GuiMapCommandID, InputDataColumn, IsValidate, StepsOrder," + versionColumn + ") SELECT  GuiTestID , " + newGuiMapId + ", GuiMapCommandID, InputDataColumn, IsValidate, StepsOrder, 1 FROM Test.GuiTestSteps WHERE (GuiMapID = " + oldGuiMapId + ") AND (" + versionColumn + " = 1)";
 
             ExecuteQuery(query);
             return UpdateVersion("GuiTestSteps", "GuiMapID", oldGuiMapId, versionColumn, 0);
         }
+
+
+        //copy step using version column and change guitestId
+        public int GetLastStepOrder(string guiTestId, string versionColumn)
+        {
+            //copy step 
+            string query = "SELECT MAX(StepsOrder) From  Test.GuiTestSteps  WHERE (GuiTestID = " + guiTestId + ") AND (" + versionColumn + " = 1)";
+            string stepsOrder = ExecuteQuery(query);
+            if (stepsOrder == string.Empty)
+                return 0;
+            else
+            {
+                return Convert.ToInt32(stepsOrder);
+            }
+        }
+        public void UpdateGuiMapInCurrentVersion(string currentEnvironmentVersionColumn, int guiMapId, int input)
+        {
+            //copy step 
+            string query = "UPDATE [QA_Autotest].[Test].[GuiMap] set " + currentEnvironmentVersionColumn + " = " + input + " WHERE   [GuiMapID]  = " + guiMapId; 
+            ExecuteQuery(query);
+           
+        }
+
+
+        public void DeleteCurrentVersionTestSteps(string currentEnvironmentVersionColumn, int guiTestId)
+        {
+            string query = "UPDATE [QA_Autotest].[Test].[GuiTestSteps] SET " + currentEnvironmentVersionColumn + " = 0 WHERE   ([GuiTestID]  = " + guiTestId + ") AND (" + currentEnvironmentVersionColumn + " = 1)"; //init the chosen version
+
+            ExecuteQuery(query);
+            
+        }
+
+        public void CopyChosenVersionTestStepsToCurrentVersion(string currentEnvironmentVersionColumn,string chosenEnvironmentVersionColumn, int guiTestId)
+        {
+            string query = "UPDATE [QA_Autotest].[Test].[GuiTestSteps] SET " + currentEnvironmentVersionColumn + " = 1 WHERE  ( [GuiTestID]  = " + guiTestId + ") AND (" + chosenEnvironmentVersionColumn + " = 1)";//update the chosen version
+
+            ExecuteQuery(query);
+            
+        }
+
+        public bool IsExistGuiMapIdInCurrentVersion(int guiMapId, string currentEnvironmentVersionColumn)
+        {
+            //copy step 
+            string query = "SELECT " + currentEnvironmentVersionColumn + " FROM [QA_Autotest].[Test].[GuiMap] where [GuiMapID]  = " + guiMapId;
+            string isExistGuiMapIdInChosenVersion = ExecuteQuery(query);
+            if (isExistGuiMapIdInChosenVersion.Equals("True"))
+                return true;
+            else
+            {
+                return false;
+            }
+        }
+        public int GetGuiMapIdFromTestStep(int testStepId)
+        {
+            //copy step 
+            string query = "SELECT [GuiMapID] FROM [QA_Autotest].[Test].[GuiTestSteps] where GuiTestStepsID  = " + testStepId;
+            string guiMapId = ExecuteQuery(query);
+            if (guiMapId == string.Empty)
+                return 0;
+            else
+            {
+                return Convert.ToInt32(guiMapId);
+            }
+        }
+
+        public ArrayList GetTestStepsInVersion(string currentEnvironmentVersionColumn, int testId)
+        {
+            
+            var myDataTable = new DataTable();
+            var testSteps = new ArrayList();
+
+            myDataTable = GetDataTable(Constants.StrGuiTestSteps, testId.ToString());
+           
+            foreach (var dataRow in myDataTable.AsEnumerable())
+            {
+                if (dataRow[currentEnvironmentVersionColumn].Equals(true))
+                {
+                   testSteps.Add(dataRow["GuiTestStepsID"]);
+                }
+            }
+
+            return testSteps;
+        }
     }
 
-}
+   }

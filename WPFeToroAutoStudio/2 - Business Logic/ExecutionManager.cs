@@ -12,6 +12,7 @@ using OpenQA.Selenium.Remote;
 using LoggerDLL;
 using log4net;
 using log4net.Appender;
+using System.Text.RegularExpressions;
 
 namespace Applenium
 {
@@ -35,7 +36,8 @@ namespace Applenium
         private string ss = Constants.LogNothing;
         private string _projectName = Constants.LogNothing;
         private readonly MainWindow guiInstance;
-        public AppleniumLogger logger = new AppleniumLogger();
+        private AppleniumLogger logger = new AppleniumLogger();
+        private string _browserName;
 
         /// <summary>
         /// Constructor
@@ -121,7 +123,7 @@ namespace Applenium
                     //inputTableValueDescription = "Used DataInput Parameters: " + inputTableValue + "\nFrom DataRow: " + inputDataRow + "\n\n";
                     if (inputTableValue.IndexOf(Constants.RegularExpressionOutput, 0, StringComparison.Ordinal) >= 0)
                     {
-                        inputTableValue = sl.GetLastCreatrdValue(inputDataColumn);
+                        inputTableValue = sl.GetLastCreatedValue(inputDataColumn);
 
                     }
                 }
@@ -133,6 +135,7 @@ namespace Applenium
                     inputTableValue = inputTableValue.Replace(Constants.RegularExpressionRandom, rnd);
                 }
 
+                var jp = new JsonParser();
 
                 //result = sl.ExecuteOneStep(dr, inputDataColumn, inputTableValue, driver);
                 ResultModel resultMod = sl.ExecuteOneStep(dr, inputDataColumn, inputTableValue, driver);
@@ -146,15 +149,12 @@ namespace Applenium
                     guiMapCommandName = adapterCommand.GetTestCommandName(guiMapCommandId).Trim();
                 }
 
-
-
                 LogObject logObject = new LogObject();
                 if (resultMod.Returnresult)
                 {
-
                     logObject.StepName = _stepname;
                     logObject.CommandName = guiMapCommandName;
-                    logObject.Description = "("+resultMod.Message+")." + " Completed successfully.";
+                    logObject.Description = "(" + resultMod.Message + ")." + " Completed successfully.";
                     logObject.StepStatus = "Passed";
                     logObject.StatusTag = Constants.PASSED;
 
@@ -162,10 +162,12 @@ namespace Applenium
 
                 else
                 {
+
+
                     string filepath = (LogManager.GetCurrentLoggers()[0].Logger.Repository.GetAppenders()[0] as FileAppender).File;
                     string folderpath = System.IO.Directory.GetParent(filepath).ToString();
-                    
-                   // ss = sl.ScreenShot(driver, "\\\\" + Environment.MachineName + "\\Logs");
+
+                    // ss = sl.ScreenShot(driver, "\\\\" + Environment.MachineName + "\\Logs");
                     ss = sl.ScreenShot(driver, folderpath);
                     string pagesource = sl.SourcePage(driver);
                     TextParser tp = new TextParser();
@@ -174,22 +176,20 @@ namespace Applenium
 
                     //string info = string.Format("\n{0}={1}\n{2}={3}\n{4}={5}\n{6}", Constants.LogStepStatus, "Failed",
                     //                                                          "SnapShot", ss, "IISServer", iisServer, sl.LastFailureMessage);
+                    
+                    //jp.AddKeyToMemory(Constants.Memory, "CMD " + guiMapCommandName + ": FAIL");
 
                     logObject.Snapshot = ss;
                     logObject.IISserver = iisServer;
                     logObject.StepStatus = "Failed";
                     logObject.StatusTag = Constants.FAILED;
-                    logObject.Description = "Couldn't complete execution of step. Reason - " + resultMod.Message;
-
+                    logObject.Description = "Couldn't complete execution of step. Reason - (" + guiMapCommandName + ", step=" + _stepname + ") " + resultMod.Message;
 
                 }
 
 
                 logObject.BatchID = _batchId;
                 logObject.ScenarioID = _flowId;
-
-
-
                 logObject.TestID = guiTestId;
                 logObject.StepID = guiMapId;
                 logObject.Parameter1 = "Used DataInput Parameters: " + inputTableValue;
@@ -203,6 +203,7 @@ namespace Applenium
                 logObject.ProjectPageID = _projectPageId;
                 logObject.ProjectID = _projectId;
                 logObject.ProjectName = _projectName;
+                logObject.Browser = _browserName;
 
                 logger.Print(logObject);
 
@@ -260,9 +261,9 @@ namespace Applenium
                 var adapteGuiPageSection = new GuiPageSectionTableAdapter();
                 _testname = adapterTest.GetTestName(Convert.ToInt32(testId));
 
-                if (guiInstance != null && isBatchRun == false)
+                if (guiInstance != null)
                 {
-                    guiInstance.UpdateProgressLabel(_testname);
+                    guiInstance.UpdateProgressLabel(_scenarioname, _testname, Constants.UpdateProgress_REGULAR);
                 }
 
 
@@ -294,7 +295,7 @@ namespace Applenium
 
 
                 var jp = new JsonParser();
-                string skipTestOnStepFail = jp.ReadJson("SkipTestOnStepFail");
+                string skipTestOnStepFail = Constants.MemoryConf["SkipTestOnStepFail"];
 
 
                 Singleton myInstance = Singleton.Instance; // Will always be the same instance...
@@ -448,9 +449,9 @@ namespace Applenium
 
         internal bool ExecuteOneScenario(string scenarioId, RemoteWebDriver driver)
         {
-
-
-
+            //clean global configuration before ExecuteOneScenario 
+            var jp = new JsonParser();
+            Boolean res = jp.AddConfigToMemory("");
 
             //init test status count
             var testStatus = new Dictionary<string, int>();
@@ -504,6 +505,12 @@ namespace Applenium
                 var adapterScenario = new ScenarioTableAdapter();
                 _projectId = Convert.ToInt32(adapterScenario.GetProjectID(_flowId));
                 _scenarioname = adapterScenario.GetScenarioName(_flowId);
+                string scenariodescription = adapterScenario.GetScenarioDescription(_flowId);
+
+                if (guiInstance != null && isBatchRun == false)
+                {
+                    guiInstance.UpdateProgressLabel(_scenarioname, _testname, Constants.UpdateProgress_REGULAR);
+                }
 
 
                 LogObject logObject = new LogObject();
@@ -525,13 +532,20 @@ namespace Applenium
                 logObject2.Description = Constants.LogScenarioStatus + "=" + Constants.PROGRESS_STARTED;
                 logger.Print(logObject2);
 
-                //AppleniumLogger.LogResult(_runExecutionId, _batchId, _flowId, 0, 0, String.Format("{0}={1}", Constants.LogScenarioStatus, "Started"), Constants.Done,
-                //          "0",
-                //          _projectId, _projectPageId);
                 Singleton myInstance = Singleton.Instance; // Will always be the same instance...
                 bool scenarioresult = true;
+
+                LogObject result = new LogObject();
                 foreach (DataRow row in dtScenario.Rows)
                 {
+
+                    // Check if we got a warning message, if we did skip all tests in the scenario
+                    if (Applenium._4____Infrustructure.Utilities.skipSCN == true)
+                    {
+                        break;
+
+                    }
+
                     if (myInstance.StopExecution)
                     {
                         scenarioresult = false;
@@ -545,19 +559,27 @@ namespace Applenium
                 }
                 string description;
 
-                LogObject result = new LogObject();
 
-                if (scenarioresult)
+
+                if (scenarioresult == true && Applenium._4____Infrustructure.Utilities.skipSCN == false)
                 {
                     description = String.Format("{0}={1}", Constants.LogScenarioStatus, "Passed");
 
                     result.ScenarioStatus = Constants.PROGRESS_PASSED;
                     result.StatusTag = Constants.PASSED;
                 }
-                else
+                else if (scenarioresult == false && Applenium._4____Infrustructure.Utilities.skipSCN == false)
                 {
+
                     result.ScenarioStatus = Constants.PROGRESS_FAILED;
                     result.StatusTag = Constants.FAILED;
+
+                }
+
+                else if (scenarioresult == true && Applenium._4____Infrustructure.Utilities.skipSCN == true)
+                {
+                    scenarioresult = true;
+                    result.StatusTag = Constants.DEBUG;
 
                 }
                 result.ExecutionID = _runExecutionId;
@@ -569,12 +591,13 @@ namespace Applenium
                 result.ProjectID = _projectId;
                 result.ProjectPageID = _projectPageId;
                 result.BatchName = _batchname;
-                result.Description = " | PassedTest=" + testStatus["PassedTests"] + " | FailedTest=" + testStatus["FailedTests"] + " | TotalTest=" + testStatus["TotalTests"];
+                result.Description = scenariodescription+" | PassedTest=" + testStatus["PassedTests"] + " | FailedTest=" + testStatus["FailedTests"] + " | TotalTest=" + testStatus["TotalTests"];
                 result.ProjectID = _projectId;
+                result.Browser =_browserName;
                 logger.Print(result);
 
+                Applenium._4____Infrustructure.Utilities.skipSCN = false;
 
-                //AppleniumLogger.LogResult(_runExecutionId, _batchId, _flowId, 0, 0, description + " : PassedTest=" + testStatus["PassedTests"] + " FailedTest=" + testStatus["FailedTests"] + " TotalTest=" + testStatus["TotalTests"], status, "0", _projectId, 0);
                 return scenarioresult;
             }
 
@@ -585,7 +608,6 @@ namespace Applenium
                 logObject3.StatusTag = Constants.ERROR;
                 logObject3.Description = exception.Message;
                 logger.Print(logObject3);
-                //AppleniumLogger.LogResult(string.Empty, exception.Message, Constants.Error, exception);
                 return false;
             }
 
@@ -614,8 +636,11 @@ namespace Applenium
             {
 
                 var jp = new JsonParser();
-                string remote = jp.ReadJson("RemoteNode");
-                int timeoutAllScenarios = Convert.ToInt32(jp.ReadJson("TimeoutAllScenarios")) * 1000;
+                //VSH: clean global configuration before ExecuteOneBatch 
+                Boolean res = jp.AddConfigToMemory("");
+
+                string remote = Constants.MemoryConf["RemoteNode"];
+                int timeoutAllScenarios = Convert.ToInt32(Constants.MemoryConf["TimeoutAllScenarios"]) * 1000;
                 var sel = new Selenium();
                 if (batchId == string.Empty)
                 {
@@ -659,14 +684,14 @@ namespace Applenium
                     }
                     var threadFinish = new EventWaitHandle(false, EventResetMode.ManualReset);
 
-                    string browserId = row["BrowserID"].ToString();
+                    string BrowserID = row["BrowserID"].ToString();
                     string batchLogicId = row["BatchLogicID"].ToString();
                     int executionStatus = Convert.ToInt32(row["ExecutionStatusID"].ToString());
 
                     if (executionStatus == 1) //run only selected scenarios 
                     {
                         threadFinishEvents.Add(threadFinish);
-                        string browserName = adapterBrowser.GetBrowserName(Convert.ToInt32(browserId));
+                        _browserName = adapterBrowser.GetBrowserName(Convert.ToInt32(BrowserID));
 
 
 
@@ -676,21 +701,10 @@ namespace Applenium
                                 //wait till hub return available browser 
 
                                 RemoteWebDriver driver = null;
-                                int elapsed = 0;
-                                while ((driver == null) && (elapsed < timeoutAllScenarios))
-                                {
-                                    if (remote == "yes")
-                                    {
-                                        //generate random number 30-60 
-                                        Random r = new Random();
-                                        int rInt = r.Next(30000, 60000); //for ints
+                                driver = sel.SetWebDriverBrowser(null, BrowserID, false);
+                                driver.Manage().Window.Maximize();
 
-                                        Thread.Sleep(rInt);
-                                        elapsed += rInt;
-                                    }
-                                    driver = sel.SetWebDriverBrowser(null, browserId, false);
 
-                                }
 
 
                                 string scenarioId = row["ScenarioID"].ToString();
@@ -700,7 +714,7 @@ namespace Applenium
                                 string scenarioname = adapterScenario.GetScenarioName(Convert.ToInt32(scenarioId));
                                 if (guiInstance != null && isBatchRun == true)
                                 {
-                                    guiInstance.UpdateProgressLabel(scenarioname);
+                                    guiInstance.UpdateProgressLabel("", "", Constants.UpdateProgress_REGULAR);
                                 }
 
                                 LogObject logObject2 = new LogObject();
@@ -708,12 +722,13 @@ namespace Applenium
                                 logObject2.BatchID = _batchId;
                                 logObject2.ScenarioID = Convert.ToInt32(scenarioId);
                                 logObject2.ScnearioName = scenarioname;
-                                logObject2.Browser = browserName;
+                                logObject2.Browser = _browserName;
                                 logObject2.ProjectID = _projectId;
                                 logObject2.ProjectName = _projectName;
                                 logObject2.BatchName = _batchname;
                                 logObject2.ProjectPageID = _projectPageId;
                                 logObject2.StatusTag = Constants.DONE;
+                                logObject2.Browser = _browserName;
                                 logger.Print(logObject2);
 
 
@@ -735,8 +750,16 @@ namespace Applenium
 
                                                                                                }, null, null);
                             };
+                        try
+                        {
+                            ts.BeginInvoke(delegate(IAsyncResult aysncResult) { ts.EndInvoke(aysncResult); }, null);
+                        }
 
-                        ts.BeginInvoke(delegate(IAsyncResult aysncResult) { ts.EndInvoke(aysncResult); }, null);
+                        catch (Exception exc)
+                        {
+                            MessageBox.Show("An exception has occoured when trying to execute a scenario - " + exc.TargetSite);
+
+                        }
                         if (remote == "no")
                             WaitHandle.WaitAll(threadFinishEvents.ToArray(), Convert.ToInt32(timeoutAllScenarios));
                     }

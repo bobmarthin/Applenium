@@ -1,4 +1,6 @@
-﻿namespace Applenium
+﻿using System.Collections.Generic;
+
+namespace Applenium
 {
     /// <summary>
     ///     All constants is described in that class
@@ -34,6 +36,7 @@
         public const string StrEnvironmentVersion = "EnvironmentVersion";
         public const string StrEnvironmentVersionClone = "StrEnvironmentVersionClone";
         public const string StrAnalayzing = "StrAnalayzing";
+        public const string StrEnvironmentVersionMove = "StrEnvironmentVersionMove";
 
 
         public const int PASSED = 1;
@@ -117,6 +120,41 @@
         public const string ACTION_DISCUSSION = "discussions";
         public const string ACTION_LIKE = "likes/";
         public const string ACTION_GET_USER_STREAM = "streams/users/";
+
+
+        // User messages
+        public const string STOPPED_EXPLICIT = "********* Stopped by user **********";
+        public const string TEST_RUN_FAILED = "Test is failed. Press OK to see results. Cancel to stay on the same window. ";
+        public const string TEST_RUN_PASSED = "Test is passed. Press OK to see results. Cancel to stay on the same window.";
+        public const string SCENARIO_RUN_FAILED = "Scenario is failed. Press OK to see results. Cancel to stay on the same window. ";
+        public const string SCENARIO_RUN_PASSED = "Scenario is passed. Press OK to see results. Cancel to stay on the same window.";
+        public const string SCENARIO_RUN_TITLE = "Run evaluation result";
+        public const string WEBDRIVER_BUSY = "WebDriver is busy. Wait a few seconds and try again!";
+        public const string WEBDRIVER_BUSY_TITLE = "WebDriver Busy";
+        public const string WEBDRIVER_EXECUTING = "WebDriver is still executing, do you wanna stop execution and run this test?";
+
+
+        // ProgressLabelUpdate message types
+        public const int UpdateProgress_REGULAR = 0;
+        public const int UpdateProgress_STOPPED = 1;
+        public const int UpdateProgress_EMPTY = 2;
+
+
+        public const string Memory = "memory";
+        //command constant 
+        public const string SshTemplate = "ssh";
+        public const string XpathTemplate = "xpath";
+        public const string IdTemplate = "id";
+        public const string NameTemplate = "name";
+        public const string CssTemplate = "css";
+        public const string CmdNameTemplate = "cmdname";
+
+        /// <summary>
+        ///     list for save global variables during test execution
+        /// </summary>
+        public static Dictionary<string, string> MemoryConf = new Dictionary<string, string>();
+       
+        
 
     }
 }

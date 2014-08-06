@@ -29,6 +29,7 @@
                             <MenuItem Header="Test Comleted" Click="StatusCompleted" />
                             <MenuItem Header="Test Uncomleted" Click="StatusUnCompleted" />
                             <MenuItem Header="Copy Test" Click="CopyTest" />
+                            <MenuItem Header="Change Test version" Click="ChangeTestVersionPopup" />
                         </ContextMenu>
                     </TextBlock.ContextMenu>
                 </TextBlock>
@@ -127,16 +128,16 @@
             </Border.BitmapEffect>
 
             -->
-            <TabControl x:Name="TabControlMain" Margin="0,20,0,0"  Width="auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <TabControl x:Name="TabControlMain" Margin="0,20,0,0"  Width="auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0.693,0.479" Loaded="TabControlMain_Loaded">
                 <TabItem x:Name="TabItemGuiMap" Header="GuiMap" ForceCursor="True" MinWidth ="110"
                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsManipulationEnabled="True"
-                         Margin="0"  Width="auto" MinHeight="60" >
+                         Margin="0"  Width="auto" MinHeight="60" Loaded="TabItemGuiMap_Loaded"  >
                     <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="96*" MinWidth="100" />
-                            <ColumnDefinition Width="344*"/>
+                            <ColumnDefinition Width="101" />
+                            <ColumnDefinition Width="347*"/>
                             <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="881*" MinWidth="100" />
+                            <ColumnDefinition Width="888*" MinWidth="100" />
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="0" MinWidth="0" />
                         </Grid.ColumnDefinitions>
@@ -161,9 +162,9 @@
                                       Grid.Row="3" Grid.Column="0" ResizeBehavior="PreviousAndNext"
                                       Height="3" />
 
-                        <DataGrid Grid.Column="3" Grid.Row="0" x:Name="DataGridGuiMap"
+                        <DataGrid Grid.Column="2" Grid.Row="0" x:Name="DataGridGuiMap"
                                   PreviewKeyDown="dataGridGuiMap_PreviewKeyDown" AutoGenerateColumns="False"
-                                  HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch" Margin="0.396,3,2.604,0" VerticalAlignment="Stretch"
                                   Height="auto" Width="auto" RowEditEnding="DataGridGuiMap_RowEditing"
                                   BeginningEdit="DataGridGuiMap_BeginingEdit"
                                   CellEditEnding="DataGridGuiMap_CellEditEnding"
@@ -171,7 +172,7 @@
                                   RowDetailsVisibilityMode="Visible" Background="{x:Null}"
                                   GridLinesVisibility="Horizontal"
                                   RowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                                  AreRowDetailsFrozen="True">
+                                  AreRowDetailsFrozen="True" Grid.ColumnSpan="2" Grid.RowSpan="2">
                             <DataGrid.Columns>
                                 <DataGridTextColumn
                                     Binding="{Binding GuiMapObjectName ,UpdateSourceTrigger=PropertyChanged}"
@@ -193,11 +194,10 @@
 
                         <TreeView Name="TreeViewProjects" ItemsSource="{Binding Projects}"
                                   ItemTemplate="{StaticResource Project1Template}" Grid.Column="0" Grid.ColumnSpan="2"
-                                  Grid.Row="0" HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0"
+                                  Grid.Row="0" HorizontalAlignment="Stretch" Height="auto" Margin="-5,0,4.604,0"
                                   VerticalAlignment="Stretch" Width="Auto"
                                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                   SelectedItemChanged="TreeViewProjects_SelectedItemChanged"
-                                  Loaded="TreeViewProjects_Loaded"
                                   PreviewMouseRightButtonDown="TreeViewProjects_OnPreviewMouseRightButtonDown"
                                   x:FieldModifier="private" />
 
@@ -273,7 +273,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TabItemTestEditor" Header="TestEditor" Margin="0" 
-                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Width="auto" MinWidth ="110" >
+                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Width="auto" MinWidth ="110" Loaded="TabItemTestEditor_Loaded" >
                     <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" MinWidth="100" />
@@ -320,6 +320,76 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
 
+                            <Popup x:Name="PopupFloatingTextBox" Width="auto" Height="auto" StaysOpen="True"
+                               AllowsTransparency="False" Placement="Center" PopupAnimation="Slide"
+                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                               ScrollViewer.VerticalScrollBarVisibility="Auto" AllowDrop="True" Opened="PopupCloneFromTestingEnviromnet_Opened">
+                                <Border Padding="2" CornerRadius="30" BorderThickness="2">
+                                    <Grid Background="White">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*" MinWidth="100" />
+                                            <ColumnDefinition Width="4*" MinWidth="100" />
+                                            <ColumnDefinition Width="4*" MinWidth="100" />
+                                            <ColumnDefinition Width="4*" MinWidth="100" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="4*"  />
+                                            <RowDefinition Height="1*" />
+                                            <RowDefinition Height="1*" />
+                                            <RowDefinition Height="2*" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+
+
+                                        <TextBox Name="txtFloating"  Grid.Row="3" Grid.Column="2" />
+                                        <Label  Name="LabelfloatingTextBox" Content="Enter Command Value :" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  HorizontalAlignment="Stretch" Height="auto" Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Stretch" Width="auto"/>
+                                    </Grid>
+                                </Border>
+                            </Popup>
+
+                            <Popup Name="PopupTestCommand" Width="auto" Height="auto" StaysOpen="True"
+                               AllowsTransparency="False" Placement="Center" PopupAnimation="Slide" IsEnabled="True" 
+                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                               ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                               AllowDrop="True">
+                                <Border Padding="2" CornerRadius="30" BorderThickness="2">
+                                    <Grid Background="White" MinHeight="200" MinWidth="300" Margin="8" Height="300" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label x:Name="PopupWizardName" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  FontSize="24" AllowDrop="True" Content="  Wizard"/>
+                                        <Label x:Name="LABCmdName" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Content="Command"/>
+                                        <TextBox  x:Name="TBCmdName" Grid.Row="1" Grid.Column="1" MinWidth="250" HorizontalAlignment="Left" Margin="8" IsReadOnly="False"></TextBox>
+                                        <Label x:Name="LABGuiMapName" Grid.Row="2" Grid.Column="0" Content="Name" Margin="8" />
+                                        <TextBox x:Name="TBGuiMapName"  Grid.Row="2" Grid.Column="1" MinWidth="250" HorizontalAlignment="Left" Margin="8" IsReadOnly="False"></TextBox>
+
+                                        <Label x:Name="LABGuiMapTagTypeName" Grid.Row="3" Grid.Column="0" Content="Identifier Type" Margin="8" />
+                                        <TextBox x:Name="TBGuiMapTagTypeName"  Grid.Row="3" Grid.Column="1" MinWidth="250" HorizontalAlignment="Left" Margin="8" IsReadOnly="False"></TextBox>
+
+                                        <Label x:Name="LABGuiMapValue" Grid.Row="4" Grid.Column="0" Content="Value" Margin="8" />
+                                        <TextBox x:Name="TBGuiMapValue" Grid.Row="4" Grid.Column="1" MinWidth="250" HorizontalAlignment="Left" Margin="8" IsReadOnly="False"></TextBox>
+
+                                        <TextBox x:Name="TBTestStepID" Grid.Row="0" Grid.Column="0" MinWidth="250" HorizontalAlignment="Left" Margin="8" IsReadOnly="False" Visibility="Hidden"></TextBox>
+                                        <TextBox x:Name="TBTestID" Grid.Row="0" Grid.Column="0" MinWidth="250" HorizontalAlignment="Left" Margin="8" IsReadOnly="False" Visibility="Hidden"></TextBox>
+                                        <TextBox x:Name="TBVersionClnID" Grid.Row="0" Grid.Column="0" MinWidth="250" HorizontalAlignment="Left" Margin="8" IsReadOnly="False" Visibility="Hidden"></TextBox>
+
+                                        <Button x:Name="WizardtnOK"  Grid.Row="5" Grid.Column="0" Margin="20" MaxWidth="120" HorizontalAlignment="Right" MinWidth="100" Content="OK" Click="AddNewCommandFromPopup"></Button>
+                                        <Button x:Name="btnCancel" Grid.Row="5" Grid.Column="1" Margin="20" HorizontalAlignment="Left" MinWidth="100" Content="Cancel" Click="CancelAddNewCommandFromPopup"></Button>
+                                       
+                                    </Grid>
+                                   
+                                </Border>
+                            </Popup>
+
                             <DataGrid Grid.Column="0" Grid.Row="0" x:Name="DataGridTestEditor"
                                       AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0"
                                       VerticalAlignment="Stretch" Height="auto" Width="auto"
@@ -331,22 +401,44 @@
                                       GridLinesVisibility="Horizontal"
                                       RowBackground="{DynamicResource {x:Static SystemColors.InfoBrushKey}}"
                                       Grid.RowSpan="2" SelectedCellsChanged="DataGridTestEditor_SelectedCellsChanged"
-                                      LostFocus="DataGridTestEditor_LostFocus">
+                                      LostFocus="DataGridTestEditor_LostFocus" IsTextSearchEnabled="True">
                                 <DataGrid.Columns>
                                     <DataGridComboBoxColumn x:Name="DataGridComboboxColumnCommand"
                                                             DisplayMemberPath="TestCommandName"
                                                             SelectedValuePath="TestCommandID"
                                                             SelectedValueBinding="{Binding GuiMapCommandID, UpdateSourceTrigger=PropertyChanged}"
-                                                            Header="Command" Width="*" CanUserSort="False"
+                                                            Header="Command" Width="100" CanUserSort="False"
                                                             SortDirection="Ascending" SortMemberPath="TestCommandName" />
-                                    <!--<DataGridComboBoxColumn    x:Name="DataGridComboboxColumnProjectPage" DisplayMemberPath="ProjectPageName" SelectedValuePath="GuiProjectPageID"   Header="Project Page"  Width="*" CanUserSort="True" SortDirection="Ascending"  />
-                                    <DataGridComboBoxColumn    x:Name="DataGridComboboxColumnSection" DisplayMemberPath="GuiPageSectionName" SelectedValuePath="GuiPageSectionID"   Header="Page Section"  Width="*" CanUserSort="True" SortDirection="Ascending"  />-->
-                                    <DataGridComboBoxColumn x:Name="DataGridComboboxColumnGuiMap"
+                                    <DataGridComboBoxColumn x:Name="DataGridComboboxColumnGuiMap" 
                                                             DisplayMemberPath="GuiMapObjectName"
                                                             SelectedValuePath="GuiMapID"
+                                                            ItemsSource="{Binding MyValueItem}"
                                                             SelectedValueBinding="{Binding GuiMapID, UpdateSourceTrigger=PropertyChanged}"
-                                                            Header="TA Element Name" Width="*" CanUserSort="False"
-                                                            SortDirection="Ascending" SortMemberPath="GuiMapObjectName" />
+                                                            Header="TA Element Name" Width="200" CanUserSort="False" 
+                                                            SortDirection="Ascending" SortMemberPath="GuiMapObjectName" >
+                                        <DataGridComboBoxColumn.EditingElementStyle>
+                                            <Style TargetType="ComboBox">
+                                                <Setter Property="IsEditable" Value="True"/>
+                                                <EventSetter Event="LostFocus" Handler="ComboboxGuiMap_LostFocus" />
+                                            </Style>
+                                        </DataGridComboBoxColumn.EditingElementStyle>
+                                    </DataGridComboBoxColumn>
+
+                                    <DataGridComboBoxColumn x:Name="DataGridComboboxColumnGuiMapValue"
+                                                            DisplayMemberPath="TagTypeValue"
+                                                            SelectedValuePath="GuiMapID"
+                                                            SelectedValueBinding="{Binding GuiMapID, UpdateSourceTrigger=PropertyChanged}"
+                                                            Header="TA Element Value" Width="*" CanUserSort="False"
+                                                            SortDirection="Ascending" SortMemberPath="TagTypeValue" IsReadOnly="False">
+                                        <DataGridComboBoxColumn.EditingElementStyle>
+                                            <Style TargetType="ComboBox">
+                                                <Setter Property="IsEditable" Value="True"/>
+                                                
+                                            </Style>
+                                        </DataGridComboBoxColumn.EditingElementStyle>
+
+                                    </DataGridComboBoxColumn>
+
                                     <DataGridComboBoxColumn x:Name="DataGridComboboxInputDataColumn"
                                                             DisplayMemberPath="COLUMN_NAME"
                                                             SelectedValuePath="COLUMN_NAME"
@@ -369,13 +461,61 @@
                                     <Image Source="..\5 - Resources\StockIndexDown.png" />
                                 </StackPanel>
                             </Button>
+                            <Popup x:Name="PopupMoveTestFromVersionToVersion" Width="auto" Height="auto" StaysOpen="True"
+                               AllowsTransparency="False" Placement="Center" PopupAnimation="Slide"
+                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                               ScrollViewer.VerticalScrollBarVisibility="Auto" AllowDrop="True" Opened="PopupCloneFromTestingEnviromnet_Opened">
+
+                                <Border Padding="2" CornerRadius="30" BorderThickness="2">
+
+                                    <Grid Background="White">
+
+                                        <Grid.ColumnDefinitions>
+
+                                            <ColumnDefinition Width="4*" MinWidth="100" />
+
+                                            <ColumnDefinition Width="4*" MinWidth="100" />
+
+                                            <ColumnDefinition Width="4*" MinWidth="100" />
+
+                                            <ColumnDefinition Width="4*" MinWidth="100" />
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+
+                                            <RowDefinition Height="4*"  />
+
+                                            <RowDefinition Height="1*" />
+
+                                            <RowDefinition Height="1*" />
+
+                                            <RowDefinition Height="2*" />
+
+                                            <RowDefinition />
+
+                                        </Grid.RowDefinitions>
+
+
+                                        <ComboBox Name="ComboboxSourceVersion" DisplayMemberPath="EnvironmentVersionName" SelectedValuePath=" EnvironmentVersionID"  HorizontalAlignment="Stretch" Height="auto"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Stretch" Width="auto" Loaded="ComboboxSourceVersion_Loaded" PreviewKeyDown="ComboboxTestingEnvironment_TextChanged"/>
+
+                                        <Button  Content="OK" Click="PopupMoveTestFromVersionToVersionbtnOK_Click" Grid.Row="3" Grid.Column="1" />
+
+                                        <Button Content="Cancel" Click="PopupMoveTestFromVersionToVersionbtnCancel_Click" Grid.Row="3" Grid.Column="2" />
+
+                                        <Label  Name="SourceVersion" Content="SourceVersion:" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  HorizontalAlignment="Stretch" Height="auto" Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Stretch" Width="auto"/>
+
+                                    </Grid>
+
+                                </Border>
+
+                            </Popup>
                         </Grid>
                         <TreeView ItemsSource="{Binding Projects}" ItemTemplate="{StaticResource ProjectTemplate}"
                                   Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Name="TreeViewTests"
                                   HorizontalAlignment="Stretch" Height="auto" Margin="0" VerticalAlignment="Stretch"
                                   Width="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                  SelectedItemChanged="TreeViewTests_SelectedItemChanged" UseLayoutRounding="False"
-                                  Loaded="TreeViewTests_Loaded"
+                                  SelectedItemChanged="TreeViewTests_SelectedItemChanged" UseLayoutRounding="False"                                  
                                   x:FieldModifier="private"
                                   PreviewMouseRightButtonDown="TreeViewTests_OnPreviewMouseRightButtonDown" />
 
@@ -530,7 +670,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TabItemScenario" Header="Scenario" Margin="0"  VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch" Width="auto" MinWidth ="110">
+                         HorizontalAlignment="Stretch" Width="auto" MinWidth ="110" Loaded="TabItemScenario_Loaded">
                     <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" MinWidth="100" />
@@ -648,7 +788,6 @@
                                   HorizontalAlignment="Stretch" Height="auto" Margin="0" VerticalAlignment="Stretch"
                                   Width="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                   SelectedItemChanged="TreeViewScenario_SelectedItemChanged" UseLayoutRounding="False"
-                                  Loaded="TreeViewScenarios_Loaded"
                                   x:FieldModifier="private">
 
                             <TreeView.ContextMenu>
@@ -776,14 +915,15 @@
                     </Grid>
                 </TabItem>
 
-                <TabItem Header="Execution" Margin="0" Width="auto" VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch" MinWidth ="110" >
+                <TabItem Name="ExecutionTab" Header="Execution" Margin="0" Width="auto" VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch" MinWidth ="110" Loaded="ExecutionTab_Loaded" >
                     <Grid Background="White">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="4*" />
@@ -792,11 +932,13 @@
                             <RowDefinition Height="2*" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
+                        <GridSplitter HorizontalAlignment="right"
+                                      VerticalAlignment="Stretch"
+                                      Grid.Column="2" Grid.Row="0" ResizeBehavior="PreviousAndNext" Width="3" />
                         <TreeView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Name="TreeViewBatch"
                                   HorizontalAlignment="Stretch" Height="auto" Margin="0" VerticalAlignment="Stretch"
                                   Width="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                  SelectedItemChanged="TreeViewBatch_SelectedItemChanged" UseLayoutRounding="False"
-                                  Loaded="TreeViewBatch_Loaded"
+                                  SelectedItemChanged="TreeViewBatch_SelectedItemChanged" UseLayoutRounding="False"                                  
                                   x:FieldModifier="private">
                             <TreeView.ContextMenu>
                                 <ContextMenu>
@@ -823,7 +965,7 @@
                         </TreeView>
 
 
-                        <DataGrid Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" x:Name="DataGridBatchEditor"
+                        <DataGrid Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="0" x:Name="DataGridBatchEditor"
                                   AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0"
                                   VerticalAlignment="Stretch" Height="auto" Width="auto" IsManipulationEnabled="True"
                                   RowEditEnding="DataGridBatchEditor_RowEditing"
@@ -858,18 +1000,28 @@
                             </DataGrid.RowStyle>
 
                         </DataGrid>
+                    
+                    <Grid Grid.Row="4" Grid.ColumnSpan="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" MinWidth="210" />
+                            <ColumnDefinition Width="*" MinWidth="210" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" MinWidth="210" />
+                            <ColumnDefinition Width="*" MinWidth="210" />
+                        </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0" Grid.Row="4" x:Name="BtnRunBatch" Content="Run Batch"
+                        <Button Grid.Column="0" Grid.Row="0" x:Name="BtnRunBatch" Content="Run Batch"
                                 HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="210"
                                 Click="btnRunBatch_Click" Height="47" />
-                        <Button Grid.Column="1" Grid.Row="4" x:Name="BtnNewBatch" Content="New Batch"
+                        <Button Grid.Column="1" Grid.Row="0" x:Name="BtnNewBatch" Content="New Batch"
                                 HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="210"
                                 Height="47" Click="btnNewBatch_Click" />
-                        <Button Grid.Column="4" Grid.Row="4" x:Name="BtnStopBatch" Content="StopCurrentBatch"
+                        <Button Grid.Column="4" Grid.Row="0" x:Name="BtnStopBatch" Content="StopCurrentBatch"
                                 HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="210"
                                 Click="btnStopBatch_Click" Height="47" IsEnabled="False" />
+                    </Grid>
 
-                        <Popup x:Name="PopupNewBatch" Width="auto" Height="auto" StaysOpen="True"
+                    <Popup x:Name="PopupNewBatch" Width="auto" Height="auto" StaysOpen="True"
                                AllowsTransparency="False" Placement="Center" PopupAnimation="Fade"
                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -1088,7 +1240,7 @@
                                   RowBackground="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" >
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Name,UpdateSourceTrigger=PropertyChanged}"
-                                                    Header="Name" Width="*" IsReadOnly="True" />
+                                                    Header="Name" Width="*"  />
                                 <DataGridTextColumn Binding="{Binding Value,UpdateSourceTrigger=PropertyChanged}"
                                                     Header="Value" Width="*" />
                             </DataGrid.Columns>
@@ -1137,11 +1289,11 @@
                     </Grid>
                 </TabItem>
 
-                <TabItem Header="Tools" Margin="0"  VerticalAlignment="Stretch"
+                <TabItem Name="TabItemTools" Header="Tools" Margin="0"  VerticalAlignment="Stretch"
                 	HorizontalAlignment="Stretch" Width="auto" MinWidth ="110">
 
-                    <TabControl Margin="0">
-                        <TabItem Header=" MOP VAX "  >
+                    <TabControl Name="ToolsTabControl" Margin="0">
+                        <TabItem Header="MOP VAX"  >
                             <Grid  Margin="10,9,10,11">
                                 <GroupBox Header="Configuration" BorderBrush="Black" Margin="10,0" Width="auto" Height="158" MinHeight="10" MinWidth="200" VerticalAlignment="Top">
                                     <Grid Margin="12,0,-12,0">
@@ -1171,9 +1323,47 @@
                                 </GroupBox>
                             </Grid>
                         </TabItem>
+                        <TabItem Name="TabItemLoaderIo" Header="Loader.io" Loaded="TabItemLoaderIo_loaded"  >
+                            <GroupBox  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="auto" Height="auto">
+                                <Grid Background="White">
+                               
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*" MinWidth="100" />
+                                    <ColumnDefinition Width="4*" MinWidth="100" />
+                                    <ColumnDefinition Width="4*" MinWidth="100" />
+                                    <ColumnDefinition Width="2*" MinWidth="100" />
+                                    <ColumnDefinition Width="2*" MinWidth="100" />
+                                    <ColumnDefinition Width="2*" MinWidth="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="16*" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <Label Content="Select Test:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="auto" Height="auto" />
+                                    <Label Content="Select Duration Time in sec: " Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="auto" Height="auto" />
+                                    <Button x:Name ="ButtonRunLoadTest" Content="Run Load Test" Grid.Column="3" HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch" Click="ButtonRunTest_Click"/>
+                                    <Button x:Name ="ButtonStopLoadTest" Content="Stop Load Test" Grid.Column="4" HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch" Click="ButtonStopTest_Click"/>
+                                    <ComboBox Name="ComboboxSelectLoadTest" Text="Loading AllTests from Loader.io...- This operation can take several minutes" Grid.ColumnSpan="2" DisplayMemberPath="ConcatenateName" SelectedValuePath="test_id"  HorizontalAlignment="Stretch" Grid.Column="0"  Grid.Row="2" VerticalAlignment="Stretch" IsEditable="True"  Loaded="Combobox_SelectLoadTest_Loaded"/>                                       
+                                    <TextBox Name="TextboxSelectDurationtime"  HorizontalAlignment="Stretch" Grid.Column="2"  Grid.Row="2" VerticalAlignment="Stretch"  />
+                                    <Label  Grid.Row="0" Grid.Column="0" Content="Change App key if wrong:" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="auto" Height="auto"/>
+                                    
+                                    <TextBox Name="TextboxAppKey"  HorizontalAlignment="Stretch" Grid.Column="1"  Grid.Row="0" VerticalAlignment="Stretch" SelectionChanged="TextboxAppKey_SelectionChanged"  />
+                                    <Button Name="ButtonLoadTests" Content="Load List of Tests" Grid.Column="3" HorizontalAlignment="Stretch"  Grid.Row="0" VerticalAlignment="Stretch" Click="ButtonLoadTests_Click"/>
+                                    <WebBrowser x:Name="WebBrowserLoaderio" Margin="0" Grid.Column="0"  Grid.Row="3" Grid.ColumnSpan="6" Grid.RowSpan="3"
+                                    Loaded="WebBrowserLoaderio_Loaded" IsManipulationEnabled="True"
+                                    ScrollViewer.CanContentScroll="True"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+                                </Grid>
+                            </GroupBox>
+                        </TabItem>
 
                     </TabControl>
                 </TabItem>
+                <!--<TextBox Margin="919,-65,0,760" TextWrapping="Wrap" Text="Search" HorizontalAlignment="Left" VerticalAlignment="Bottom" SpellCheck.IsEnabled="True" Height="57" Width="284"/>-->
 
             </TabControl>
         </Border>

@@ -40,7 +40,7 @@ namespace Applenium
                 string userName = driver.FindElement((By)sl.GetWebElement(1, userNameElementValue, string.Empty)).Text;
                 string userTableRowElementValue = guimapadapter.GetTagTypeValue(tableRowweguiMapId);
                 ReadOnlyCollection<IWebElement> rows =
-                    driver.FindElements((By)sl.GetWebElement(1, userTableRowElementValue, string.Empty));
+                    driver.FindElements((By)sl.GetWebElement(1, userTableRowElementValue, string.Empty));                
                 List<IWebElement> pos = rows.ToList();
 
 

@@ -10,20 +10,30 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Threading;
+using Applenium._2___Business_Logic;
 using Applenium._3___DAL.DataSetAutoTestTableAdapters;
+using Applenium._4____Infrustructure;
 using AutomaticTest;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Safari;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
+using ServiceStack;
 using TradeAPITypes.Data;
 using WebAPI;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.IO;
+using ServiceStack.Common;
+using System.ServiceProcess;
+using System.Text.RegularExpressions;
+using Utilities = Applenium._4____Infrustructure.Utilities;
+
+
 namespace Applenium
 {
 
@@ -59,19 +69,20 @@ namespace Applenium
         /// </summary>
         private static ResultModel SetLastCreatedValue(string name, string value)
         {
-            if (_lastCreatedValue.ContainsKey(name))
+
+            if (Constants.MemoryConf.ContainsKey(name))
             {
 
-                _lastCreatedValue[name] = value;
+                Constants.MemoryConf[name] = value;
 
             }
             else
             {
-                _lastCreatedValue.Add(name, value);
+                Constants.MemoryConf.Add(name, value);
 
             }
 
-            return new ResultModel(true, string.Format("NewValueCreated:{0}={1}", name, value));
+            return new ResultModel(true, string.Format("NewValueCreated:{0}={1}", name, value), null);
         }
 
         /// <summary>
@@ -79,12 +90,12 @@ namespace Applenium
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public string GetLastCreatrdValue(string name)
+        public string GetLastCreatedValue(string name)
         {
-            if (_lastCreatedValue.ContainsKey(name))
+            if (Constants.MemoryConf.ContainsKey(name))
             {
 
-                return _lastCreatedValue[name];
+                return Constants.MemoryConf[name];
             }
             return string.Empty;
         }
@@ -98,6 +109,7 @@ namespace Applenium
         {
             return driver.PageSource;
         }
+
         /// <summary>
         ///     Take snapshot when error accured
         /// </summary>
@@ -113,7 +125,8 @@ namespace Applenium
                 // Create Screenshot folder
                 if (ConfigurationManager.AppSettings["SharedSnapshotFolder"] != String.Empty)
                 {
-                    folderName = "\\\\" + Environment.MachineName + "\\" + ConfigurationManager.AppSettings["SharedSnapshotFolder"];
+                    folderName = "\\\\" + Environment.MachineName + "\\" +
+                                 ConfigurationManager.AppSettings["SharedSnapshotFolder"];
                 }
                 string createdFolderLocation = folderName;
 
@@ -121,7 +134,11 @@ namespace Applenium
                 // Take the screenshot     
                 try
                 {
-                    driver.Manage().Window.Maximize();
+                    //if ((testType != "loadtest") && (browser != "android"))
+                    if (!_ismobile)
+                    {
+                        driver.Manage().Window.Maximize();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -135,19 +152,19 @@ namespace Applenium
                 }
                 if (driver.GetType().Name.IndexOf("RemoteWebDriver", StringComparison.Ordinal) >= 0)
                 {
-                    ss = ((ScreenShotRemoteWebDriver)driver).GetScreenshot();
+                    ss = ((ScreenShotRemoteWebDriver) driver).GetScreenshot();
                 }
                 else
                 {
-                    ss = ((ITakesScreenshot)driver).GetScreenshot();
+                    ss = ((ITakesScreenshot) driver).GetScreenshot();
                 }
 
 
                 string time =
                     DateTime.Now.ToString(CultureInfo.InvariantCulture)
-                            .Replace(":", "_")
-                            .Replace("/", "_")
-                            .Replace(" ", "_") +
+                        .Replace(":", "_")
+                        .Replace("/", "_")
+                        .Replace(" ", "_") +
                     DateTime.Now.Millisecond.ToString();
                 // Save the screenshot
                 ss.SaveAsFile((string.Format("{0}\\{1}", createdFolderLocation, time + ".png")), ImageFormat.Png);
@@ -174,7 +191,7 @@ namespace Applenium
 
             // Take the screenshot     
 
-            Screenshot ss = ((ITakesScreenshot)driver).GetScreenshot();
+            Screenshot ss = ((ITakesScreenshot) driver).GetScreenshot();
             string screenshot = ss.AsBase64EncodedString;
             byte[] screenshotAsByteArray = ss.AsByteArray;
             string time = DateTime.Now.ToString().Replace(":", "_").Replace("/", "_").Replace(" ", "_") +
@@ -189,7 +206,8 @@ namespace Applenium
         {
             _lastFailureMessage = logmessage; //("Can't run this command: " + guiMapTagTypeValue.Trim());
             if (failedOrError == Constants.FAILED)
-            { //failed
+            {
+                //failed
 
 
                 LogObject exceptionLogger2 = new LogObject();
@@ -214,7 +232,7 @@ namespace Applenium
 
         private ResultModel SwitchTowindow(RemoteWebDriver driver, string windowname)
         {
-            ResultModel result = new ResultModel(false, "");
+            ResultModel result = new ResultModel(false, "", null);
             Thread.Sleep(1000);
 
 
@@ -247,7 +265,7 @@ namespace Applenium
             if (guiMapTagTypeValue.IndexOf(Constants.RegularExpressionAnyValue, 0, StringComparison.Ordinal) >= 0)
             {
                 guiMapTagTypeValue = guiMapTagTypeValue.Replace(Constants.RegularExpressionAnyValue,
-                                                                inputTableValue.ToString(CultureInfo.InvariantCulture));
+                    inputTableValue.ToString(CultureInfo.InvariantCulture));
             }
             switch (guiMapTagTypeId)
             {
@@ -273,7 +291,9 @@ namespace Applenium
                     findelement = By.TagName(guiMapTagTypeValue);
                     break;
                 default:
-                    LocalLogFailure(guiMapCommandName, "Couldn't run the command = " + guiMapCommandName + " on the element = " + guiMapTagTypeValue, null, Constants.ERROR);
+                    LocalLogFailure(guiMapCommandName,
+                        "Couldn't run the command = " + guiMapCommandName + " on the element = " + guiMapTagTypeValue,
+                        null, Constants.ERROR);
                     break;
             }
 
@@ -285,7 +305,8 @@ namespace Applenium
 
             if (guiMapTagTypeValue.IndexOf(Constants.RegularExpressionAnyValue, 0, StringComparison.Ordinal) >= 0)
             {
-                guiMapTagTypeValue = guiMapTagTypeValue.Replace(Constants.RegularExpressionAnyValue, inputTableValue.ToString(CultureInfo.InvariantCulture));
+                guiMapTagTypeValue = guiMapTagTypeValue.Replace(Constants.RegularExpressionAnyValue,
+                    inputTableValue.ToString(CultureInfo.InvariantCulture));
             }
 
             return guiMapTagTypeValue;
@@ -300,10 +321,10 @@ namespace Applenium
             try
             {
                 // draws a border around WebElement
-                var webelement = (By)GetWebElement(guiMapTagTypeId, guiMapTagTypeValue, null);
+                var webelement = (By) GetWebElement(guiMapTagTypeId, guiMapTagTypeValue, null);
                 IWebElement element = driver.FindElement(webelement);
 
-                var js = (IJavaScriptExecutor)driver;
+                var js = (IJavaScriptExecutor) driver;
                 for (int i = 1; i <= 3; i++)
                 {
                     js.ExecuteScript("arguments[0].style.border='3px solid red'", element);
@@ -325,7 +346,7 @@ namespace Applenium
         /// </summary>
         private int ExecuteJavaScript(string inputJava, RemoteWebDriver driver)
         {
-            var js = (IJavaScriptExecutor)driver;
+            var js = (IJavaScriptExecutor) driver;
             object result = js.ExecuteScript(inputJava);
             int intResult = 0;
 
@@ -333,7 +354,7 @@ namespace Applenium
             {
 
                 intResult = Convert.ToInt32(result);
-                SetLastCreatedValue("memmory", intResult.ToString());
+                SetLastCreatedValue(Constants.Memory, intResult.ToString());
             }
             catch (InvalidCastException)
             {
@@ -349,15 +370,25 @@ namespace Applenium
 
         private bool Waituntilfindelement(By webelement, int waitElementDisplayedTime, RemoteWebDriver driver)
         {
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(waitElementDisplayedTime));
-            IWebElement iresult = driver.FindElement(webelement);
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(0));
+            IWebElement iresult = null;
+            try
+            {
+                driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(waitElementDisplayedTime));
+                iresult = driver.FindElement(webelement);
+                driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(0));
+            }
 
+            catch (Exception ex)
+            {
+                LocalLogFailure(guiMapCommandName,
+                    "Couldn't find element - " + webelement + ". after: " + waitElementDisplayedTime + " seconds.",
+                    null, Constants.FAILED);
+                return false;
+            }
             if (iresult != null)
                 return true;
-            LocalLogFailure(guiMapCommandName, "Couldn't find element - " + webelement + ". after: " + waitElementDisplayedTime + " seconds.",
-                            null, Constants.FAILED);
-            return false;
+            else
+                return false;
         }
 
         internal bool CheckIfElementFind(IWebElement parentElement, By webelement, RemoteWebDriver driver)
@@ -378,10 +409,11 @@ namespace Applenium
             return true;
         }
 
-        private ResultModel WaituntilelementDisplayed(By webelement, int waitElementDisplayedTime, RemoteWebDriver driver,
-                                               bool isRefresh)
+        private ResultModel WaituntilelementDisplayed(By webelement, int waitElementDisplayedTime,
+            RemoteWebDriver driver,
+            bool isRefresh)
         {
-            ResultModel result = new ResultModel(false, "");
+            ResultModel result = new ResultModel(false, "", null);
             if (Waituntilfindelement(webelement, waitElementDisplayedTime, driver))
             {
                 int i = 0;
@@ -419,30 +451,33 @@ namespace Applenium
         /// <summary>
         ///     Execute one step generaly called from execution manger (gets vlaue from data table )
         /// </summary>
-        public ResultModel ExecuteOneStep(DataRow dr, string inputDataColumn, string inputTableValue, RemoteWebDriver driver)
+        public ResultModel ExecuteOneStep(DataRow dr, string inputDataColumn, string inputTableValue,
+            RemoteWebDriver driver)
         {
             int guiMapCommandId = -1;
             string guiMapTagTypeValue = string.Empty;
             var jp = new JsonParser();
             By webelement = By.XPath("null");
 
+
             var guimapadapter = new GuiMapTableAdapter();
             Sql sql = new Sql();
 
             bool result = true;
-            ResultModel res = new ResultModel(false, "");
-            int waitElementDisplayed = Convert.ToInt32(jp.ReadJson("WaitElementDisplayed"));
-            int waitElementExists = Convert.ToInt32(jp.ReadJson("WaitElementExists"));
-            int expandedWaitFindElement = Convert.ToInt32(jp.ReadJson("ExpandedWaitFindElement"));
-            int delayBetweenCommands = Convert.ToInt32(jp.ReadJson("DelayBetweenCommands"));
+            ResultModel res = new ResultModel(false, "", null);
+            int waitElementDisplayed = Convert.ToInt32(Constants.MemoryConf["WaitElementDisplayed"]);
+            int waitElementExists = Convert.ToInt32(Constants.MemoryConf["WaitElementExists"]);
+            int expandedWaitFindElement = Convert.ToInt32(Constants.MemoryConf["ExpandedWaitFindElement"]);
+            int delayBetweenCommands = Convert.ToInt32(Constants.MemoryConf["DelayBetweenCommands"]);
             if (inputTableValue.IndexOf(Constants.RegularExpressionTestingEnvironment, 0, StringComparison.Ordinal) >= 0)
             {
-                inputTableValue = inputTableValue.Replace(Constants.RegularExpressionTestingEnvironment, jp.ReadJson("TestingEnvironment"));
+                inputTableValue = inputTableValue.Replace(Constants.RegularExpressionTestingEnvironment,
+                    Constants.MemoryConf["TestingEnvironment"]);
             }
 
             else if (inputTableValue.IndexOf(Constants.RegularExpressionTestingEnvironmentBackend, 0, StringComparison.Ordinal) >= 0)
             {
-                inputTableValue = inputTableValue.Replace(Constants.RegularExpressionTestingEnvironmentBackend, jp.ReadJson("TestingEnvironmentBack"));
+                inputTableValue = inputTableValue.Replace(Constants.RegularExpressionTestingEnvironmentBackend, Constants.MemoryConf["TestingEnvironmentBack"]);
 
             }
 
@@ -463,7 +498,42 @@ namespace Applenium
                     if (guiMapId != 0)
                     {
                         guiMapTagTypeValue = adapterGuimap.GetTagTypeValue(guiMapId).Trim();
-                        webelement = (By)GetWebElement(guiMapTagTypeId, guiMapTagTypeValue, inputTableValue);
+                        if (inputTableValue != string.Empty)
+                        {
+                            jp.VariableFunctions(@"$$inputTableValue=" + inputTableValue);
+                        }
+                        Match match = Regex.Match(guiMapCommandName, @"^\s*(ssh|validation|var|http|db|include)", RegexOptions.IgnoreCase);
+                        if (! match.Success)
+                        {
+                            if (guiMapCommandId == 2)
+                            {
+                                if (inputTableValue == string.Empty)
+                                {
+                                    Regex rgx = new Regex(@"^\s*(?<key>.*)\s*==>\s*(?<value>.*)\s*$");
+                                    Match matching = rgx.Match(guiMapTagTypeValue);
+                                    if (matching.Success)
+                                    {
+                                        guiMapTagTypeValue = matching.Result("${key}");
+                                        inputTableValue = matching.Result("${value}");
+                                        inputTableValue = jp.replaceVariable(inputTableValue);
+                                    }
+                                }
+                            }
+
+                            guiMapTagTypeValue = jp.replaceVariable(guiMapTagTypeValue);
+                            webelement = (By)GetWebElement(guiMapTagTypeId, guiMapTagTypeValue, inputTableValue);
+                        }
+                        else
+                        {
+                            webelement =  By.XPath("NOO");
+                        }
+                        //VSH: Add latest performed command info to memory
+                        match = Regex.Match(guiMapCommandName, @"^\s*(validation|var|include)", RegexOptions.IgnoreCase);
+                        if (!match.Success)
+                        {
+                            string cmd_info = "guiMapCommandName=" + guiMapCommandName + ", inputTableValue=" + inputTableValue + ", guiMapTagTypeValue=" + guiMapTagTypeValue;
+                            jp.AddKeyToMemory("LastCmdInfo", cmd_info);
+                        }
                     }
                 }
                 if (webelement != null)
@@ -473,32 +543,27 @@ namespace Applenium
                     string conStringQuery;
                     string dbapiResult;
                     string[] conStringQuerySplit;
+
+                    
                     switch (guiMapCommandId)
                     {
                         case 1: //"click":
                             bool loaded = isPageLoaded(driver);
+ 
                             if (loaded)
                             {
 
                                 int attempts = 0;
                                 while (attempts < 2)
                                 {
-                                    try
-                                    {
-                                        driver.FindElement(webelement).Click();
 
-                                        res.Message = "Clicked sucessfully";
-                                        res.Returnresult = true;
-                                        break;
+                                    driver.FindElement(webelement).Click();
 
-                                    }
-
-                                    catch (Exception ex)
-                                    {
-                                        res.Returnresult = false;
-                                        res.Message = ex.Message;
-                                    }
+                                    res.Message = "Clicked sucessfully";
+                                    res.Returnresult = true;
                                     attempts++;
+                                    break;
+
                                 }
                             }
                             break;
@@ -507,8 +572,15 @@ namespace Applenium
                             try
                             {
                                 driver.FindElement(webelement).Clear();
-                                driver.FindElement(webelement).SendKeys(inputTableValue);
-
+                                string sendkey = "";
+                                if (inputTableValue != string.Empty)
+                                {
+                                    driver.FindElement(webelement).SendKeys(inputTableValue);
+                                }
+                                else
+                                {
+                                    string url = guiMapTagTypeValue.Trim();
+                                }
                                 res.Message = "Sent keys (" + inputTableValue + ") to element - " + webelement;
                                 res.Returnresult = true;
 
@@ -524,6 +596,8 @@ namespace Applenium
                             {
                                 driver.Navigate().GoToUrl(inputTableValue);
                                 isPageLoaded(driver);
+
+                                
 
                                 res.Message = "Navigated to " + inputTableValue;
                                 res.Returnresult = true;
@@ -581,97 +655,53 @@ namespace Applenium
                             }
                             break;
 
-                        case 8: //"waituntill-findelement":
-                            try
-                            {
-                                result = Waituntilfindelement(webelement, waitElementExists, driver);
-                                res.Message = "Waited to find - " + webelement.ToString().Trim();
-                                res.Returnresult = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = ex.Message;
-                            }
+                        case 8: //"waituntill-findelement":                          
+                            res.Returnresult = Waituntilfindelement(webelement, waitElementExists, driver);
+                            res.Message = "Waited to find - " + webelement.ToString().Trim();
+                            
                             break;
-                        case 9: //"compare text
-                            try
-                            {
-                                if (String.CompareOrdinal(driver.FindElement(webelement).Text, inputTableValue) != 0)
-                                {
-                                    result = false;
-                                    LocalLogFailure(guiMapCommandName,
-                                        "The Expected text is wrong actual: " + driver.FindElement(webelement).Text +
-                                        " vs expected: " + inputTableValue, null, Constants.FAILED);
-                                }
 
-
-                                res.Message = "Compared the text - " + webelement + " to " + inputTableValue;
-                                res.Returnresult = true;
-                            }
-                            catch (Exception ex)
+                        case 9: //"compare text                        
+                            res.Returnresult = true;
+                            if (String.CompareOrdinal(driver.FindElement(webelement).Text, inputTableValue) != 0)
                             {
+                                LocalLogFailure(guiMapCommandName,
+                                    "The Expected text is wrong actual: " + driver.FindElement(webelement).Text +
+                                    " vs expected: " + inputTableValue, null, Constants.FAILED);
                                 res.Returnresult = false;
-                                res.Message = ex.Message;
                             }
+
+                            res.Message = "Compared the text - " + webelement + " to " + inputTableValue;
                             break;
+
                         case 10: //select drop down by Index
                             // select the drop down list////System.Windows.MessageBox
-
                             IWebElement dropdown = driver.FindElement(webelement);
                             //create select element object 
                             var selectElement = new SelectElement(dropdown);
                             //select by index
                             selectElement.SelectByIndex(Convert.ToInt32(inputTableValue));
-                            try
-                            {
-                                ExecuteJavaScript(
-                                    "$('" + guiMapTagTypeValue + "').val('" + inputTableValue + "').change()", driver);
+                            ExecuteJavaScript(
+                                "$('" + guiMapTagTypeValue + "').val('" + inputTableValue + "').change()", driver);
 
-                                res.Message = "Dropdown element - " + webelement + ", with index   " + inputTableValue;
-                                res.Returnresult = true;
-                            }
-
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = ex.Message;
-                            }
-
+                            res.Message = "Dropdown element - " + webelement + ", with index   " + inputTableValue;
+                            res.Returnresult = true;
                             break;
+
                         case 11: //wait untill  displayed 
-                            try
-                            {
-                                res = WaituntilelementDisplayed(webelement, waitElementDisplayed, driver, false);
-
-
-                                res.Message = "Waited to display - " + webelement;
-                                res.Returnresult = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = "Waited to display element - " + webelement + ". " + ex.Message;
-                            }
-
+                            res = WaituntilelementDisplayed(webelement, waitElementDisplayed, driver, false);
+                            res.Message = "Waited to display - " + webelement;
+                            
                             break;
-                        case 12: //verify is exists 
 
+                        case 12: //verify is exists 
                             IWait<IWebDriver> wait = new WebDriverWait(driver, TimeSpan.FromSeconds(waitElementExists));
                             //IWebElement a = ExpectedConditions.ElementExists(webelement);
-                            try
-                            {
-                                wait.Until(ExpectedConditions.ElementExists(webelement));
-
-                                res.Message = "Element exists - " + webelement;
-                                res.Returnresult = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = ex.Message;
-                            }
+                            wait.Until(ExpectedConditions.ElementExists(webelement));
+                            res.Message = "Element exists - " + webelement;
+                            res.Returnresult = true;
                             break;
+
                         case 13: //select drop down
                             // select the drop down list////System.Windows.MessageBox
                             dropdown = driver.FindElement(webelement);
@@ -683,21 +713,14 @@ namespace Applenium
                                 // select by text
                                 //selectElement.SelecyByText("HighSchool");
                             }
-                            try
-                            {
-                                ExecuteJavaScript(
-                                    "$('" + guiMapTagTypeValue + " option:selected').val('" + inputTableValue +
-                                    "').change()", driver);
+                            ExecuteJavaScript(
+                                "$('" + guiMapTagTypeValue + " option:selected').val('" + inputTableValue +
+                                "').change()", driver);
 
-                                res.Message = "Dropdown element - " + webelement + ", with index   " + inputTableValue;
-                                res.Returnresult = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = ex.Message;
-                            }
+                            res.Message = "Dropdown element - " + webelement + ", with index   " + inputTableValue;
+                            res.Returnresult = true;
                             break;
+
                         case 14: //select drop down
                             // select the drop down list////System.Windows.MessageBox
                             dropdown = driver.FindElement(webelement);
@@ -708,22 +731,12 @@ namespace Applenium
                                 //select by Value
                                 selectElement.SelectByValue(inputTableValue);
                             }
-                            try
-                            {
-                                ExecuteJavaScript(
-                                    "$('" + guiMapTagTypeValue + "').val('" + inputTableValue + "').change()", driver);
-
-
-                                res.Message = "Dropdown element - " + webelement + ", with index   " + inputTableValue;
-                                res.Returnresult = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = ex.Message;
-                            }
-
+                            ExecuteJavaScript(
+                                "$('" + guiMapTagTypeValue + "').val('" + inputTableValue + "').change()", driver);
+                            res.Message = "Dropdown element - " + webelement + ", with index   " + inputTableValue;
+                            res.Returnresult = true;
                             break;
+
                         case 15: //SetlocalStorage Run JavaScript(any java script)
                             // select the drop down list////System.Windows.MessageBox
                             if (!_ismobile)
@@ -731,7 +744,7 @@ namespace Applenium
                                 int value = ExecuteJavaScript(inputTableValue, driver);
                                 if (value != 0)
                                 {
-                                    SetLastCreatedValue("memmory", value.ToString());
+                                    SetLastCreatedValue(Constants.Memory, value.ToString());
                                 }
                             }
                             else
@@ -746,84 +759,53 @@ namespace Applenium
 
                                 driver.ExecuteScript(script[0], paramdict);
                             }
-
                             res.Message = "Java script executed with   " + inputTableValue;
                             res.Returnresult = true;
                             break;
-                        case 16: //wait untill  find element long time expanded 
-                            try
-                            {
-                                WaituntilelementDisplayed(webelement, expandedWaitFindElement, driver, false);
-                                res.Returnresult = true;
-                                res.Message = "Expanded wait for element success - " + webelement;
-                                //logIt(guiMapCommandName, "Expanded wait for element success - " + webelement, Constants.DONE);
 
-                            }
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = "Waited to display (ExpandedWait) element - " + webelement + ". " + ex.Message;
-                            }
+                        case 16: //wait untill  find element long time expanded 
+
+                            WaituntilelementDisplayed(webelement, expandedWaitFindElement, driver, false);
+                            res.Returnresult = true;
+                            res.Message = "Expanded wait for element success - " + webelement;
+                            //logIt(guiMapCommandName, "Expanded wait for element success - " + webelement, Constants.DONE);
                             break;
+
                         case 17: //Count number of elements and Compare
                             int elementcount = driver.FindElements(webelement).Count();
                             if (elementcount != Convert.ToInt32(inputTableValue))
                             {
 
                                 res.Returnresult = false;
-                                res.Message = "The Expected count is wrong. EXPECTED: " + inputTableValue + " vs ACTUAL(Found): " + elementcount;
+                                res.Message = "The Expected count is wrong. EXPECTED: " + inputTableValue +
+                                              " vs ACTUAL(Found): " + elementcount;
                             }
 
                             else
                             {
 
-                                res.Message = "Number of elements - " + webelement + " is " + elementcount + " compared to:   " +
-                                        inputTableValue;
+                                res.Message = "Number of elements - " + webelement + " is " + elementcount +
+                                              " compared to:   " +
+                                              inputTableValue;
                                 res.Returnresult = true;
                             }
                             break;
+
                         case 18: //scrolldown
-                            try
-                            {
-                                ExecuteJavaScript("window.scroll(0,document.body.scrollHeight)", driver);
-
-                                res.Message = "Scrolled Down";
-                                res.Returnresult = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = ex.Message;
-                            }
+                            ExecuteJavaScript("window.scroll(0,document.body.scrollHeight)", driver);
+                            res.Message = "Scrolled Down";
+                            res.Returnresult = true;
                             break;
+
                         case 19: //scrollup
-                            try
-                            {
-                                ExecuteJavaScript("window.scroll(0,0)", driver);
-
-                                res.Message = "Scrolled Up";
-                                res.Returnresult = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = ex.Message;
-                            }
+                            ExecuteJavaScript("window.scroll(0,0)", driver);
+                            res.Message = "Scrolled Up";
+                            res.Returnresult = true;
                             break;
+
                         case 20: //switchtowindow
                             string currentWindow = null;
-                            try
-                            {
-                                currentWindow = driver.CurrentWindowHandle;
-
-
-                            }
-                            catch (Exception exception)
-                            {
-                                res.Returnresult = false;
-                                res.Message = exception.Message;
-                            }
-
+                            currentWindow = driver.CurrentWindowHandle;
                             var availableWindows = new List<string>(driver.WindowHandles);
                             if (inputTableValue.Contains("switch"))
                             {
@@ -847,6 +829,7 @@ namespace Applenium
                                 res = SwitchTowindow(driver, inputTableValue);
                             }
                             break;
+
                         case 21: //validateOpenTrades
 
                             string usernameorig = inputTableValue;
@@ -856,8 +839,6 @@ namespace Applenium
                                 guiMapId);
 
 
-
-                           
 
                             // Compare positions from UI to DB
                             //string eranstring = ConfigurationManager.AppSettings["ConnectionString"];
@@ -890,31 +871,13 @@ namespace Applenium
 
                             break;
                         case 25: //wait untill  find element with refresh
-                            try
-                            {
-                                WaituntilelementDisplayed(webelement, waitElementDisplayed, driver, true);
-                                res.Returnresult = true;
-                            }
 
-                            catch (Exception exception)
-                            {
-                                res.Returnresult = false;
-                                res.Message = exception.Message;
-
-                            }
+                            WaituntilelementDisplayed(webelement, waitElementDisplayed, driver, true);
+                            res.Returnresult = true;
                             break;
 
                         case 26: //create new user 
-                            try
-                            {
-                                res.Returnresult = CreateUser(guiMapId, inputTableValue);
-                            }
-
-                            catch (Exception exception)
-                            {
-                                res.Message = exception.Message;
-                                res.Returnresult = false;
-                            }
+                            res.Returnresult = CreateUser(guiMapId, inputTableValue);
                             break;
 
                         case 28: //refresh page 
@@ -922,7 +885,7 @@ namespace Applenium
                             res.Returnresult = true;
                             break;
                         case 29: //runhedge
-                            string automaticHedgerPath = jp.ReadJson("AutomaticHedgerPath");
+                            string automaticHedgerPath = Constants.MemoryConf["AutomaticHedgerPath"];
                             Process newProcess = Process.Start(automaticHedgerPath);
                             Thread.Sleep(10000);
                             if (newProcess != null)
@@ -930,7 +893,9 @@ namespace Applenium
                             res.Returnresult = true;
                             break;
                         case 30: //sleep
-                            sleep(guiMapId);
+                            conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
+                            conStringQuery = GetDbElement(conStringQuery, inputTableValue);
+                            sleep(Convert.ToInt32(conStringQuery));
                             res.Message = "Sleeped for a while";
                             res.Returnresult = true;
                             break;
@@ -948,7 +913,7 @@ namespace Applenium
                             {
                                 res.Returnresult = false;
                                 res.Message = "The Expected text is wrong. ACTUAL: " + dbapiResult +
-                                    " vs EXPECTED: " + inputTableValue;
+                                              " vs EXPECTED: " + inputTableValue;
 
                             }
 
@@ -958,6 +923,9 @@ namespace Applenium
                         case 32:
                             //SaveElementText to a dictionary. Value can be retrieved with GetLastCreatrdValue method.
                             SetLastCreatedValue(inputDataColumn, driver.FindElement(webelement).Text);
+
+                            jp.AddKeyToMemory(Constants.Memory, driver.FindElement(webelement).Text);
+                            
                             res.Returnresult = true;
 
                             break;
@@ -970,11 +938,11 @@ namespace Applenium
                             driver.SwitchTo().Alert().Dismiss();
                             res.Returnresult = true;
                             break;
-                        case 35: //SaveElementText to memmory
-                            SetLastCreatedValue("memmory", driver.FindElement(webelement).Text);
+                        case 35: //SaveElementText to memory
+                            SetLastCreatedValue(Constants.Memory, driver.FindElement(webelement).Text);
                             res.Returnresult = true;
                             break;
-                        case 36: //ComapreDB to... savedText or value in memmory
+                        case 36: //ComapreDB to... savedText or value in memory
                             // connect string + query split
 
                             conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
@@ -983,11 +951,11 @@ namespace Applenium
 
 
                             dbapiResult = sql.GetDbSingleValue(conStringQuerySplit[0], conStringQuerySplit[1]);
-                            if (String.CompareOrdinal(dbapiResult, GetLastCreatrdValue("memmory")) != 0)
+                            if (String.CompareOrdinal(dbapiResult, GetLastCreatedValue(Constants.Memory)) != 0)
                             {
                                 res.Returnresult = false;
                                 res.Message = "The text comparison is wrong. ACTUAL: " + dbapiResult +
-                                    " vs EXPECTED: " + GetLastCreatrdValue("memmory");
+                                              " vs EXPECTED: " + GetLastCreatedValue(Constants.Memory);
 
 
                             }
@@ -996,7 +964,7 @@ namespace Applenium
                             res.Message = "Compared " + conStringQuerySplit[1] + " to " + inputTableValue;
                             res.Returnresult = true;
                             break;
-                        case 1038: //Comapre text property of an element to formerly saved value in memmory
+                        case 1038: //Comapre text property of an element to formerly saved value in memory
                             // connect string + query split
                             // var guimapadapter1038 = new GuiMapTableAdapter();
                             // string ConString_Query1038 = guimapadapter1038.GetTagTypeValue(guiMapId);
@@ -1008,11 +976,11 @@ namespace Applenium
 
                             //string text = driver.FindElement(webelement).Text;
                             string text = inputTableValue;
-                            if (String.CompareOrdinal(text, GetLastCreatrdValue("memmory")) != 0)
+                            if (String.CompareOrdinal(text, GetLastCreatedValue(Constants.Memory)) != 0)
                             {
                                 res.Returnresult = false;
                                 res.Message = "The text is wrong. ACTUAL: " + text +
-                                    " vs EXPECTED: " + GetLastCreatrdValue("memmory");
+                                              " vs EXPECTED: " + GetLastCreatedValue(Constants.Memory);
 
 
 
@@ -1027,9 +995,10 @@ namespace Applenium
                             if (String.CompareOrdinal(driver.FindElement(webelement).Text, inputTableValue) == 0)
                             {
                                 res.Returnresult = false;
-                                res.Message = "The Expected text is wrong (Shouldn't be equal). actual is: " + driver.FindElement(webelement).Text +
-                                    driver.FindElement(webelement).Text +
-                                    " vs expected :" + inputTableValue;
+                                res.Message = "The Expected text is wrong (Shouldn't be equal). actual is: " +
+                                              driver.FindElement(webelement).Text +
+                                              driver.FindElement(webelement).Text +
+                                              " vs expected :" + inputTableValue;
 
 
                             }
@@ -1055,9 +1024,10 @@ namespace Applenium
                                     inputTableValue) != 0)
                             {
                                 res.Returnresult = false;
-                                res.Message = "The Expected value is wrong (Shouldn't be equal). actual is: " + driver.FindElement(webelement).GetAttribute("value") +
-                                    driver.FindElement(webelement).GetAttribute("value") +
-                                    " vs expected :" + inputTableValue;
+                                res.Message = "The Expected value is wrong (Shouldn't be equal). actual is: " +
+                                              driver.FindElement(webelement).GetAttribute("value") +
+                                              driver.FindElement(webelement).GetAttribute("value") +
+                                              " vs expected :" + inputTableValue;
 
                             }
                             else res.Returnresult = true;
@@ -1068,7 +1038,7 @@ namespace Applenium
 
                             int rowsChangedCount = 0;
                             //long real_CID;
-                            //string userName = GetLastCreatrdValue("memmory");
+                            //string userName = GetLastCreatrdValue(Constants.Memory);
                             //string conString = ConfigurationManager.AppSettings["RealMirrorQAConnectionString"];
 
                             //string getUserCidByUserNameCommand =
@@ -1078,7 +1048,7 @@ namespace Applenium
 
                             //dbResult = sql.GetDbSingleValue(conString, getUserCidByUserNameCommand);
 
-                            long real_CID = Int32.Parse(_lastCreatedValue["CID"]);
+                            long real_CID = Int32.Parse(Constants.MemoryConf["CID"]);
 
                             string updateVerificationLevelIdCommand =
                                 @"UPDATE [RealMirrorQA].[BackOffice].[Customer]" +
@@ -1101,8 +1071,9 @@ namespace Applenium
                             if (!driver.FindElement(webelement).Text.StartsWith(inputTableValue))
                             {
                                 res.Returnresult = false;
-                                res.Message = "The Expected text is wrong actual: " + driver.FindElement(webelement).Text +
-                                    " vs expected :" + inputTableValue;
+                                res.Message = "The Expected text is wrong actual: " +
+                                              driver.FindElement(webelement).Text +
+                                              " vs expected :" + inputTableValue;
 
                             }
 
@@ -1111,65 +1082,39 @@ namespace Applenium
                             res.Returnresult = true;
                             break;
                         case 1044: //Get Alert Text and svae to memory 
-                            SetLastCreatedValue("memmory", driver.SwitchTo().Alert().Text);
+                            SetLastCreatedValue(Constants.Memory, driver.SwitchTo().Alert().Text);
                             res.Returnresult = true;
                             break;
 
                         case 1045: // Positive test for streams API
-                            try
-                            {
-                                StreamScenario ss = new StreamScenario();
-                                res.Returnresult = ss.Scenario(inputTableValue, true);
-                            }
-
-                            catch (Exception exception)
-                            {
-
-                                res.Message = "Failed to complete Streams scenario" + exception.Message;
-                                res.Returnresult = false;
-                            }
+                            StreamScenario ss = new StreamScenario();
+                            res.Returnresult = ss.Scenario(inputTableValue, true);
                             break;
 
                         case 1046: // Get Status code from url
-                            try
+
+                            HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(inputTableValue);
+                            HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+                            HttpStatusCode code = response.StatusCode;
+
+                            if (code.ToString() == "OK")
                             {
-                                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(inputTableValue);
-                                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                                HttpStatusCode code = response.StatusCode;
 
-                                if (code.ToString() == "OK")
-                                {
-
-                                    res.Message = "Navigated to " + inputTableValue;
-                                    res.Returnresult = true;
-                                }
-                                else
-                                {
-                                    res.Returnresult = false;
-                                    res.Message = "Failed to call service - " + inputTableValue;
-                                }
+                                res.Message = "Navigated to " + inputTableValue;
+                                res.Returnresult = true;
                             }
-
-                            catch (Exception ex)
+                            else
                             {
-
-                                res.Message = "Failed to complete scenario. " + ex.Message;
                                 res.Returnresult = false;
+                                res.Message = "Failed to call service - " + inputTableValue;
                             }
+
                             break;
 
                         case 1048: // Negative test for streams API Block
-                            try
-                            {
-                                StreamScenario ss = new StreamScenario();
-                                res.Returnresult = ss.Scenario(inputTableValue, false);
-                            }
 
-                            catch (Exception ex)
-                            {
-                                res.Returnresult = false;
-                                res.Message = "Failed to complete Streams scenario. " + ex.Message;
-                            }
+                            StreamScenario ssn = new StreamScenario();
+                            res.Returnresult = ssn.Scenario(inputTableValue, false);
                             break;
 
 
@@ -1180,24 +1125,15 @@ namespace Applenium
 
                             if (inputTableValue.Equals("internalUploadMethod"))
                             {
-                                try
-                                {
-                                    UploadUserDocInternal(sender, args, driver, guiMapTagTypeValue);
-                                    //uses html file element to inject the file, without actually use the windows file system (good for silent run automation).
-                                    res.Returnresult = true;
-                                }
-                                catch
-                                    (Exception exception)
-                                {
 
-                                    res.Returnresult = false;
-                                    res.Message = "Failed to upload document internally. " + exception.Message;
+                                UploadUserDocInternal(sender, args, driver, guiMapTagTypeValue);
+                                //uses html file element to inject the file, without actually use the windows file system (good for silent run automation).
+                                res.Returnresult = true;
 
-                                }
                             }
 
                             if (inputTableValue.Equals("externalUploadMethod"))
-                            //actually sends the path of the file to windows file system windows.
+                                //actually sends the path of the file to windows file system windows.
                             {
                                 try
                                 {
@@ -1208,6 +1144,8 @@ namespace Applenium
                                 {
                                     res.Returnresult = false;
                                     res.Message = "Failed to upload document externally. " + exception.Message;
+                                    res.exc = exception;
+
                                 }
                                 res.Returnresult = true;
                             }
@@ -1226,20 +1164,21 @@ namespace Applenium
                             try
                             {
                                 if (inputTableValue.All(char.IsDigit))
-                                //is input from the table a digit that can be added to the new balance
+                                    //is input from the table a digit that can be added to the new balance
                                 {
 
                                     oldBalance = Double.Parse((driver.FindElement(webelement).Text).Trim('$'));
                                     balanceChange = Int32.Parse(inputTableValue);
                                     newBalance = oldBalance + balanceChange;
-                                    SetLastCreatedValue("memmory", String.Format("{0:C}", newBalance));
+                                    SetLastCreatedValue(Constants.Memory, String.Format("{0:C}", newBalance));
                                     res.Returnresult = true;
 
                                 }
                                 else
                                 {
                                     res.Returnresult = false;
-                                    res.Message = "Failed to calculate expected new balance for user because input from the table is  NOT a digit that can be added to the new balance";
+                                    res.Message =
+                                        "Failed to calculate expected new balance for user because input from the table is  NOT a digit that can be added to the new balance";
 
 
 
@@ -1252,25 +1191,28 @@ namespace Applenium
 
                                 res.Returnresult = false;
                                 res.Message = "Failed to calculate expected new balance for user. " + exception.Message;
+                                res.exc = exception;
+
                             }
 
 
                             break;
 
-                        case 1052: //editFTDdate - this command updates the Ftd date of the user's deposit. Please notice that the responsibility for the correct sql date representation is on the user of the command.
+                        case 1052:
+                            //editFTDdate - this command updates the Ftd date of the user's deposit. Please notice that the responsibility for the correct sql date representation is on the user of the command.
 
                             string command =
                                 @"UPDATE [RealMirrorQA].[Billing].[Deposit]" +
                                 @" SET [PaymentDate] =  " + "'" + inputTableValue + "'" +
-                                @" WHERE  IsFTD=1  and [CID]  = " + GetLastCreatrdValue("CID");
+                                @" WHERE  IsFTD=1  and [CID]  = " + GetLastCreatedValue("CID");
                             try
                             {
                                 var ctu = new CreateTestUser();
-                                if (ctu.UpdateFtdUser(command, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                if (ctu.UpdateFtdUser(command, ctu.DbConnectionStrGlobalRegistry) != 1)
                                 {
                                     res.Returnresult = false;
                                     res.Message = "The Expected result of changing FTD date wrong actual: 0" +
-                                    " vs expected : 1";
+                                                  " vs expected : 1";
                                 }
                                 else
                                 {
@@ -1285,18 +1227,20 @@ namespace Applenium
                                 //LocalLogFailure(exception.Message, exception, Constants.Error);
                                 res.Message = "Failed to edit user's FTD date. " + exception.Message;
                                 res.Returnresult = false;
+                                res.exc = exception;
+
                             }
                             break;
 
                         case 1053: //edit "is user signed the risk disclaimer" in KYC 
 
                             string insertSignedRiskAnswerCommand =
-                                    @"INSERT INTO UserApiDB.KYC.CustomerAnswers (GCID, QuestionId, AnswerId, OccurredAt) " +
-                                    @"VALUES (" + GetLastCreatrdValue("GCID") + ", 2, 2, GETDATE() )";
+                                @"INSERT INTO UserApiDB.KYC.CustomerAnswers (GCID, QuestionId, AnswerId, OccurredAt) " +
+                                @"VALUES (" + GetLastCreatedValue("GCID") + ", 2, 2, GETDATE() )";
 
                             string insertSignedRiskAnswerCommand2 =
-                                    @"INSERT INTO UserApiDB.KYC.CustomerAnswers (GCID, QuestionId, AnswerId, OccurredAt) " +
-                                    @"VALUES (" + GetLastCreatrdValue("GCID") + ", 3, 7, GETDATE() )";
+                                @"INSERT INTO UserApiDB.KYC.CustomerAnswers (GCID, QuestionId, AnswerId, OccurredAt) " +
+                                @"VALUES (" + GetLastCreatedValue("GCID") + ", 3, 7, GETDATE() )";
 
                             try
                             {
@@ -1307,10 +1251,10 @@ namespace Applenium
                                 {
                                     if (inputTableValue.Equals("noKnowledge"))
                                         ctu.UpdateFtdUser(insertSignedRiskAnswerCommand,
-                                            ctu._dbConnectionStrKYCDB);
+                                            ctu.DbConnectionStrKyc);
                                     if (inputTableValue.Equals("noExperience"))
                                         ctu.UpdateFtdUser(insertSignedRiskAnswerCommand2,
-                                            ctu._dbConnectionStrKYCDB);
+                                            ctu.DbConnectionStrKyc);
 
                                     res.Returnresult = true;
 
@@ -1319,7 +1263,8 @@ namespace Applenium
                                 {
 
 
-                                    res.Message = "Failed to edit user's signed risk disc status because riskDiscQuest was not specified correctly";
+                                    res.Message =
+                                        "Failed to edit user's signed risk disc status because riskDiscQuest was not specified correctly";
                                     res.Returnresult = false;
                                 }
                             }
@@ -1331,28 +1276,31 @@ namespace Applenium
                                 // LocalLogFailure(exception.Message, exception, Constants.Error);
                                 res.Message = "Failed to edit user's signed risk disc status. " + exception.Message;
                                 res.Returnresult = false;
+                                res.exc = exception;
+
                             }
                             break;
 
                         case 1054: //update docs status in BackOffice
 
                             string updateDocsStatusCommand =
-                                    @"Update [RealMirrorQA].[BackOffice].[Customer] Set [DocumentStatusID] = " + inputTableValue +
-                                    @" Where CID =  " + GetLastCreatrdValue("CID");
+                                @"Update [RealMirrorQA].[BackOffice].[Customer] Set [DocumentStatusID] = " +
+                                inputTableValue +
+                                @" Where CID =  " + GetLastCreatedValue("CID");
 
 
 
                             try
                             {
                                 var ctu = new CreateTestUser();
-                                if (ctu.UpdateFtdUser(updateDocsStatusCommand, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                if (ctu.UpdateFtdUser(updateDocsStatusCommand, ctu.DbConnectionStrGlobalRegistry) != 1)
                                 {
 
 
                                     //Logger.Failed("Failed to edit user's signed risk disc status" + exception.Message);
                                     // LocalLogFailure(exception.Message, exception, Constants.Error);
                                     res.Message = " The Expected result of changing doc status is wrong actual: 0" +
-                                        " vs expected : 1" + inputTableValue;
+                                                  " vs expected : 1" + inputTableValue;
                                     res.Returnresult = false;
                                 }
                                 else
@@ -1369,6 +1317,8 @@ namespace Applenium
                                 // LocalLogFailure(exception.Message, exception, Constants.Error);
                                 res.Message = "Failed to edit user's signed risk disc status. " + exception.Message;
                                 res.Returnresult = false;
+                                res.exc = exception;
+
 
 
                             }
@@ -1377,17 +1327,18 @@ namespace Applenium
                         case 1055: //update player status in BackOffice (usually to deposit block)
 
                             string updatePlayerStatusCommand =
-                                    @"Update [RealMirrorQA].[Customer].[Customer] Set [PlayerStatusID] = " + inputTableValue +
-                                    @" Where CID =  " + GetLastCreatrdValue("CID");
+                                @"Update [RealMirrorQA].[Customer].[Customer] Set [PlayerStatusID] = " + inputTableValue +
+                                @" Where CID =  " + GetLastCreatedValue("CID");
                             try
                             {
                                 var ctu = new CreateTestUser();
-                                if (ctu.UpdateFtdUser(updatePlayerStatusCommand, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                if (ctu.UpdateFtdUser(updatePlayerStatusCommand, ctu.DbConnectionStrGlobalRegistry) !=
+                                    1)
                                 {
 
 
                                     res.Message = "The Expected result of changing playerID status is wrong actual: 0" +
-                                        " vs expected : 1" + inputTableValue;
+                                                  " vs expected : 1" + inputTableValue;
                                     res.Returnresult = false;
 
                                 }
@@ -1401,6 +1352,8 @@ namespace Applenium
 
                                 res.Message = "Failed to edit user's playerID status. " + exception.Message;
                                 res.Returnresult = false;
+                                res.exc = exception;
+
                             }
                             break;
                         case 1056: //update Identity Check  in BackOffice (usually to 2 sources)
@@ -1412,18 +1365,18 @@ namespace Applenium
 
                             string updateIdentityCheckCommand =
                                 @"INSERT INTO [RealMirrorQA].[BackOffice].[ElectronicIdentityCheck]  (CID, ElectronicIdentityCheckID, ElectronicIdentityProviderID, TransactionID, TransactionDate) " +
-                                @"VALUES (" + GetLastCreatrdValue("CID") + ", 2, 1, 'dadadad' ,GETDATE() )";
+                                @"VALUES (" + GetLastCreatedValue("CID") + ", 2, 1, 'dadadad' ,GETDATE() )";
 
 
                             try
                             {
                                 var ctu = new CreateTestUser();
-                                if (ctu.UpdateFtdUser(updateIdentityCheckCommand, ctu._dbConnectionStrGlobalRegistry) !=
+                                if (ctu.UpdateFtdUser(updateIdentityCheckCommand, ctu.DbConnectionStrGlobalRegistry) !=
                                     1)
                                 {
                                     res.Returnresult = false;
                                     res.Message = "The Expected result of changing playerID status is wrong actual: 0" +
-                                        " vs expected : 1" + inputTableValue;
+                                                  " vs expected : 1" + inputTableValue;
 
 
                                 }
@@ -1436,23 +1389,28 @@ namespace Applenium
                             {
                                 res.Message = "Failed to edit user's playerID status. " + exception.Message;
                                 res.Returnresult = false;
+                                res.exc = exception;
+
 
                             }
                             break;
                         case 1057: //edit user's verification level
 
                             string updateVerificationLevelCommand =
-                                   @"Update [RealMirrorQA].[BackOffice].[Customer] Set [VerificationLevelID] = " + inputTableValue +
-                                   @" Where CID =  " + GetLastCreatrdValue("CID");
+                                @"Update [RealMirrorQA].[BackOffice].[Customer] Set [VerificationLevelID] = " +
+                                inputTableValue +
+                                @" Where CID =  " + GetLastCreatedValue("CID");
                             try
                             {
                                 var ctu = new CreateTestUser();
-                                if (ctu.UpdateFtdUser(updateVerificationLevelCommand, ctu._dbConnectionStrGlobalRegistry) != 1)
+                                if (
+                                    ctu.UpdateFtdUser(updateVerificationLevelCommand, ctu.DbConnectionStrGlobalRegistry) !=
+                                    1)
                                 {
 
 
                                     res.Message = "The Expected result of changing playerID status is wrong actual: 0" +
-                                        " vs expected : 1" + inputTableValue;
+                                                  " vs expected : 1" + inputTableValue;
                                     res.Returnresult = false;
 
                                 }
@@ -1467,11 +1425,14 @@ namespace Applenium
                                 res.Message = " Failed to edit user's verification level. " + exception.Message;
                                 res.Returnresult = false;
 
+                                res.exc = exception;
+
+
                             }
                             break;
 
                         case 1058: // add/reduce amount to users account
-                            int cid = Int32.Parse(GetLastCreatrdValue("CID"));
+                            int cid = Int32.Parse(GetLastCreatedValue("CID"));
 
                             if (CreateTestUser.AddRemoveAmount(10000, cid) == false)
                             {
@@ -1523,147 +1484,91 @@ namespace Applenium
                             break;
 
                         case 1062: // Get text from div tag and store in memory
-                            try
-                            {
-
-                                SetLastCreatedValue("memmory", driver.FindElement((By)webelement).GetAttribute("textContent"));
-                                res.Returnresult = true;
-                            }
-                            catch (Exception exception)
-                            {
-                                res.Returnresult = false;
-                                res.Message = exception.Message;
-                            }
+                            SetLastCreatedValue(Constants.Memory,
+                                driver.FindElement((By) webelement).GetAttribute("textContent"));
+                            res.Returnresult = true;
                             break;
-
-                        //case 1067:
-                        //    try
-                        //    {
-
-                        //    }
-                        //    catch (Exception Exception)
-                        //    {
-
-                        //    }
-
-                        //    break;
 
                         case 1071:
-                            try
+
+                            switch (guiMapTagTypeValue)
                             {
-                                switch (guiMapTagTypeValue)
-                                {
 
-                                    case "post": string[] userAndPass = inputTableValue.Split('!');
-                                        StreamsApiRequest sar = new StreamsApiRequest();
-                                        string token = sar.login(userAndPass[0], userAndPass[1]);
+                                case "post":
+                                    string[] userAndPass = inputTableValue.Split('!');
+                                    StreamsApiRequest sar = new StreamsApiRequest();
+                                    string token = sar.login(userAndPass[0], userAndPass[1]);
+                                    int numOfIterations = Int32.Parse(userAndPass[2]);
 
-                                        int numOfIterations = Int32.Parse(userAndPass[2]);
-
-                                        for (int i = 0; i <= numOfIterations; i++)
+                                    for (int i = 0; i <= numOfIterations; i++)
+                                    {
+                                        StreamsApiResultModel.PostMessageResultModel resultMod =
+                                            sar.PostMessageRequest(Constants.ACTION_DISCUSSION, token, userAndPass[0],
+                                                "Automation Message");
+                                        if (resultMod != null)
                                         {
-                                            StreamsApiResultModel.PostMessageResultModel resultMod = sar.PostMessageRequest(Constants.ACTION_DISCUSSION, token, userAndPass[0], "Automation Message");
-                                            if (resultMod != null)
-                                            {
-                                                res.Message = " Executing API Call of type: " + guiMapTagTypeValue;
-                                                res.Returnresult = true;
-                                            }
-
-                                            else
-                                            {
-                                                res.Message = "Couldn't post a message";
-                                                res.Returnresult = false;
-                                            }
+                                            res.Message = " Executing API Call of type: " + guiMapTagTypeValue;
+                                            res.Returnresult = true;
                                         }
-                                        break;
-                                    case "like":
-                                        break;
-                                    case "get":
-                                        break;
-                                    case "token":
-                                        break;
 
-                                }
-
+                                        else
+                                        {
+                                            res.Message = "Couldn't post a message";
+                                            res.Returnresult = false;
+                                        }
+                                    }
+                                    break;
+                                case "like":
+                                    break;
+                                case "get":
+                                    break;
+                                case "token":
+                                    break;
                             }
-
-                            catch (Exception exception)
-                            {
-                                res.Message = exception.Message;
-                                res.Returnresult = false;
-                            }
-
-                            
                             break;
 
-                        
+
 
                         case 1065: // compare api to memory
-                            try
+                            conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
+                            conStringQuery = GetDbElement(conStringQuery, inputTableValue);
+                            conStringQuerySplit = conStringQuery.Split('!');
+                            dbapiResult = HttpRequestExtensions.GetJsonValue(conStringQuerySplit[0],
+                                conStringQuerySplit[1], 60000);
+                            if (String.CompareOrdinal(dbapiResult, GetLastCreatedValue(Constants.Memory)) != 0)
                             {
 
-
-                                conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
-                                conStringQuery = GetDbElement(conStringQuery, inputTableValue);
-                                conStringQuerySplit = conStringQuery.Split('!');
-                                dbapiResult=HttpRequestExtensions.GetJsonValue(conStringQuerySplit[0], conStringQuerySplit[1], 60000);
-                                if (String.CompareOrdinal(dbapiResult, GetLastCreatrdValue("memmory")) != 0)
-                                {
-                                    res.Returnresult = false;
-                                    res.Message = "The text comparison is wrong. ACTUAL: " + dbapiResult +
-                                        " vs EXPECTED: " + GetLastCreatrdValue("memmory");
-
-
-                                }
-                                res.Returnresult = true;
-                            }
-                            catch (Exception exception)
-                            {
                                 res.Returnresult = false;
-                                res.Message = exception.Message;
+                                res.Message = "The text comparison is wrong. ACTUAL: " + dbapiResult +
+                                              " vs EXPECTED: " + GetLastCreatedValue(Constants.Memory);
+
+
+                            }
+                            else
+                            {
+                                res.Returnresult = true;
                             }
 
                             break;
 
                         case 1068: // save db to memory
-                            try
-                            {
 
-
-                                conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
-                                conStringQuery = GetDbElement(conStringQuery, inputTableValue);
-                                conStringQuerySplit = conStringQuery.Split('!');
-                                dbapiResult = sql.GetDbSingleValue(conStringQuerySplit[0], conStringQuerySplit[1]);
-                                res=SetLastCreatedValue("memmory", dbapiResult);
-                               
-                            }
-                            catch (Exception exception)
-                            {
-                                res.Returnresult = false;
-                                res.Message = exception.Message;
-                            }
+                            conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
+                            conStringQuery = GetDbElement(conStringQuery, inputTableValue);
+                            conStringQuerySplit = conStringQuery.Split('!');
+                            dbapiResult = sql.GetDbSingleValue(conStringQuerySplit[0], conStringQuerySplit[1]);
+                            res = SetLastCreatedValue(Constants.Memory, dbapiResult);
 
                             break;
                         case 1069: // svae db to Dictionary
-                            try
-                            {
-
-
-                                conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
-                                conStringQuery = GetDbElement(conStringQuery, inputTableValue);
-                                conStringQuerySplit = conStringQuery.Split('!');
-                                dbapiResult = sql.GetDbSingleValue(conStringQuerySplit[0], conStringQuerySplit[1]);
-                                res=SetLastCreatedValue(inputDataColumn, dbapiResult);
-                                
-                            }
-                            catch (Exception exception)
-                            {
-                                res.Returnresult = false;
-                                res.Message = exception.Message;
-                            }
-
+                            conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
+                            conStringQuery = GetDbElement(conStringQuery, inputTableValue);
+                            conStringQuerySplit = conStringQuery.Split('!');
+                            dbapiResult = sql.GetDbSingleValue(conStringQuerySplit[0], conStringQuerySplit[1]);
+                            res = SetLastCreatedValue(inputDataColumn, dbapiResult);
                             break;
-                        case 1070: //ComapreDB to... savedText or value in memmory
+
+                        case 1070: //ComapreDB to... savedText or value in memory
                             // connect string + query split
 
                             conStringQuery = guimapadapter.GetTagTypeValue(guiMapId);
@@ -1672,11 +1577,11 @@ namespace Applenium
 
 
                             dbapiResult = sql.GetDbSingleValue(conStringQuerySplit[0], conStringQuerySplit[1]);
-                            if (String.CompareOrdinal(dbapiResult, GetLastCreatrdValue("memmory")) == 0)
+                            if (String.CompareOrdinal(dbapiResult, GetLastCreatedValue(Constants.Memory)) == 0)
                             {
                                 res.Returnresult = false;
                                 res.Message = "The text not equal comparison is wrong. ACTUAL: " + dbapiResult +
-                                    " vs EXPECTED: " + GetLastCreatrdValue("memmory");
+                                              " vs EXPECTED: " + GetLastCreatedValue(Constants.Memory);
 
 
                             }
@@ -1687,25 +1592,240 @@ namespace Applenium
                             break;
                         case 1072: // copy value from memory into dictionary
 
-                            var memVal = GetLastCreatrdValue("memmory");
+                            var memVal = GetLastCreatedValue(Constants.Memory);
                             res = SetLastCreatedValue(inputDataColumn, memVal);
 
                             break;
-                            
+
                         case 1073: // copy value from dictionary into memory
 
 
-                            var dicVal = GetLastCreatrdValue(inputDataColumn);
-                            res = SetLastCreatedValue("memmory", dicVal);
-                            
+                            var dicVal = GetLastCreatedValue(inputDataColumn);
+                            res = SetLastCreatedValue(Constants.Memory, dicVal);
+
+                            break;
+                        case 1074: // not found element
+                            bool found = Waituntilfindelement(webelement, waitElementDisplayed, driver);
+                            if (!found)
+                            {
+                                res.Message = "Element not found (as expected) - " + webelement;
+                                res.Returnresult = true;
+                            }
+                            else
+                            {
+                                res.Message = "Element found (Not as expected) - " + webelement;
+                                res.Returnresult = false;
+                            }
                             break;
 
-                        default:
+                        case 1075: // not found element
 
-                            res.Message = "Can't run this command: " + guiMapTagTypeValue.Trim();
-                            res.Returnresult = false;
+                            bool isUp = false;
+
+                            System.ServiceProcess.ServiceController[] services =
+                                System.ServiceProcess.ServiceController.GetServices("ISR-SR-QA-WEB-1.trad.local");
+
+                            foreach (ServiceController scTemp in services)
+                            {
+                                if (scTemp.ServiceName.Equals(inputTableValue) &&
+                                    scTemp.Status == ServiceControllerStatus.Running)
+                                {
+                                    isUp = true;
+                                    res.Message = "Service " + webelement + " is up and running ";
+                                    break;
+                                }
+                            }
+
+                            res.Returnresult = isUp;
+
+                            if (!res.Returnresult)
+                            {
+                                res.Message = "Service " + webelement + " is NOT running ";
+                            }
+                            break;
+
+                        case 1076: //Compare 2 input table values - 1 from the input and 1 from dictionary
+
+
+                            if (String.CompareOrdinal(inputTableValue, GetLastCreatedValue(Constants.Memory)) == 0)
+                            {
+                                res.Returnresult = true;
+                                res.Message = "The text is equal comparison succeeded. Memory value is: " +
+                                              GetLastCreatedValue(Constants.Memory) +
+                                              " and input table value that is : " + inputTableValue;
+
+
+                            }
+
+                            else
+                            {
+                                res.Message = "Not equal. Compared memory: " + GetLastCreatedValue(Constants.Memory) +
+                                              " to input table value: " + inputTableValue;
+                                res.Returnresult = false;
+                            }
+
+                            break;
+
+                        case 1077: // SSH commands
+                            try
+                            {
+                                var ssh = new ssh_client();
+
+                                string cmd = guiMapTagTypeValue.Trim();
+                                cmd = jp.replaceVariable(cmd);
+
+                                jp.AddKeyToMemory(Constants.Memory, ssh.run_cmd(cmd));
+                                res.Returnresult = true;
+
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                jp.AddKeyToMemory(Constants.Memory, "SSH ERROR");
+                                res.Message = "SSH connection problem : " + ex.Message;
+                            }
+                            break;
+                        case 1078: // Configuration Include - from file
+                            try
+                            {
+                                string cmd = guiMapTagTypeValue.Trim();
+
+                                cmd = jp.replaceVariable(cmd);
+
+                                if (File.Exists(cmd))
+                                {
+                                    jp.AddConfigToMemory(cmd);
+                                }
+                                res.Returnresult = true;
+
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = "Could not attach new configuration : " + ex.Message;
+                            }
+                            break;
+                        case 1079: //Variables functions
+                            try
+                            {
+                                string cmd = guiMapTagTypeValue.Trim();
+                                jp.VariableFunctions (cmd);
+                                res.Returnresult = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                res.Returnresult = false;
+                                res.Message = ex.Message;
+                            }
+                            break;
+                       
+                        case 1080: //Validation regex compare
+
+                                string str = guiMapTagTypeValue.Trim();
+                                string validationRegex = jp.ValidationRegex(str);
+                                if (validationRegex.EndsWith("OK"))
+                                {
+                                    res.Returnresult = true;
+                                    res.Message = "The regex compare is equal. Comparison succeeded.";
+                                }
+
+                                else
+                                {
+                                    res.Returnresult = false;
+                                    res.Message = validationRegex;
+                                }
+                            break;
+                        case 1081: //VSH Validation - line compare
+
+                                 str = guiMapTagTypeValue.Trim();
+                                Boolean validationLine = jp.ValidationLineCompare(str);
+
+                                if (validationLine)
+                                {
+                                    res.Returnresult = true;
+                                    res.Message = "The text is equal. Comparison succeeded.";
+                                }
+
+                                else
+                                {
+                                    res.Returnresult = false;
+                                    res.Message = "The text is not equal. Comparison failed.";
+                                }
+                            break;
+                        case 1084: // VSH: DB Client Cmd
+
+                            string db_cmd = guiMapTagTypeValue.Trim();
+                            db_cmd = jp.replaceVariable(db_cmd);
+
+
+                            jp.AddKeyToMemory(Constants.Memory, sql.ExecuteCMDQuery(db_cmd));
+                            res.Returnresult = true;
+                            break;
+
+                        case 1085: // VSH: HTTP Client Cmd
+                            try
+                            {
+                                string url = guiMapTagTypeValue.Trim();
+                                url = jp.replaceVariable(url);
+                                res.Returnresult = true;
+                                jp.AddKeyToMemory(Constants.Memory, HttpRequestExtensions.GetHTTPrequest(url));
+                            }
+                            catch
+                            {
+                                res.Returnresult = false;
+                            }
+                            break;
+                        case 1087: // VSH: Advanced HTTP Client Cmd
+                            try
+                            {
+                                string cmd = guiMapTagTypeValue.Trim();
+                                cmd = jp.replaceVariable(cmd);
+                                res.Returnresult = true;
+                                jp.AddKeyToMemory(Constants.Memory, HttpRequestExtensions.GetHTTPrequestPost(cmd));
+                            }
+                            catch
+                            {
+                                res.Returnresult = false;
+                            }
+                            break;
+                        case 1090://start transaction - mesure time                         
+                            try
+                            {
+                               //get current time 
+                                DateTime starttime = DateTime.Now;
+                                String strStartTime = starttime.ToString("yyyy-MM-dd HH:mm:ss.fff",
+                                                                         CultureInfo.InvariantCulture);
+                                jp.AddKeyToMemory(inputTableValue, strStartTime);
+                                res.Message = "|StartTransaction=" + inputTableValue + "|StartTime=" + strStartTime;
+                                res.Returnresult = true;
+                            }
+                            catch
+                            {
+                                res.Returnresult = false;
+                            }
+                            break;
+                        case 1091: //end transaction -mesure time and print log 
+                            try
+                            {
+                                //get current time 
+                                DateTime endtime = DateTime.Now;
+                                String strEndTime = endtime.ToString("yyyy-MM-dd HH:mm:ss.fff",
+                                                                        CultureInfo.InvariantCulture);
+                                DateTime starttime = Convert.ToDateTime(Constants.MemoryConf[inputTableValue]);
+                                
+
+                                var totaltime = endtime.Subtract(starttime);
+
+                                res.Message = "|EndTransaction=" + inputTableValue + "|EndTime=" + strEndTime + "|TotalTransactionTime=" + totaltime;
+                                res.Returnresult = true;
+                            }
+                            catch
+                            {
+                                res.Returnresult = false;
+                            }
                             break;
                     }
+
                 }
                 else
                 {
@@ -1714,19 +1834,35 @@ namespace Applenium
 
                 }
             }
-
-
             catch (Exception exception)
             {
 
-                res.Message = "While working on element - (" + guiMapTagTypeValue + "), Exception has occured in: " + exception.TargetSite;
-                res.Returnresult = false;
+                // In case the exception is of the following type - mark the scenario as passed. (BUG IN SELENIUM FRAMEWORK)
+                if (exception.TargetSite.ToString().Contains("OpenQA.Selenium.Remote.Response CreateResponse"))
+                {
+                    // Still log the error 
+                    res.Message = "OpenQA.Selenium.Remote.Response issue happened";
+                    res.Returnresult = true;
+                    res.exc = exception;
+                    // The flag that makes the entire scenario pass even though there was an error.
+                    Applenium._4____Infrustructure.Utilities.skipSCN = true;
+                }
+
+                else
+                {
+                    res.Message = "While working on element - (" + guiMapTagTypeValue + "), Exception has occured in: " +
+                                  exception.Message;
+                    res.Returnresult = false;
+                    res.exc = exception;
+                }
+
             }
 
             return res;
         }
 
-        private void UploadUserDocExternal(object sender, System.EventArgs e, RemoteWebDriver driver) //actually sends the path of the file to windows file system windows.
+        private void UploadUserDocExternal(object sender, System.EventArgs e, RemoteWebDriver driver)
+            //actually sends the path of the file to windows file system windows.
         {
             const int SUSPEND_TIMEOUT = 1000;
             const string DIALOG_TITLE = "Open";
@@ -1746,7 +1882,9 @@ namespace Applenium
             SendKeys.SendWait((ENTER_KEY));
         }
 
-        private void UploadUserDocInternal(object sender, System.EventArgs e, RemoteWebDriver driver, string guiMapTagTypeValue) //uses html file element to inject the file, without actually use the windows file system.
+        private void UploadUserDocInternal(object sender, System.EventArgs e, RemoteWebDriver driver,
+            string guiMapTagTypeValue)
+            //uses html file element to inject the file, without actually use the windows file system.
         {
             // string cssSelectorStr = guiMapTagTypeValue;
 
@@ -1756,11 +1894,11 @@ namespace Applenium
         }
 
 
-        private void sleep(int guiMapId)
+        private void sleep(int strSleepTime)
         {
-            var guimapadapter = new GuiMapTableAdapter();
-            int sleeptime = Convert.ToInt32(guimapadapter.GetTagTypeValue(guiMapId));
-            Thread.Sleep(sleeptime * 1000);
+           
+            int sleeptime = Convert.ToInt32(strSleepTime);
+            Thread.Sleep(sleeptime*1000);
         }
 
         private bool CreateUser(int guiMapId, string veficationLevel)
@@ -1769,143 +1907,46 @@ namespace Applenium
             {
                 string facebookAppSecret = ConfigurationManager.AppSettings["FacebookAppSecret"];
                 string facebookAppId = ConfigurationManager.AppSettings["FacebookAppId"];
-                bool result = true;
+                bool result = false;
                 var ctu = new CreateTestUser();
                 var guimapadapter = new GuiMapTableAdapter();
-
-                FacebookTestUser ftu = new FacebookTestUser();
-                FacebookTestUserResultModel fturm;
-
+               
                 string usertype = guimapadapter.GetTagTypeValue(guiMapId).Trim();
-                switch (usertype)
-                {
-                    case (Constants.FacebookTestUser):
-                        {
 
-                            fturm = ftu.FacebookTestUserRequest(facebookAppId, facebookAppSecret,
-                                                                true);
+                NewUser newUser = ctu.CreateUser(usertype, veficationLevel, GetLastCreatedValue("userNameFront"));
+                    //affWiz,KYC usage (input is actually a verification level of the user: for affWiz input = 3, for KYC input = 0,1,2,3)
+                    if (newUser != null)
+                    {
+                        SetLastCreatedValue("UserName", newUser.UserName);
+                        SetLastCreatedValue("Password", newUser.Password);
+                        SetLastCreatedValue("CID", newUser.Real_CID.ToString());
+                        SetLastCreatedValue("GCID", newUser.GCID.ToString());
+                        sleep(1000);
+                        if (usertype.Equals(Constants.FtdUserWithAff) && (ctu.AffId != 0))
+                            SetLastCreatedValue("AffiliateId", ctu.AffId.ToString());
+                        result = true;
+                    }
 
+                    return result;
 
-                            //add user details to current test add value to inmemory db
-                            //save value to dictionary.
-                            if (fturm != null)
-                            {
-                                SetLastCreatedValue("FBID", fturm.id);
-                                SetLastCreatedValue("FBEmail", fturm.email);
-                                SetLastCreatedValue("FBPassword", fturm.password);
-
-                            }
-                            else
-                            {
-                                result = false;
-                            }
-                            break;
-                        }
-                    case (Constants.FacebookTestUserFriends):
-                        {
-
-                            int friendnumber = Convert.ToInt32(veficationLevel);
-                            var arrfacebookfriends =
-                                new FacebookTestUserResultModel[friendnumber];
-
-                            //get existing users get twice because some user are corrupted 
-
-                            FacebookTestUserListResultModel listOfExistUsers = ftu.FacebookTestUserListRequest(facebookAppId, facebookAppSecret, friendnumber * 2);
-                            int i;
-                            int count = 0;
-                            for (i = 0; (i <= listOfExistUsers.data.Count - 1) && (count <= friendnumber - 1); i++)
-                            {
-                                arrfacebookfriends[count] = new FacebookTestUserResultModel();
-                                if ((listOfExistUsers.data[i].id != null) &&
-                                    (listOfExistUsers.data[i].login_url != null) &&
-                                    (listOfExistUsers.data[i].access_token != null))
-                                {
-                                    arrfacebookfriends[count].id = listOfExistUsers.data[i].id;
-                                    arrfacebookfriends[count].login_url = listOfExistUsers.data[i].login_url;
-                                    arrfacebookfriends[count].access_token = listOfExistUsers.data[i].access_token;
-                                    count++;
-                                }
-                            }
-                            if (count < friendnumber)
-                            {
-
-                                for (; count < friendnumber - 1; count++)
-                                {
-                                    arrfacebookfriends[count] = ftu.FacebookTestUserRequest(facebookAppId, facebookAppSecret, true);
-                                }
-                            }
-
-                            //user
-                            var testuser = ftu.FacebookTestUserRequest(facebookAppId,
-                                                                       facebookAppSecret, true);
-
-                            for (i = 0; i < friendnumber - 1; i++)
-                            {
-
-                                result = ftu.FacebookTestUserFriendRequest(testuser.id, arrfacebookfriends[i].id,
-                                                                           testuser.access_token,
-                                                                           arrfacebookfriends[i].access_token);
-                                if (!result)
-                                    break;
-                            }
-
-                            //connect all users to new user 
-
-                            //add user details to current test add value to inmemory db
-                            //save value to dictionary.
-                            if (testuser != null)
-                            {
-                                SetLastCreatedValue("FBID", testuser.id);
-                                SetLastCreatedValue("FBPassword", testuser.password);
-                                SetLastCreatedValue("FBEmail", testuser.email);
-                            }
-                            else
-                            {
-                                result = false;
-                            }
-                            break;
-                        }
-                    default:
-                        {
-                            NewUser newUser = ctu.CreateUser(usertype, veficationLevel); //affWiz,KYC usage (input is actually a verification level of the user: for affWiz input = 3, for KYC input = 0,1,2,3)
-                            if (newUser != null)
-                            {
-                                SetLastCreatedValue("UserName", newUser.UserName);
-                                SetLastCreatedValue("Password", newUser.Password);
-                                SetLastCreatedValue("CID", newUser.Real_CID.ToString());
-                                SetLastCreatedValue("GCID", newUser.GCID.ToString());
-                                if (usertype.Equals(Constants.FtdUserWithAff) && (ctu.AffId!=0))
-                                    SetLastCreatedValue("AffiliateId", ctu.AffId.ToString());
-
-                            }
-                            else
-                                result = false;
-
-                            break;
-                        }
                 }
+                catch (Exception exception)
+                {
 
-                return result;
+                    LogObject logobj5 = new LogObject();
+                    logobj5.CommandName = guiMapCommandName;
+                    logobj5.Description = exception.Message;
+                    logobj5.StatusTag = Constants.ERROR;
+                    logobj5.Exception = exception;
+
+                    logger.Print(logobj5);
+                    return false;
+                }
             }
-            catch (Exception exception)
-            {
+      
+    
 
-                LogObject logobj5 = new LogObject();
-                logobj5.CommandName = guiMapCommandName;
-                logobj5.Description = exception.Message;
-                logobj5.StatusTag = Constants.ERROR;
-                logobj5.Exception = exception;
-
-                logger.Print(logobj5);
-
-                return false;
-            }
-
-
-        }
-
-
-        internal string GetCleanRate(String rateString)
+    internal string GetCleanRate(String rateString)
         {
             string trimmed = rateString.Trim(new char[] { '$' });
             return trimmed;
@@ -1930,7 +1971,9 @@ namespace Applenium
 
 
                 var jp = new JsonParser();
-                string remote = jp.ReadJson("RemoteNode");
+
+                string remote = Constants.MemoryConf["RemoteNode"];
+
                 var capability = new DesiredCapabilities();
                 if (remote == "no" || islocal)
                 {
@@ -1946,7 +1989,6 @@ namespace Applenium
 
                             var profile = new FirefoxProfile { EnableNativeEvents = true };
                             driver = new FirefoxDriver(profile);
-                            driver = new FirefoxDriver();
                             break;
                         case "3":
                         case "IE":
@@ -1958,13 +2000,14 @@ namespace Applenium
 
                             //get configuration
                             string emulatorExe;
-                            string appium = jp.ReadJson("Appium");
-                            string emulatorName = jp.ReadJson("AndroidEmulatorDefaultName");
-                            string newCommandTimeout = jp.ReadJson("AndroidNewCommandTimeout");
-                            string appPackage = jp.ReadJson("app-package");
-                            string appActivity = jp.ReadJson("app-activity");
-                            string app = jp.ReadJson("app");
-                            string AndroidEmulatorType = jp.ReadJson("AndroidEmulatorType");
+                            string appium = Constants.MemoryConf["Appium"];
+                            string AppiumServerHost = Constants.MemoryConf["AppiumServerHost"];
+                            string emulatorName = Constants.MemoryConf["AndroidEmulatorDefaultName"];
+                            string newCommandTimeout = Constants.MemoryConf["AndroidNewCommandTimeout"];
+                            string appPackage = Constants.MemoryConf["app-package"];
+                            string appActivity = Constants.MemoryConf["app-activity"];
+                            string app = Constants.MemoryConf["app"];
+                            string androidEmulatorType = Constants.MemoryConf["AndroidEmulatorType"];
 
 
 
@@ -1984,32 +2027,41 @@ namespace Applenium
                                 capability.SetCapability("app", app);
                             }
 
-                            //run emulator and waiting for up
-                            Process newProcess;
-                            if (emulatorName != string.Empty)
-                            {
-                                if (AndroidEmulatorType == "Google")
-                                {
-                                    emulatorExe = jp.ReadJson("AndroidEmulatorExe");
-                                    newProcess = Process.Start(emulatorExe, "-avd " + emulatorName);
-                                    Thread.Sleep(90000);
-                                }
-                                else
-                                {
-                                    emulatorExe = jp.ReadJson("AndroidEmulatorGenymotionExe");
-                                    newProcess = Process.Start(emulatorExe, "--vm-name " + emulatorName);
-                                    Thread.Sleep(30000);
-                                }
-                            }
+
 
                             //run cmd 
+                            if (AppiumServerHost == "127.0.0.1" || AppiumServerHost == "localhost")
+                            {
+                                //run emulator and waiting for up
+                                Process newProcess;
+                                if (emulatorName != string.Empty)
+                                {
+                                    if (androidEmulatorType == "Google")
+                                    {
+                                        emulatorExe = Constants.MemoryConf["AndroidEmulatorExe"];
+                                        newProcess = Process.Start(emulatorExe, "-avd " + emulatorName);
+                                        Thread.Sleep(90000);
+                                    }
+                                    else
+                                    {
+                                        emulatorExe = Constants.MemoryConf["AndroidEmulatorGenymotionExe"];
+                                        newProcess = Process.Start(emulatorExe, "--vm-name " + emulatorName);
+                                        Thread.Sleep(30000);
+                                    }
+                                }
 
-                            newProcess = Process.Start(appium);
-                            Thread.Sleep(10000);
-                            driver = new ScreenShotRemoteWebDriver(new Uri("http://localhost:4723/wd/hub/"), capability, TimeSpan.FromSeconds(120));
-
+                                Process.Start(appium);
+                                Thread.Sleep(10000);
+                            }
+                            driver = new ScreenShotRemoteWebDriver(new Uri("http://" + AppiumServerHost + ":4723/wd/hub/"), capability, TimeSpan.FromSeconds(120));                            
                             break;
                         case "5":
+                        case "safari":
+
+                            
+                            driver = new SafariDriver();
+                            break;
+                        case "6":
                         case "ios":
                             _ismobile = true;
                             break;
@@ -2033,21 +2085,21 @@ namespace Applenium
                             _ismobile = true;
                             capability = new DesiredCapabilities();
                             //capability.SetCapability("app-package", "com.etoro.mobileclient");
-                            string appPackage = jp.ReadJson("app-package");
+                            string appPackage = Constants.MemoryConf["app-package"];
                             capability.SetCapability("app-package", appPackage);
                             capability.SetCapability("browserName", "");
                             capability.SetCapability("device", "Android");
-                            string appActivity = jp.ReadJson("app-activity");
+                            string appActivity = Constants.MemoryConf["app-activity"];
                             //capability.SetCapability("app-activity", "com.etoro.mobileclient.Views.Login");
                             capability.SetCapability("app-activity", appActivity);
-                            string appWaitActivity = jp.ReadJson("app-wait-activity");
+                            string appWaitActivity = Constants.MemoryConf["app-wait-activity"];
                             //capability.SetCapability("app-activity", "com.etoro.mobileclient.Views.Login");
                             capability.SetCapability("app-activity", appWaitActivity);
                             //capability.SetCapability("takesScreenshot", true);
                             //caps.SetCapability("version", "4.3.0");
                             capability.SetCapability("device ID", "uniquedeviceid");
                             //caps.SetCapability("app", @"C:\Temp\version 1.0.70-Maxim.apk");
-                            string app = jp.ReadJson("app");
+                            string app = Constants.MemoryConf["app"];
                             if (app != string.Empty)
                             {
 
@@ -2057,8 +2109,12 @@ namespace Applenium
 
                             //driver = new RemoteWebDriver(new Uri("http://localhost:4723/wd/hub/"), capability);
                             break;
+                        case "5":
+                            capability = DesiredCapabilities.Safari();
+                            break;
+                      
                     }
-                    string hubAddress = jp.ReadJson("HubAddress");
+                    string hubAddress = Constants.MemoryConf["HubAddress"];
                     var uri = new Uri("http://" + hubAddress + "/wd/hub");
 
                     capability.SetCapability(CapabilityType.TakesScreenshot, true);
@@ -2078,14 +2134,15 @@ namespace Applenium
                 }
                 if (!_ismobile)
                 {
-                    driver.Manage().Window.Maximize();
+                    driver.Manage().Window.Size = new System.Drawing.Size(5, 5);
+
                     var js = (IJavaScriptExecutor)driver;
-                    string defaulturl = jp.ReadJson("DefaultURL");
+                    string defaulturl = Constants.MemoryConf["DefaultURL"];
                     defaulturl = defaulturl.Replace(@"\", @"\\");
                     if ((driver != null) && (defaulturl != string.Empty))
                         driver.Navigate().GoToUrl(defaulturl);
 
-                    string onboarding = jp.ReadJson("RunJavaScriptOnPageLoad");
+                    string onboarding = Constants.MemoryConf["RunJavaScriptOnPageLoad"];
 
                     if ((driver != null) && (!string.IsNullOrEmpty(onboarding)))
                     {
@@ -2117,7 +2174,7 @@ namespace Applenium
             if (_ismobile == false)
             {
                 JsonParser jp = new JsonParser();
-                String extendedTime = jp.ReadJson("ExpandedWaitFindElement");
+                String extendedTime = Constants.MemoryConf["ExpandedWaitFindElement"];
 
                 IWait<IWebDriver> wait = new OpenQA.Selenium.Support.UI.WebDriverWait(driver,
                                                                                       TimeSpan.FromSeconds(

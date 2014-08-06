@@ -17,7 +17,7 @@ namespace Applenium
             try
             {
                 JsonParser jsonParser = new JsonParser();
-                string url = string.Format("http://{0}/api/streams", jsonParser.ReadJson("TestingEnvironment"));
+                string url = string.Format("http://{0}/api/streams", Constants.MemoryConf["TestingEnvironment"]);
                 autorization = HttpUtility.UrlEncode(autorization);
                 string headers = string.Format("{0}", autorization);
 
@@ -48,7 +48,7 @@ namespace Applenium
             try
             {
                 JsonParser jp = new JsonParser();
-                string url = string.Format("http://{0}/api/streams", jp.ReadJson("TestingEnvironment"));
+                string url = string.Format("http://{0}/api/streams", Constants.MemoryConf["TestingEnvironment"]);
                 authorization = HttpUtility.UrlEncode(authorization);
                 string headers = string.Format("{0}", authorization);
 
@@ -91,7 +91,7 @@ namespace Applenium
             try
             {
                 JsonParser jp = new JsonParser();
-                string url = string.Format("http://{0}/api/streams", jp.ReadJson("TestingEnvironment"));
+                string url = string.Format("http://{0}/api/streams", Constants.MemoryConf["TestingEnvironment"]);
                 //authorization = HttpUtility.UrlEncode(authorization);
                 //string headers = string.Format("{0}", authorization);
 

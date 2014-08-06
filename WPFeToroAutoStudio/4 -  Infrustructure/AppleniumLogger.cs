@@ -22,6 +22,8 @@ namespace Applenium
 
         }
 
+        LoggerDLL.BackendLogger _aLogger = new LoggerDLL.BackendLogger();
+        
         /// <summary>
         /// Prints the results of a step execution
         /// </summary>
@@ -44,7 +46,7 @@ namespace Applenium
                     logger.StatusTag = log.StatusTag;
                     logger.printLog(log.StatusTag);
                     insertToDB(log);
-                    break;
+                    break;              
 
                 case ResultStatus.ERROR: ClientLogger loggerError = new ClientLogger();
                     loggerError.Description = log.Description + " - " + log.StepName;
@@ -62,6 +64,7 @@ namespace Applenium
                     loggerError.ProjectName = log.ProjectName;
                     loggerError.ProjectPageName = log.ProjectPageName;
                     loggerError.ExecutionTimeStamp = dateFromUnixTime;
+                    loggerError.Browser = log.Browser;
                     loggerError.printLog(log.StatusTag);
                     insertToDB(log);
                     break;
@@ -83,6 +86,7 @@ namespace Applenium
                     loggerFailed.ProjectName = log.ProjectName;
                     loggerFailed.ProjectPageName = log.ProjectPageName;
                     loggerFailed.ExecutionTimeStamp = dateFromUnixTime;
+                    loggerFailed.Browser = log.Browser;
                     loggerFailed.printLog(log.StatusTag);
                     insertToDB(log);
                     break;
@@ -102,6 +106,7 @@ namespace Applenium
                     loggerPassed.ProjectName = log.ProjectName;
                     loggerPassed.ProjectPageName = log.ProjectPageName;
                     loggerPassed.ExecutionTimeStamp = dateFromUnixTime;
+                    loggerPassed.Browser = log.Browser;
                     loggerPassed.printLog(log.StatusTag);
                     insertToDB(log);
                     break;
@@ -121,9 +126,31 @@ namespace Applenium
                     loggerDone.ProjectName = log.ProjectName;
                     loggerDone.ProjectPageName = log.ProjectPageName;
                     loggerDone.ExecutionTimeStamp = dateFromUnixTime;
+                    loggerDone.Browser = log.Browser;
                     loggerDone.printLog(log.StatusTag);
                     insertToDB(log);
                     break;
+
+                case ResultStatus.DEBUG: ClientLogger loggerDebug = new ClientLogger();
+                    loggerDebug.Description = log.Description;
+                    loggerDebug.StatusTag = log.StatusTag;
+                    loggerDebug.ExecutionID = log.ExecutionID;
+                    loggerDebug.BatchName = log.BatchName;
+                    loggerDebug.BatchStatus = log.BatchStatus;
+                    loggerDebug.ScnearioName = log.ScnearioName;
+                    loggerDebug.ScenarioStatus = log.ScenarioStatus;
+                    loggerDebug.TestName = log.TestName;
+                    loggerDebug.TestStatus = log.TestStatus;
+                    loggerDebug.StepName = log.StepName;
+                    loggerDebug.StepStatus = log.StepStatus;
+                    loggerDebug.ProjectName = log.ProjectName;
+                    loggerDebug.ProjectPageName = log.ProjectPageName;
+                    loggerDebug.ExecutionTimeStamp = dateFromUnixTime;
+                    loggerDebug.Browser = log.Browser;
+                    loggerDebug.printLog(log.StatusTag);
+                    insertToDB(log);
+                    break;
+
 
                 default: ClientLogger defaultLog = new ClientLogger();
                     defaultLog.Description = "No status code on log event.";

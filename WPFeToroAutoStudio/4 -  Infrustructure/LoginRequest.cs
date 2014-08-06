@@ -26,7 +26,7 @@
         internal LoginResultModel FirstUserLogin(string username, string password)
         {
             JsonParser jsonParser = new JsonParser();
-            string URL = "http://" + jsonParser.ReadJson("TestingEnvironment") + "/login/";
+            string URL = "http://" + Constants.MemoryConf["TestingEnvironment"] + "/login/";
             var data = new LoginRequest
             {
                 Password = password,

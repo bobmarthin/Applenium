@@ -1,0 +1,8 @@
+syntax: regexp
+.*packages/Selenium.*
+.*packages/log4net.*
+.*packages/Newtonsoft.*
+.*/obj/.*
+.*/bin/.*
+.*packages/NUnit.*
+.*packages/WebDriver.*

@@ -1,0 +1,94 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package">
+
+  <PropertyGroup>
+    <AppleniumProjectName>Applenium</AppleniumProjectName>
+    <BuildPlatform>Any CPU</BuildPlatform>
+    <Configuration>Release</Configuration>
+    <VersionFile>version.txt</VersionFile>
+    <Artifacts>$(MSBuildProjectDirectory)\Artifacts\</Artifacts>
+    <ProjectPath>$(MSBuildProjectDirectory)\$(ProjectName)</ProjectPath>
+    <TestResultsPath>$(Artifacts)\TestResults.xml</TestResultsPath>
+    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\.build</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SolutionFile Include="$(MSBuildProjectDirectory)\**\*.sln"/>
+    <NUnitConsole Include="C:\Program Files (x86)\NUnit 2.6.2\bin" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+
+  <Target Name="Build">
+    <CallTarget Targets="Clean"/>
+    <CallTarget Targets="Compile"/>
+  </Target>
+
+  <Target Name="Test">
+    <CallTarget Targets="Build"/>
+    <CallTarget Targets="GetTestDlls"/>
+    <CallTarget Targets="CreateArtifactsDirectory"/>
+    <CallTarget Targets="RunUnitTests"/>
+  </Target>
+
+  <Target Name="Package">
+    <CallTarget Targets="Test"/>
+    <CallTarget Targets="Version"/>
+    <CallTarget Targets="ZipProjectFiles"/>
+  </Target>
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(Artifacts)" />
+    <MSBuild Projects="@(SolutionFile)"
+             Targets="Clean"
+             Properties="Configuration=Debug;Platform=$(BuildPlatform)"/>
+    <MSBuild Projects="@(SolutionFile)"
+             Targets="Clean"
+             Properties="Configuration=Release;Platform=$(BuildPlatform)"/>
+  </Target>
+
+  <Target Name="Compile">
+    <MSBuild Projects="@(SolutionFile)"
+            Targets="Rebuild"
+            Properties="Configuration=$(Configuration);Platform=$(BuildPlatform)" />
+  </Target>
+
+  <Target Name="Version">
+    <Version VersionFile="$(VersionFile)" RevisionType="Increment">
+      <Output TaskParameter="Major" PropertyName="Major" />
+      <Output TaskParameter="Minor" PropertyName="Minor" />
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </Version>
+    <Message Text="Version: $(Major).$(Minor).$(Build).$(Revision)"/>
+  </Target>
+
+  <Target Name="GetTestDlls">
+    <CreateItem Include="$(MSBuildProjectDirectory)\**\*.Tests\bin\$(Configuration)\*.Tests.dll">
+      <Output TaskParameter="Include" ItemName="TestAssemblies" />
+    </CreateItem>
+  </Target>
+
+  <Target Name="RunUnitTests" Condition=" '@(TestAssemblies)' != '' ">
+    <NUnit ToolPath="@(NUnitConsole)"
+           DisableShadowCopy="true"
+           ContinueOnError="false"
+           Framework="4.5"
+           Assemblies="@(TestAssemblies)"
+           OutputXmlFile="$(TestResultsPath)"/>
+  </Target>
+
+  <Target Name="CreateArtifactsDirectory" Condition="!Exists($(Artifacts))">
+    <MakeDir Directories="$(Artifacts)" />
+  </Target>
+
+  <Target Name="ZipProjectFiles">
+    <CreateItem Include="$(ProjectPath)\UnitTestExecutionManager\bin\Release\*.*"
+                Exclude="$(ProjectPath)\obj\**\*.*;$(ProjectPath)\Logs\**\*.*;$(ProjectPath)\**\*.csproj;$(ProjectPath)\**\*.csproj.user;$(ProjectPath)\**\*.cs;$(ProjectPath)\**\*.pdb;$(ProjectPath)\packages.config;$(ProjectPath)\readme.txt">
+      <Output TaskParameter="Include" ItemName="ProjectFiles" />
+    </CreateItem>
+    <Zip WorkingDirectory="$(ProjectPath)"
+         Files="@(ProjectFiles)"
+         ZipFileName="$(Artifacts)\$(AppleniumProjectName).zip"/>
+  </Target>
+
+</Project>

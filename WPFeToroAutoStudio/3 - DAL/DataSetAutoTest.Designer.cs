@@ -1803,6 +1803,8 @@ namespace Applenium._3___DAL {
             
             private global::System.Data.DataColumn columnStatusCompletedImage;
             
+            private global::System.Data.DataColumn columnDataColumn1;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public TestDataTable() {
@@ -1910,6 +1912,14 @@ namespace Applenium._3___DAL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DataColumn1Column {
+                get {
+                    return this.columnDataColumn1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1945,7 +1955,7 @@ namespace Applenium._3___DAL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TestRow AddTestRow(string TestName, int ProjectID, string InputTableName, int IsAPI, string Description, string PageSectionTestName, string Expr1, string StatusCompletedImage) {
+            public TestRow AddTestRow(string TestName, int ProjectID, string InputTableName, int IsAPI, string Description, string PageSectionTestName, string Expr1, string StatusCompletedImage, string DataColumn1) {
                 TestRow rowTestRow = ((TestRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -1956,7 +1966,8 @@ namespace Applenium._3___DAL {
                         Description,
                         PageSectionTestName,
                         Expr1,
-                        StatusCompletedImage};
+                        StatusCompletedImage,
+                        DataColumn1};
                 rowTestRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestRow);
                 return rowTestRow;
@@ -1995,6 +2006,7 @@ namespace Applenium._3___DAL {
                 this.columnPageSectionTestName = base.Columns["PageSectionTestName"];
                 this.columnExpr1 = base.Columns["Expr1"];
                 this.columnStatusCompletedImage = base.Columns["StatusCompletedImage"];
+                this.columnDataColumn1 = base.Columns["DataColumn1"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2018,6 +2030,8 @@ namespace Applenium._3___DAL {
                 base.Columns.Add(this.columnExpr1);
                 this.columnStatusCompletedImage = new global::System.Data.DataColumn("StatusCompletedImage", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStatusCompletedImage);
+                this.columnDataColumn1 = new global::System.Data.DataColumn("DataColumn1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDataColumn1);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnTestId}, true));
                 this.columnTestId.AutoIncrement = true;
@@ -8015,6 +8029,22 @@ namespace Applenium._3___DAL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string DataColumn1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableTest.DataColumn1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DataColumn1\' in table \'Test\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTest.DataColumn1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public GuiScenarioLogicRow GuiScenarioLogicRow {
                 get {
                     return ((GuiScenarioLogicRow)(this.GetParentRow(this.Table.ParentRelations["GuiScenarioLogic_Test"])));
@@ -8106,6 +8136,18 @@ namespace Applenium._3___DAL {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetStatusCompletedImageNull() {
                 this[this.tableTest.StatusCompletedImageColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDataColumn1Null() {
+                return this.IsNull(this.tableTest.DataColumn1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDataColumn1Null() {
+                this[this.tableTest.DataColumn1Column] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10790,11 +10832,11 @@ namespace Applenium._3___DAL.DataSetAutoTestTableAdapters {
 WHERE        (GuiMapID = @Original_GuiMapID) AND (TagTypeID = @Original_TagTypeID) AND (GuiProjectID = @Original_GuiProjectID) AND 
                          (TagTypeValue = @Original_TagTypeValue) AND (GuiMapObjectName = @Original_GuiMapObjectName)";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_GuiMapID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "GuiMapID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TagTypeID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "TagTypeID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_GuiProjectID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "GuiProjectID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TagTypeValue", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "TagTypeValue", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_GuiMapObjectName", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "GuiMapObjectName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_GuiMapID", global::System.Data.SqlDbType.Variant, 1024, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TagTypeID", global::System.Data.SqlDbType.Variant, 1024, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_GuiProjectID", global::System.Data.SqlDbType.Variant, 1024, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TagTypeValue", global::System.Data.SqlDbType.Variant, 1024, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_GuiMapObjectName", global::System.Data.SqlDbType.Variant, 1024, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = @"INSERT INTO Test.GuiMap
@@ -10901,7 +10943,10 @@ SELECT GuiMapID, GuiMapObjectName, TagTypeID, TagTypeValue, GuiProjectID, Ver1, 
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[8];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT        *\r\nFROM            Test.GuiMap\r\nORDER BY GuiMapObjectName";
+            this._commandCollection[0].CommandText = @"SELECT        GuiMapID, GuiMapObjectName, TagTypeID, TagTypeValue, GuiProjectID, Ver1, Ver2, Ver3, Ver4, Ver5, Ver6, Ver7, Ver8, Ver9, Ver10, Ver11, Ver12, Ver13, Ver14, 
+                         Ver15
+FROM            Test.GuiMap
+ORDER BY GuiMapObjectName";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -11063,21 +11108,36 @@ SELECT GuiMapID, GuiMapObjectName, TagTypeID, TagTypeValue, GuiProjectID, Ver1, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_GuiMapID, int Original_TagTypeID, int Original_GuiProjectID, string Original_TagTypeValue, string Original_GuiMapObjectName) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_GuiMapID));
-            this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(Original_TagTypeID));
-            this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_GuiProjectID));
+        public virtual int Delete(object Original_GuiMapID, object Original_TagTypeID, object Original_GuiProjectID, object Original_TagTypeValue, object Original_GuiMapObjectName) {
+            if ((Original_GuiMapID == null)) {
+                throw new global::System.ArgumentNullException("Original_GuiMapID");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[0].Value = ((object)(Original_GuiMapID));
+            }
+            if ((Original_TagTypeID == null)) {
+                throw new global::System.ArgumentNullException("Original_TagTypeID");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(Original_TagTypeID));
+            }
+            if ((Original_GuiProjectID == null)) {
+                throw new global::System.ArgumentNullException("Original_GuiProjectID");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(Original_GuiProjectID));
+            }
             if ((Original_TagTypeValue == null)) {
                 throw new global::System.ArgumentNullException("Original_TagTypeValue");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_TagTypeValue));
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(Original_TagTypeValue));
             }
             if ((Original_GuiMapObjectName == null)) {
                 throw new global::System.ArgumentNullException("Original_GuiMapObjectName");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((string)(Original_GuiMapObjectName));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(Original_GuiMapObjectName));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -12079,17 +12139,19 @@ SELECT GuiMapID, GuiMapObjectName, TagTypeID, TagTypeValue, GuiProjectID, Ver1, 
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_IsAPI", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsAPI", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"
-                      INSERT INTO [Test].[Test] ([TestName], [ProjectID], [InputTableName], [IsAPI], [Description], [StatusCompletedImage]) VALUES (@TestName, @ProjectID, @InputTableName, @IsAPI, @Description, @StatusCompletedImage);
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO Test.Test
+                         (TestName, ProjectID, InputTableName, IsAPI, Description, StatusCompletedImage, ProjectSectionID)
+VALUES        (@TestName,@ProjectID,@InputTableName,@IsAPI,@Description,@StatusCompletedImage,@ProjectSectionID); 
                       SELECT TestId, TestName, ProjectID, InputTableName, IsAPI, Description, StatusCompletedImage FROM Test.Test WHERE (TestId = SCOPE_IDENTITY()) ORDER BY TestName
                     ";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TestName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TestName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ProjectID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ProjectID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InputTableName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "InputTableName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsAPI", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsAPI", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Description", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Description", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StatusCompletedImage", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "StatusCompletedImage", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TestName", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "TestName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ProjectID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ProjectID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InputTableName", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "InputTableName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsAPI", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "IsAPI", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Description", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "Description", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StatusCompletedImage", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "StatusCompletedImage", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ProjectSectionID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ProjectSectionID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
             this._adapter.UpdateCommand.CommandText = @"
@@ -12475,7 +12537,7 @@ ORDER BY Test.GuiProjectPage.ProjectPageName, Test.GuiPageSection.GuiPageSection
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string TestName, global::System.Nullable<int> ProjectID, string InputTableName, global::System.Nullable<int> IsAPI, string Description, string StatusCompletedImage) {
+        public virtual int Insert(string TestName, global::System.Nullable<int> ProjectID, string InputTableName, global::System.Nullable<int> IsAPI, string Description, string StatusCompletedImage, global::System.Nullable<int> ProjectSectionID) {
             if ((TestName == null)) {
                 throw new global::System.ArgumentNullException("TestName");
             }
@@ -12511,6 +12573,12 @@ ORDER BY Test.GuiProjectPage.ProjectPageName, Test.GuiPageSection.GuiPageSection
             }
             else {
                 this.Adapter.InsertCommand.Parameters[5].Value = ((string)(StatusCompletedImage));
+            }
+            if ((ProjectSectionID.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((int)(ProjectSectionID.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -19860,7 +19928,7 @@ SELECT EnvironmentVersionId, EnvironmentVersionName, EnvironmentColumnName FROM 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual string GetNextColumnVersion() {
+        public virtual global::System.Nullable<int> GetNextColumnVersion() {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[3];
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -19878,10 +19946,10 @@ SELECT EnvironmentVersionId, EnvironmentVersionName, EnvironmentColumnName FROM 
             }
             if (((returnValue == null) 
                         || (returnValue.GetType() == typeof(global::System.DBNull)))) {
-                return null;
+                return new global::System.Nullable<int>();
             }
             else {
-                return ((string)(returnValue));
+                return new global::System.Nullable<int>(((int)(returnValue)));
             }
         }
     }

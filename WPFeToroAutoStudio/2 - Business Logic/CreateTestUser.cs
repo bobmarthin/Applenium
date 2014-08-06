@@ -6,7 +6,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Applenium._2___Business_Logic;
 using AutomaticTest;
+using ServiceStack;
 
 namespace Applenium
 {
@@ -15,144 +17,95 @@ namespace Applenium
 
         public AppleniumLogger logger = new AppleniumLogger();
         public int AffId = 0;
-
-        public string _dbConnectionStrGlobalRegistry = ConfigurationManager.AppSettings["GlobalRegConnectionString"];
-        public string _dbConnectionStrKYCDB = ConfigurationManager.AppSettings["KYCDBConnectionString"];
-        private string _dbConnectionStrFiktivoDB = ConfigurationManager.AppSettings["FiktivoDBQAConnectionString"];
-        private string _dbConnectionStrRealMirrorQADB = ConfigurationManager.AppSettings["RealMirrorQAConnectionString"];
-        //private string _dbConnectionStrBackOfficeDB = ConfigurationManager.AppSettings["BackOfficeConnectionString"];
-        
+        private const string UserApiUrl = "http://ta-cash-w12-02:81/api/v1/users";// uvo1pmjqbw7zu87luhm.vm.cld.sr:81/api/v1/users; /*ta-cash-w12-02:81/api/v1/users;*/
+        public readonly string DbConnectionStrGlobalRegistry = ConfigurationManager.AppSettings["GlobalRegConnectionString"];
+        public readonly string DbConnectionStrKyc = ConfigurationManager.AppSettings["KYCDBConnectionString"];
+        private readonly string _dbConnectionStrFiktivo = ConfigurationManager.AppSettings["FiktivoDBQAConnectionString"];
+        private readonly string _dbConnectionStrRealMirrorQa = ConfigurationManager.AppSettings["RealMirrorQAConnectionString"];
 
 
-        public NewUser CreateUser(string userType, string input)
+        public NewUser CreateUser(string userType, string input, string randomUserName)
             //affWiz,KYC usage (input is actually a verification level of the user: for affWiz input = 3, for KYC input = 0,1,2,3)
         {
-
-            var loginRequest = new LoginRequest();
-            var aconn = new SqlConnection(_dbConnectionStrGlobalRegistry);
+            var client = new JsonServiceClient(UserApiUrl) {Timeout = TimeSpan.FromMinutes(30)};
             NewUser newUser = null;
-            using (var acomm = new SqlCommand())
+            try
             {
-                acomm.Connection = aconn;
-                acomm.CommandType = CommandType.StoredProcedure;
-                SqlParameter aparam = new SqlParameter();
-                if (userType.Equals(Constants.FtdUserNoAff) || userType.Equals(Constants.FtdUserRespQuestionNoAff) ||
-                    userType.Equals(Constants.FtdUserWithAff))
-                {
-                    aparam.ParameterName = "@DepositAmount";
-                    aparam.SqlDbType = SqlDbType.Int;
-                    aparam.Direction = ParameterDirection.Input;
-                    aparam.Value = 0; //no credit for this user because FTD is to be checked
-                    acomm.Parameters.Add(aparam);
-                }
-                acomm.CommandText = "[dbo].[CreateTestCustomer]";
-                acomm.CommandTimeout = 60;
-                try
-                {
-                    aconn.Open();
-                    SqlDataReader df = acomm.ExecuteReader();
-                    if (df.Read()) // only returns one row so  use "if" instead of "while"
+                CreateUserApiRequest rr = new CreateUserApiRequest(randomUserName, "123456",
+                    randomUserName+"@aijl.com", "123123123", "123123123123",
+                    "asdasdasdasd", "asdasdasdasd", "jj", "France", "424242", "1966-6-6", "127.0.0.1", "1", 4, 42);
+                var res = client.Post<CreateUserApiResponse>(UserApiUrl, rr);
+
+                int gCid = res.gcid;
+                int cidDemo = res.cidDemo;
+                int cidReal = res.cidReal;
+                newUser = new NewUser(gCid, cidDemo, cidReal, randomUserName, "123456");
+                
+            }
+            catch (Exception e)
+            {
+                LogObject log = new LogObject();
+                log.Description = "Create test user";
+                log.StatusTag = Constants.ERROR;
+                log.Exception = e;
+                logger.Print(log);
+                return null;
+            }
+
+            switch (userType)
+            {
+                case Constants.FtdUserNoAff:
+                    if (!InitFtdUser(newUser, input))
+                        return null; //could not update
+                    break;
+                case Constants.FtdUserWithAff:
+                    string GetLastCreatedAffiliateIdCommand =
+                        "select Top 1 AffiliateID from [FiktivoQA].[dbo].[tblaff_Affiliates] order by AffiliateID desc";
+                    if (!InitFtdUser(newUser, input))
+                        return null; //could not update
+
+                    int affId =
+                        GetLastCreatedAffiliateId(GetLastCreatedAffiliateIdCommand,
+                            _dbConnectionStrFiktivo);
+                    if (affId != 0)
                     {
-                        int gCid = df.GetInt32(0);
-                        int cidDemo = df.GetInt32(1);
-                        int cidReal = df.GetInt32(2);
-                        string userName = df.GetString(3);
-                        newUser = new NewUser(gCid, cidDemo, cidReal, userName, "123456");
+                        AffId = affId;
+                        string insertAffiliateCommand =
+                            @"insert into [RealMirrorQA].[BackOffice].[Affiliate] " +
+                            @"Values(" + affId + ", 1, 0, Null)";
+                        if (UpdateFtdUser(insertAffiliateCommand,
+                            _dbConnectionStrRealMirrorQa) != 1) //could not insert
+                            return null;
 
-                        if ((aconn != null) && (aconn.State == ConnectionState.Open))
-                            aconn.Close();
-                        switch (userType)
-                        {
-                            case Constants.OpenBookUser:
-                                loginRequest.FirstUserLogin(newUser.UserName, newUser.Password);
-                                break;
-
-                            case Constants.FtdUserNoAff:
-                                if (!InitFtdUser(newUser, input))
-                                    return null; //could not update
-                                break;
-
-                            case Constants.FtdUserRespQuestionNoAff:
-                                int rowsChangedCount = 0;
-                                string insertResponsibilityAnswerCommand =
-                                    @"INSERT INTO UserApiDB.KYC.CustomerAnswers (GCID, QuestionId, AnswerId, OccurredAt) " +
-                                    @"VALUES (" + gCid + ", 7, 17, GETDATE() )";
+                        string updateSerialIdCommand =
+                            @"UPDATE [RealMirrorQA].[Customer].[Customer] " +
+                            @"SET [SerialID] = " + affId +
+                            @" WHERE [CID]  = " + newUser.Real_CID;
 
 
-                                if (!InitFtdUser(newUser, input))
-                                    return null; //could not update
-
-                                rowsChangedCount = UpdateFtdUser(insertResponsibilityAnswerCommand,
-                                    _dbConnectionStrKYCDB);
-
-                                if (rowsChangedCount != 1) //could not insert
-                                    return null;
-                                break;
-
-                            case Constants.FtdUserWithAff:
-
-
-                                string GetLastCreatedAffiliateIdCommand =
-                                    "select Top 1 AffiliateID from [FiktivoQA].[dbo].[tblaff_Affiliates] order by AffiliateID desc";
-                                if (!InitFtdUser(newUser, input))
-                                    return null; //could not update
-
-                                int affId =
-                                    GetLastCreatedAffiliateId(GetLastCreatedAffiliateIdCommand,
-                                        _dbConnectionStrFiktivoDB);
-                                if (affId != 0)
-                                {
-                                    AffId = affId;
-                                    string insertAffiliateCommand =
-                                        @"insert into BackOffice.Affiliate " +
-                                        @"Values(" + affId + ", 1, 0, Null)";
-                                    if (UpdateFtdUser(insertAffiliateCommand,
-                                       _dbConnectionStrRealMirrorQADB) != 1) //could not insert
-                                        return null;
-                                    
-                                    string updateSerialIdCommand =
-                                        @"UPDATE [RealMirrorQA].[Customer].[Customer] " +
-                                        @"SET [SerialID] = " + affId +
-                                        @" WHERE [CID]  = " + newUser.Real_CID;
-
-
-                                    if (UpdateFtdUser(updateSerialIdCommand,
-                                        _dbConnectionStrRealMirrorQADB) != 1) //could not insert
-                                        return null;
-                                   
-                                }
-                                else
-                                {
-                                    return null;  
-                                }
-                                break;
-
-                        }
+                        if (UpdateFtdUser(updateSerialIdCommand,
+                            _dbConnectionStrRealMirrorQa) != 1) //could not insert
+                            return null;
                     }
-                }
+                    break;
+					
 
-                catch (Exception e)
-                {
-                    //AppleniumLogger.LogResult("Create test user","", Constants.ERROR, e);
-
-
-                    LogObject log = new LogObject();
-                    log.Description = "Create test user";
-                    log.StatusTag = Constants.ERROR;
-                    log.Exception = e;
-                    logger.Print(log);
-
-
-                }
-                finally
-                {
-                    if ((aconn != null) && (aconn.State == ConnectionState.Open))
-                        aconn.Close();
-                }
+                //    case Constants.FtdUserRespQuestionNoAff:
+                //        int rowsChangedCount = 0;
+                //        string insertResponsibilityAnswerCommand =
+                //            @"INSERT INTO UserApiDB.KYC.CustomerAnswers (GCID, QuestionId, AnswerId, OccurredAt) " +
+                //            @"VALUES (" + gCid + ", 7, 17, GETDATE() )";
+                //        if (!InitFtdUser(newUser, input))
+                //            return null; //could not update
+                //        rowsChangedCount = UpdateFtdUser(insertResponsibilityAnswerCommand, _dbConnectionStrKyc);
+                //        if (rowsChangedCount != 1) //could not insert
+                //            return null;
+                //        break;
             }
 
             return newUser;
         }
+            
 
         public bool InitFtdUser(NewUser newUser, string input)
         {
@@ -165,24 +118,11 @@ namespace Applenium
                 @" SET [VerificationLevelID]  = " + verLevel +
                 @" WHERE [CID]  = " + newUser.Real_CID;
 
-            rowsChangedCount = UpdateFtdUser(updateVerificationLevelIdCommand, _dbConnectionStrGlobalRegistry);
+            rowsChangedCount = UpdateFtdUser(updateVerificationLevelIdCommand, DbConnectionStrGlobalRegistry);
 
             if (rowsChangedCount != 1) //could not update
                 userInited = false;
-            //giving the new user an affiliate 
-/*
-            string updateSerialIdCommand =
-                @"UPDATE [RealMirrorQA].[Customer].[Customer] " +
-                @"SET [SerialID] = 41421 " +
-                @"WHERE [CID]  = " + newUser.Real_CID;
-
-            rowsChangedCount = UpdateFtdUser(updateSerialIdCommand, _dbConnectionStrGlobalRegistry);
-
-            if (rowsChangedCount != 1) //could not update
-                userInited = false;
-
-            
- * */
+  
             return userInited;
         }
 
@@ -206,10 +146,7 @@ namespace Applenium
 
                 catch (Exception e)
                 {
-                    //AppleniumLogger.LogResult("Create test user",e.Message, Constants.ERROR, e);
-
                     AppleniumLogger exceptionLogger = new AppleniumLogger();
-
                     LogObject log = new LogObject();
                     log.Description = "Create test user";
                     log.StatusTag = Constants.ERROR;
@@ -348,7 +285,7 @@ namespace Applenium
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    //Console.WriteLine(ex.Message);
                 }
                 return LastCreatedAffiliateId;
 

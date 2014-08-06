@@ -17,4 +17,4 @@ using log4net.Config;
     ResourceDictionaryLocation.None,
     ResourceDictionaryLocation.SourceAssembly
     )]
-[assembly: AssemblyVersion("1.57.0.*")]
+[assembly: AssemblyVersion("3.0.0.*")]
