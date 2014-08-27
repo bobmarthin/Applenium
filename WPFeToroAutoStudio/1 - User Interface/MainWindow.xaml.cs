@@ -61,8 +61,8 @@ namespace Applenium
         private bool _guiMapIsEmpty = false;
         private bool _guiOntheFly = false;
         private string _guiMapValue;
-        private string _loadtestid=string.Empty;
-        private int _loadtestduration=600;
+        private string _loadtestid = string.Empty;
+        private int _loadtestduration = 600;
         private string _loderioAppKey = string.Empty;
 
         //get Assembly version
@@ -377,7 +377,7 @@ namespace Applenium
                                 dataset.GuiMap.Select("[" + testingEnvironmentVersionColumn + "]=1").CopyToDataTable();
                             DataGridComboboxColumnGuiMap.ItemsSource = dataTable.DefaultView;
                             DataGridComboboxColumnGuiMapValue.ItemsSource = dataTable.DefaultView;
-                            DataGridComboboxColumnGuiMap.ItemsSource = dataset.GuiMap.DefaultView;
+                            //DataGridComboboxColumnGuiMap.ItemsSource = dataset.GuiMap.DefaultView;
                         }
                         else
                         {
@@ -418,7 +418,20 @@ namespace Applenium
                         adapterTcv.Fill(dataset.TestCommand);
                         DataGridComboboxColumnCommandTestViewer.ItemsSource = dataset.TestCommand.DefaultView;
                         break;
+                    case Constants.StrScenarioViewer:
+                        adapterTeststeps.FillBy(dataset.GuiTestSteps, Convert.ToInt32(input));
 
+                        dataTable =
+                            dataset.GuiTestSteps.Select("[" + testingEnvironmentVersionColumn + "]=1").CopyToDataTable();
+                        // DataGridTestViewer.ItemsSource = dataset.GuiTestSteps.DefaultView;
+                        DataGridTestViewer.ItemsSource = dataTable.DefaultView;
+
+                        adapterGuimap.Fill(dataset.GuiMap);
+                        DataGridComboboxColumnGuiMapTestViewer.ItemsSource = dataset.GuiMap.DefaultView;
+
+                        adapterTcv.Fill(dataset.TestCommand);
+                        DataGridComboboxColumnCommandTestViewer.ItemsSource = dataset.TestCommand.DefaultView;
+                        break;
 
                     case Constants.StrGuiScenarioLogic:
 
@@ -485,9 +498,9 @@ namespace Applenium
                                     column.IsReadOnly = true;
                                 }
                                 column.Binding = new Binding(column.Header.ToString())
-                                    {
-                                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                                    };
+                                {
+                                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                                };
                             }
                         }
                         else
@@ -497,6 +510,25 @@ namespace Applenium
                         }
                         break;
                     case Constants.StrInputScenarioTable:
+
+                        dt = sql.GetDataTable(tableName, input);
+                        view = dt != null ? dt.DefaultView : null;
+                        if (view != null)
+                        {
+                            DataGridScenarioEditorInputTable.Visibility = Visibility.Visible;
+                            DataGridScenarioEditorInputTable.ItemsSource = view;
+                            string inputtablename = sql.GetInputDataTableName
+                                (input, false);
+                            LabelTableDescriptionScenario.Content = inputtablename;
+                        }
+                        else
+                        {
+                            DataGridScenarioEditorInputTable.Visibility = Visibility.Hidden;
+                            LabelTableDescriptionScenario.Content = string.Empty;
+                        }
+
+                        break;
+                        case Constants.StrInputBatchTable:
 
                         dt = sql.GetDataTable(tableName, input);
                         view = dt != null ? dt.DefaultView : null;
@@ -627,7 +659,7 @@ namespace Applenium
         {
             BtnHighLight.IsEnabled = true;
 
-            var dataGrid = (DataGrid) sender;
+            var dataGrid = (DataGrid)sender;
             //var InputTableName = "Test";
 
             string cellitem = string.Empty;
@@ -639,7 +671,7 @@ namespace Applenium
             {
                 if ((cellitem != "{NewItemPlaceholder}") & (cellitem != string.Empty))
                 {
-                    var row = (DataRowView) dataGrid.SelectedItem;
+                    var row = (DataRowView)dataGrid.SelectedItem;
                     if (row != null)
                     {
                         int guiMapId = Convert.ToInt32(row["GuiMapID"].ToString());
@@ -664,7 +696,7 @@ namespace Applenium
             BtnHighLight.IsEnabled = true;
 
             BtnUpdateObject.IsEnabled = true;
-            var dataGrid = (DataGrid) sender;
+            var dataGrid = (DataGrid)sender;
 
             string cellitem = string.Empty;
             if (dataGrid.SelectedItem != null)
@@ -675,7 +707,7 @@ namespace Applenium
             {
                 if ((cellitem != "{NewItemPlaceholder}") & (cellitem != string.Empty))
                 {
-                    var row = (DataRowView) dataGrid.SelectedItem;
+                    var row = (DataRowView)dataGrid.SelectedItem;
 
                     Debug.Assert(row != null, "row != null");
                     if (row != null)
@@ -713,8 +745,8 @@ namespace Applenium
 
         private void SetProjectPageScetionId(object sender)
         {
-            var treeView = (TreeView) sender;
-            var row = (DataRowView) treeView.SelectedItem;
+            var treeView = (TreeView)sender;
+            var row = (DataRowView)treeView.SelectedItem;
             var adapterTest = new TestTableAdapter();
             var adapterPageSection = new GuiPageSectionTableAdapter();
             var adapterGuiproject = new GuiProjectPageTableAdapter();
@@ -1003,8 +1035,8 @@ namespace Applenium
         {
             try
             {
-                var dataGrid = (DataGrid) sender;
-                var rowView = (DataRowView) dataGrid.SelectedItem;
+                var dataGrid = (DataGrid)sender;
+                var rowView = (DataRowView)dataGrid.SelectedItem;
                 var guiMapTableAdapter = new GuiMapTableAdapter();
                 if (e.Key == Key.Delete)
                 {
@@ -1053,8 +1085,8 @@ namespace Applenium
             {
                 if (e.Key == Key.Delete)
                 {
-                    var dataGrid = (DataGrid) sender;
-                    var rowView = (DataRowView) dataGrid.SelectedItem;
+                    var dataGrid = (DataGrid)sender;
+                    var rowView = (DataRowView)dataGrid.SelectedItem;
 
                     using (var guiMapTableAdapter = new GuiMapTableAdapter())
                     {
@@ -1189,11 +1221,11 @@ namespace Applenium
                             rowView.Row["GuiMapCommandID"].ToString() != "1076"
 
                             )
-                            //throw new Exception("The Test Map Object can't be empty. Please check");
+                        //throw new Exception("The Test Map Object can't be empty. Please check");
                         {
 
                             //parce _guiMapValue
-                            var guimapArray = _guiMapValue.Split(new[] {"::"}, StringSplitOptions.None);
+                            var guimapArray = _guiMapValue.Split(new[] { "::" }, StringSplitOptions.None);
                             int tagTypeId = 1;
                             string tagTypeValue = _guiMapValue;
 
@@ -1396,7 +1428,7 @@ namespace Applenium
                 var rowView = (DataRowView)dataGrid.SelectedItem;
                 if (e.Key == Key.Delete)
                 {
-                   
+
 
                     using (var guiTestStepsTableAdapter = new GuiTestStepsTableAdapter())
                     {
@@ -1487,7 +1519,7 @@ namespace Applenium
             string testId = "";
 
             string sql_cmd = "";
-            
+
             string DBguimapName = "";
             string DBguiMapValue = "";
 
@@ -1535,7 +1567,7 @@ namespace Applenium
                             cmd_val = cellContent.Text;
                             if (cmd_val == "")
                             {
-                                
+
                                 System.Windows.Forms.MessageBox.Show("Please choose command first.", "Warning", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                                 _editinggrid = false;
                                 return;
@@ -1552,7 +1584,7 @@ namespace Applenium
                         i++;
                     }
                 }
-                
+
 
                 var sql = new Sql();
                 string versionColumn = sql.GetVersionColumn(); //AND (" + versionColumn + " = 1)"
@@ -1575,7 +1607,7 @@ namespace Applenium
                         _editinggrid = false;
                         return;
                     }
-                    else 
+                    else
                     {
                         NameFlag = false;
                         ValueFlag = false;
@@ -1624,7 +1656,7 @@ namespace Applenium
                     _editinggrid = false;
                     return;
                 }
-                
+
                 if (ValueFlag)// value cell - changed and new value exists in GuiMAP table
                 {
                     string guimap_name_tmp = Interaction.InputBox("The GuiMap Command '" + DBguimapName + "' with value '" + DBguiMapValue + "' already exists. Enter 'Cancel' to use existing command?\n\nEnter New Gui Command Name for Create New", "GuiMaP Help Wizard", DBguimapName);
@@ -1647,7 +1679,7 @@ namespace Applenium
                     }
 
                 }
-                
+
                 TBGuiMapName.Text = "";
                 TBGuiMapValue.Text = "";
                 TBGuiMapTagTypeName.Text = "";
@@ -1657,14 +1689,14 @@ namespace Applenium
 
                 Regex cmd_type = new Regex(@"^\s*(ssh|var|validation|http|include)");
                 Match mcmd = cmd_type.Match(cmd_val);
-               
+
                 if (mcmd.Success)
                 {
                     TBGuiMapTagTypeName.Visibility = System.Windows.Visibility.Hidden;
                     LABGuiMapTagTypeName.Visibility = System.Windows.Visibility.Hidden;
-                    
+
                 }
-               
+
                 TBCmdName.Text = cmd_val;
                 TBCmdName.IsEnabled = false;
                 LABCmdName.IsEnabled = false;
@@ -1877,7 +1909,7 @@ namespace Applenium
         {
             var manager = new ExecutionManager();
 
-            var drv = (DataRowView) DataGridGuiMap.SelectedItem;
+            var drv = (DataRowView)DataGridGuiMap.SelectedItem;
 
             try
             {
@@ -1917,7 +1949,7 @@ namespace Applenium
                 {
                     if (TreeViewTests.SelectedItem != null)
                     {
-                        var row = (DataRowView) TreeViewTests.SelectedItem;
+                        var row = (DataRowView)TreeViewTests.SelectedItem;
                         selectedItem = row["TestId"].ToString();
                     }
                     runExecutionId = Utilities.GetTimeStamp();
@@ -1947,7 +1979,7 @@ namespace Applenium
                             executionThread = new Thread(() => RunThreaded("test"));
                             executionThread.Start();
                         }
-                            // If user canceled, do nothing.
+                        // If user canceled, do nothing.
                         else HideStopBtnScenario();
                     }
 
@@ -2123,7 +2155,7 @@ namespace Applenium
                     int runExecutionId = Utilities.GetTimeStamp();
                     if (TreeViewScenarios.SelectedItem != null)
                     {
-                        var row = (DataRowView) TreeViewScenarios.SelectedItem;
+                        var row = (DataRowView)TreeViewScenarios.SelectedItem;
                         selectedItem = row["ScenarioID"].ToString();
                     }
 
@@ -2157,7 +2189,7 @@ namespace Applenium
                             }
 
                         }
-                            // If user canceled, do nothing. Let the previous execution continue
+                        // If user canceled, do nothing. Let the previous execution continue
                         else HideStopBtnScenario();
                     }
 
@@ -2192,7 +2224,7 @@ namespace Applenium
         private void RunThreaded(string testType)
         {
             try
-            {                
+            {
                 int runExecutionId = Utilities.GetTimeStamp();
                 JsonParser jp = new JsonParser();
                 MessageBoxResult mbr;
@@ -2219,8 +2251,8 @@ namespace Applenium
                         result = ExecuteTest(selectedItem, rowNumber.Trim(), runExecutionId, _driver);
                         break;
                     case "loadtest":
-                        
-                        string result_id = RunLoadTest(_loadtestid, _loadtestduration,_loderioAppKey);
+
+                        string result_id = RunLoadTest(_loadtestid, _loadtestduration, _loderioAppKey);
                         break;
                 }
 
@@ -2250,11 +2282,11 @@ namespace Applenium
                         executionThread = null;
                         Singleton.Instance.StopExecution = false;
                         Dispatcher.Invoke(() => NavigateWebBrowserLoadTest(_loadtestid));
-                       
-                    }
-                
 
-                
+                    }
+
+
+
 
 
                     else if (mbr == MessageBoxResult.Cancel)
@@ -2444,7 +2476,7 @@ namespace Applenium
         {
             try
             {
-                var myDv = (DataView) DataGridScenarioEditor.ItemsSource;
+                var myDv = (DataView)DataGridScenarioEditor.ItemsSource;
                 DataTable myDt = DataViewAsDataTable(myDv);
                 var myNewDt = new DataTable();
 
@@ -2464,7 +2496,7 @@ namespace Applenium
 
                     if (myNewDt.Columns.Contains(guiTestName) == false)
                     {
-                        myNewDt.Columns.Add(guiTestName, typeof (int));
+                        myNewDt.Columns.Add(guiTestName, typeof(int));
                     }
                 }
 
@@ -2528,7 +2560,7 @@ namespace Applenium
             {
                 if ((cellitem != "{NewItemPlaceholder}") & (cellitem != string.Empty))
                 {
-                    var rowView = (DataRowView) DataGridScenarioEditor.SelectedItem;
+                    var rowView = (DataRowView)DataGridScenarioEditor.SelectedItem;
 
                     if (rowView != null)
                     {
@@ -2555,8 +2587,8 @@ namespace Applenium
             {
                 if (e.Key == Key.Delete)
                 {
-                    var dataGrid = (DataGrid) sender;
-                    var rowView = (DataRowView) dataGrid.SelectedItem;
+                    var dataGrid = (DataGrid)sender;
+                    var rowView = (DataRowView)dataGrid.SelectedItem;
 
                     var adapterScenario = new GuiScenarioLogicTableAdapter();
                     if (_editinggrid == false)
@@ -2789,15 +2821,17 @@ namespace Applenium
                         executionStatusId = Constants.Checked;
                     else
                         executionStatusId = Convert.ToInt32(rowView.Row["ExecutionStatusID"].ToString());
-
+                    int stepsOrder;
 
                     if (guiBatchLogicId == -1)
                     {
-                        adapterSl.Insert(batchId, guiScenarioId, browserId, executionStatusId);
+                        stepsOrder = Convert.ToInt32(adapterSl.LastScenarioOrder(batchId)) + 1;
+                        adapterSl.Insert(batchId, guiScenarioId, browserId, executionStatusId, stepsOrder);
                     }
                     else
                     {
-                        adapterSl.Update(batchId, guiScenarioId, browserId, executionStatusId, guiBatchLogicId);
+                        stepsOrder = Convert.ToInt32(rowView.Row["StepsOrder"].ToString());
+                        adapterSl.Update(batchId, guiScenarioId, browserId, executionStatusId, stepsOrder, guiBatchLogicId);
                     }
                 }
             }
@@ -2826,7 +2860,10 @@ namespace Applenium
 
         private void DataGridBatch_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            if (DataGridBatchEditor.SelectedItem != null)
+            BtnMoveStepUpExecution.IsEnabled = true;
+            BtnMoveStepDownExecution.IsEnabled = true;
+
+        if (DataGridBatchEditor.SelectedItem != null)
             {
             }
             try
@@ -2846,7 +2883,12 @@ namespace Applenium
                 exceptionLogger2.Exception = exception;
                 logger.Print(exceptionLogger2);
             }
-        }
+       }
+
+
+
+
+
 
         private void dataGridBatchEditor_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -2857,25 +2899,45 @@ namespace Applenium
                     var dataGrid = (DataGrid) sender;
                     var rowView = (DataRowView) dataGrid.SelectedItem;
 
-                    using (var adapterScenario = new BatchLogicTableAdapter())
+                    using (var adapterBatch = new BatchLogicTableAdapter())
                     {
                         if (_editinggrid == false)
                         {
                             int guiBatchLogicId = Convert.ToInt32(rowView.Row["BatchLogicID"].ToString());
+                            int guiBatchId = Convert.ToInt32(rowView.Row["BatchID"].ToString());
+
                             if (
                                 MessageBox.Show("Delete Selected Scenario? ", "eToroAutoStudio", MessageBoxButton.YesNo) ==
                                 MessageBoxResult.Yes)
-                                adapterScenario.Delete(guiBatchLogicId);
+                            {
+                                int currentStepsOrder = Convert.ToInt32(rowView.Row["StepsOrder"].ToString());
+                                int selectItem = currentStepsOrder - 1;
+                               
+                                while (adapterBatch.GetBatchLogicID(guiBatchId, currentStepsOrder + 1) != null)
+                                {
+                                    int nextStepsOrder = currentStepsOrder + 1;
+                                    int nextGuiTestStepsId =
+                                        Convert.ToInt32(adapterBatch.GetBatchLogicID(guiBatchId, nextStepsOrder));
+                                    adapterBatch.UpdateScenariosOrder(currentStepsOrder, nextGuiTestStepsId);
+                                    currentStepsOrder = nextStepsOrder;
+                                }
+
+                                adapterBatch.Delete(guiBatchLogicId);
+                                DataGridFill(Constants.StrGuiScenarioLogic,
+                                    guiBatchId.ToString(CultureInfo.InvariantCulture));
+                                dataGrid.SelectedItem = dataGrid.Items[selectItem];
+                            }
                         }
                     }
-                }
-                if (e.Key == Key.Enter)
-                {
-                    e.Handled = true;
-                    var eInsertBack = new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0,
-                                                       Key.Tab);
-                    eInsertBack.RoutedEvent = KeyDownEvent;
-                    InputManager.Current.ProcessInput(eInsertBack);
+                    if (e.Key == Key.Enter)
+                    {
+                        e.Handled = true;
+                        var eInsertBack = new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource,
+                            0,
+                            Key.Tab);
+                        eInsertBack.RoutedEvent = KeyDownEvent;
+                        InputManager.Current.ProcessInput(eInsertBack);
+                    }
                 }
             }
             catch (Exception exception)
@@ -2885,8 +2947,11 @@ namespace Applenium
                 exceptionLogger2.Description = exception.Message;
                 exceptionLogger2.Exception = exception;
                 logger.Print(exceptionLogger2);
-            }
+               
+                }
         }
+
+
 
         private void DataGridBatchEditor_BeginingEdit(object sender, DataGridBeginningEditEventArgs e)
         {
@@ -3296,53 +3361,53 @@ namespace Applenium
 
                 if (TreeViewBatch.SelectedItem != null)
                 {
-                    var row = (DataRowView) TreeViewBatch.SelectedItem;
+                    var row = (DataRowView)TreeViewBatch.SelectedItem;
                     selectedItem = row["BatchID"].ToString();
                 }
 
                 ThreadStart ts = delegate
-                    {
-                        // Do long work here
-                        result = ExecuteBatch(selectedItem, runExecutionId);
-                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (EventHandler)
-                                                                          delegate
-                                                                              {
-                                                                                  HideStopBtnBatch();
-                                                                                  MessageBoxResult mbr;
-                                                                                  DataGridFill(Constants.StrLogResults,
-                                                                                               runExecutionId.ToString(
-                                                                                                   CultureInfo
-                                                                                                       .InvariantCulture));
-                                                                                  if (result)
-                                                                                      mbr =
-                                                                                          MessageBox.Show(
-                                                                                              "Batch is passed. Press OK to see results. Cancel to stay on the same window.",
-                                                                                              "Run evaluation result",
-                                                                                              MessageBoxButton.OKCancel,
-                                                                                              MessageBoxImage.Asterisk,
-                                                                                              MessageBoxResult.OK,
-                                                                                              MessageBoxOptions
-                                                                                                  .DefaultDesktopOnly);
-                                                                                  else
-                                                                                      mbr =
-                                                                                          MessageBox.Show(
-                                                                                              "Batch  is failed. Press OK to see results. Cancel to stay on the same window.",
-                                                                                              "Run evaluation result",
-                                                                                              MessageBoxButton.OKCancel,
-                                                                                              MessageBoxImage.Error,
-                                                                                              MessageBoxResult.OK,
-                                                                                              MessageBoxOptions
-                                                                                                  .DefaultDesktopOnly);
+                {
+                    // Do long work here
+                    result = ExecuteBatch(selectedItem, runExecutionId);
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (EventHandler)
+                                                                      delegate
+                                                                      {
+                                                                          HideStopBtnBatch();
+                                                                          MessageBoxResult mbr;
+                                                                          DataGridFill(Constants.StrLogResults,
+                                                                                       runExecutionId.ToString(
+                                                                                           CultureInfo
+                                                                                               .InvariantCulture));
+                                                                          if (result)
+                                                                              mbr =
+                                                                                  MessageBox.Show(
+                                                                                      "Batch is passed. Press OK to see results. Cancel to stay on the same window.",
+                                                                                      "Run evaluation result",
+                                                                                      MessageBoxButton.OKCancel,
+                                                                                      MessageBoxImage.Asterisk,
+                                                                                      MessageBoxResult.OK,
+                                                                                      MessageBoxOptions
+                                                                                          .DefaultDesktopOnly);
+                                                                          else
+                                                                              mbr =
+                                                                                  MessageBox.Show(
+                                                                                      "Batch  is failed. Press OK to see results. Cancel to stay on the same window.",
+                                                                                      "Run evaluation result",
+                                                                                      MessageBoxButton.OKCancel,
+                                                                                      MessageBoxImage.Error,
+                                                                                      MessageBoxResult.OK,
+                                                                                      MessageBoxOptions
+                                                                                          .DefaultDesktopOnly);
 
-                                                                                  if (mbr == MessageBoxResult.OK)
-                                                                                      TabItemAnalyzingZone.IsSelected =
-                                                                                          true;
-                                                                                  Singleton myInstance =
-                                                                                      Singleton.Instance;
-                                                                                  // Will always be the same instance...
-                                                                                  myInstance.StopExecution = false;
-                                                                              }, null, null);
-                    };
+                                                                          if (mbr == MessageBoxResult.OK)
+                                                                              TabItemAnalyzingZone.IsSelected =
+                                                                                  true;
+                                                                          Singleton myInstance =
+                                                                              Singleton.Instance;
+                                                                          // Will always be the same instance...
+                                                                          myInstance.StopExecution = false;
+                                                                      }, null, null);
+                };
 
                 ts.BeginInvoke(delegate(IAsyncResult aysncResult) { ts.EndInvoke(aysncResult); }, null);
             }
@@ -3494,6 +3559,18 @@ namespace Applenium
         }
 
 
+        private void btnMoveStepUpExec_Click(object sender, RoutedEventArgs e)
+        {
+            MoveScenariosUpExec(DataGridBatchEditor, Constants.StrGuiBatchLogic);
+        }
+
+        private void btnMoveStepDownExec_Click(object sender, RoutedEventArgs e)
+        {
+            MoveScenariosDownExec(DataGridBatchEditor, Constants.StrGuiBatchLogic);
+        }
+
+
+
         private void MoveStepsUpScenario(DataGrid datagrid, string dataGridEditor)
         {
             int selectedItem = 0;
@@ -3502,7 +3579,7 @@ namespace Applenium
 
             try
             {
-                var rowView = (DataRowView) datagrid.SelectedItem;
+                var rowView = (DataRowView)datagrid.SelectedItem;
                 int scenarioOrTestId;
                 if (dataGridEditor == Constants.StrGuiScenarioLogic)
                 {
@@ -3568,7 +3645,7 @@ namespace Applenium
             int scenarioOrTestId = 0;
             try
             {
-                var rowView = (DataRowView) datagrid.SelectedItem;
+                var rowView = (DataRowView)datagrid.SelectedItem;
 
                 using (var scenarioLogicTableAdapter = new GuiScenarioLogicTableAdapter())
                 {
@@ -3628,6 +3705,123 @@ namespace Applenium
             }
         }
 
+        private void MoveScenariosUpExec(DataGrid datagrid, string dataGridEditor)
+        {
+            int selectedItem = 0;
+            var batchLogicTableAdapter = new BatchLogicTableAdapter();
+
+
+            try
+            {
+                var rowView = (DataRowView)datagrid.SelectedItem;
+                int batchId;
+
+                batchId = Convert.ToInt32(rowView.Row["BatchID"].ToString());
+
+
+                if (rowView != null)
+                {
+                    int currentScenarioOrder = Convert.ToInt32(rowView.Row["StepsOrder"].ToString());
+                    int currentBatchLogicId = Convert.ToInt32(batchLogicTableAdapter.GetBatchLogicID(batchId, currentScenarioOrder));
+                    int previousScenarioOrder = currentScenarioOrder - 1;
+                    if (batchLogicTableAdapter.GetBatchLogicID(batchId, previousScenarioOrder) != null)
+                    {
+                        int previousScenarioId =
+                            Convert.ToInt32(batchLogicTableAdapter.GetBatchLogicID(batchId, previousScenarioOrder));
+                        batchLogicTableAdapter.UpdateScenariosOrder(previousScenarioOrder, currentBatchLogicId);
+                        batchLogicTableAdapter.UpdateScenariosOrder(currentScenarioOrder, previousScenarioId);
+                        selectedItem = previousScenarioOrder - 1;
+                    }
+                    if (currentScenarioOrder == 1)
+                    {
+                        currentBatchLogicId = Convert.ToInt32(batchLogicTableAdapter.GetBatchLogicID(batchId, currentScenarioOrder));
+                        while (batchLogicTableAdapter.GetBatchLogicID(batchId, currentBatchLogicId + 1) != null)
+                        {
+                            int nextStepsOrder = currentScenarioOrder + 1;
+                            int nextGuiTestStepsId =
+                                Convert.ToInt32(batchLogicTableAdapter.GetBatchLogicID(batchId, nextStepsOrder));
+                            batchLogicTableAdapter.UpdateScenariosOrder(currentScenarioOrder, nextGuiTestStepsId);
+                            currentScenarioOrder = nextStepsOrder;
+                        }
+                        batchLogicTableAdapter.UpdateScenariosOrder(datagrid.Items.Count - 1, currentBatchLogicId);
+                        selectedItem = datagrid.Items.Count - 2;
+                    }
+                }
+                DataGridFill(dataGridEditor, batchId.ToString(CultureInfo.InvariantCulture));
+                datagrid.SelectedItem = datagrid.Items[selectedItem];
+            }
+
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Applenium");
+                LogObject exceptionLogger2 = new LogObject();
+                exceptionLogger2.StatusTag = Constants.ERROR;
+                exceptionLogger2.Description = exception.Message;
+                exceptionLogger2.Exception = exception;
+                logger.Print(exceptionLogger2);
+            }
+        }
+
+        private void MoveScenariosDownExec(DataGrid datagrid, string dataGridEditor)
+        {
+            int selectedItem = 0;
+            var batchLogicTableAdapter = new BatchLogicTableAdapter();
+
+
+            try
+            {
+                var rowView = (DataRowView)datagrid.SelectedItem;
+                int batchId;
+
+                batchId = Convert.ToInt32(rowView.Row["BatchID"].ToString());
+
+
+                if (rowView != null)
+                {
+                    int currentScenarioOrder = Convert.ToInt32(rowView.Row["StepsOrder"].ToString());
+                    int currentBatchLogicId = Convert.ToInt32(batchLogicTableAdapter.GetBatchLogicID(batchId, currentScenarioOrder));
+                    int nextScenarioOrder = currentScenarioOrder + 1;
+                   
+                    if (batchLogicTableAdapter.GetBatchLogicID(batchId, nextScenarioOrder) != null)
+                    {
+                        int nextScenarioId =
+                            Convert.ToInt32(batchLogicTableAdapter.GetBatchLogicID(batchId, nextScenarioOrder));
+                        batchLogicTableAdapter.UpdateScenariosOrder(nextScenarioOrder, currentBatchLogicId);
+                        batchLogicTableAdapter.UpdateScenariosOrder(currentScenarioOrder, nextScenarioId);
+                        selectedItem = nextScenarioOrder - 1;
+                    }
+                    if (currentScenarioOrder == datagrid.Items.Count - 1)
+                    {
+                        currentBatchLogicId = Convert.ToInt32(batchLogicTableAdapter.GetBatchLogicID(batchId, currentScenarioOrder));
+                        while (batchLogicTableAdapter.GetBatchLogicID(batchId, currentScenarioOrder - 1) != null)
+                        {
+
+                            int nextStepsOrder = currentScenarioOrder - 1;
+                            int nextGuiTestStepsId = Convert.ToInt32(batchLogicTableAdapter.GetBatchLogicID(batchId, nextStepsOrder));
+                            batchLogicTableAdapter.UpdateScenariosOrder(currentScenarioOrder, nextGuiTestStepsId);
+                            currentScenarioOrder = nextStepsOrder;
+                        }
+                        batchLogicTableAdapter.UpdateScenariosOrder(1, currentBatchLogicId);
+                        selectedItem = 0;
+                    }
+
+                }
+                DataGridFill(dataGridEditor, batchId.ToString(CultureInfo.InvariantCulture));
+                datagrid.SelectedItem = datagrid.Items[selectedItem];
+            }
+
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Applenium");
+                LogObject exceptionLogger2 = new LogObject();
+                exceptionLogger2.StatusTag = Constants.ERROR;
+                exceptionLogger2.Description = exception.Message;
+                exceptionLogger2.Exception = exception;
+                logger.Print(exceptionLogger2);
+            }
+        }
+
+
         private void MoveStepsUpTest(DataGrid datagrid, string dataGridEditor)
         {
             var adapterEnvVer = new EnvironmentVersionTableAdapter();
@@ -3642,7 +3836,7 @@ namespace Applenium
 
             try
             {
-                var rowView = (DataRowView) datagrid.SelectedItem;
+                var rowView = (DataRowView)datagrid.SelectedItem;
                 int scenarioOrTestId;
                 if (dataGridEditor == Constants.StrGuiScenarioLogic)
                 {
@@ -3668,7 +3862,7 @@ namespace Applenium
                     if (
                         sql.GetStepsIdByVersion(scenarioOrTestId.ToString(), previesStepsOrder.ToString(), versionColumn) !=
                         string.Empty)
-                        //if (testStepsTableAdapter.GetStepId(scenarioOrTestId, previesStepsOrder) != null)
+                    //if (testStepsTableAdapter.GetStepId(scenarioOrTestId, previesStepsOrder) != null)
                     {
                         //int previesGuiTestStepsId =Convert.ToInt32(testStepsTableAdapter.GetStepId(scenarioOrTestId, previesStepsOrder));
                         // int previesGuiTestStepsId =Convert.ToInt32(sql.GetStepsIdByVersion(scenarioOrTestId.ToString(),previesStepsOrder.ToString(), versionColumn));
@@ -3698,7 +3892,7 @@ namespace Applenium
                         while (
                             sql.GetStepsIdByVersion(scenarioOrTestId.ToString(), (currentStepsOrder + 1).ToString(),
                                                     versionColumn) != string.Empty)
-                            //(testStepsTableAdapter.GetStepId(scenarioOrTestId, currentStepsOrder + 1) != null)
+                        //(testStepsTableAdapter.GetStepId(scenarioOrTestId, currentStepsOrder + 1) != null)
                         {
                             int nextStepsOrder = currentStepsOrder + 1;
                             //int nextGuiTestStepsId =Convert.ToInt32(testStepsTableAdapter.GetStepId(scenarioOrTestId, nextStepsOrder));
@@ -3746,7 +3940,7 @@ namespace Applenium
             int scenarioOrTestId = 0;
             try
             {
-                var rowView = (DataRowView) datagrid.SelectedItem;
+                var rowView = (DataRowView)datagrid.SelectedItem;
 
                 using (var testStepsTableAdapter = new GuiTestStepsTableAdapter())
                 {
@@ -3776,7 +3970,7 @@ namespace Applenium
                         if (
                             sql.GetStepsIdByVersion(scenarioOrTestId.ToString(), nextStepsOrder.ToString(),
                                                     versionColumn) != string.Empty)
-                            // (testStepsTableAdapter.GetStepId(scenarioOrTestId, nextStepsOrder) != null)
+                        // (testStepsTableAdapter.GetStepId(scenarioOrTestId, nextStepsOrder) != null)
                         {
                             //nextGuiTestStepsId =Convert.ToInt32(testStepsTableAdapter.GetStepId(scenarioOrTestId, nextStepsOrder));
 
@@ -3800,7 +3994,7 @@ namespace Applenium
                             while (
                                 sql.GetStepsIdByVersion(scenarioOrTestId.ToString(), (currentStepsOrder - 1).ToString(),
                                                         versionColumn) != string.Empty)
-                                //(testStepsTableAdapter.GetStepId(scenarioOrTestId, currentStepsOrder - 1) != null)
+                            //(testStepsTableAdapter.GetStepId(scenarioOrTestId, currentStepsOrder - 1) != null)
                             {
                                 nextStepsOrder = currentStepsOrder - 1;
                                 //nextGuiTestStepsId =Convert.ToInt32(testStepsTableAdapter.GetStepId(scenarioOrTestId, nextStepsOrder));
@@ -3934,7 +4128,7 @@ namespace Applenium
             if (testname != string.Empty)
             {
                 adapterTest.CopyTest(newtestname.Trim(), Constants.UncompletedTestImage, _testid);
-                int? newtestid = (int) adapterTest.GetLastTestId();
+                int? newtestid = (int)adapterTest.GetLastTestId();
                 //adapterTestSteps.CopyTestSteps(newtestid.ToString(), _testid);//!!!!!!!!!!
 
                 sql.CopyStepsByVersion(_testid.ToString(), newtestid.ToString(), sql.GetVersionColumn());
@@ -3977,7 +4171,7 @@ namespace Applenium
                                                       "Enter new name for your test ", "Copy Of_" + testname);
 
             adapterTest.CopyTest(newtestname.Trim(), Constants.UncompletedTestImage, _testid);
-            int? newtestid = (int) adapterTest.GetLastTestId();
+            int? newtestid = (int)adapterTest.GetLastTestId();
             adapterTestSteps.CopyTestSteps(newtestid.ToString(), _testid);
 
             adapterTest.UpdateStatusCompleted(Constants.UncompletedTestImage, _testid);
@@ -4052,7 +4246,7 @@ namespace Applenium
             try
             {
 
-                Button btn = (Button) sender;
+                Button btn = (Button)sender;
                 List<string> list = new List<string>();
                 foreach (string handle in _driver.WindowHandles)
                 {
@@ -4060,7 +4254,7 @@ namespace Applenium
                     //  Console.WriteLine(handle.ToString());
                 }
 
-                int index = counter%list.Count;
+                int index = counter % list.Count;
 
                 if (index < list.Count)
                 {
@@ -4109,15 +4303,15 @@ namespace Applenium
             }
 
             this.Dispatcher.BeginInvoke(
-                (Action) delegate()
+                (Action)delegate()
+                {
+                    // If both messages are not empty print it. Else, print empty string;
+                    if (messageToPrint != string.Empty)
                     {
-                        // If both messages are not empty print it. Else, print empty string;
-                        if (messageToPrint != string.Empty)
-                        {
-                            LblCurrentlyRunning.Content = messageToPrint;
-                        }
-                        else LblCurrentlyRunning.Content = string.Empty;
-                    });
+                        LblCurrentlyRunning.Content = messageToPrint;
+                    }
+                    else LblCurrentlyRunning.Content = string.Empty;
+                });
 
         }
 
@@ -4130,7 +4324,7 @@ namespace Applenium
 
         private void ComboboxTestingEnvironment_TextChanged(object sender, KeyEventArgs e)
         {
-            ComboBox comboBoxTestingEnvironment = (ComboBox) sender;
+            ComboBox comboBoxTestingEnvironment = (ComboBox)sender;
             using (var adapterEnvVer = new EnvironmentVersionTableAdapter())
             {
                 if (e.Key == Key.Enter)
@@ -4155,7 +4349,7 @@ namespace Applenium
         private void ComboboxGuiMap_LostFocus(object sender, RoutedEventArgs e)
         {
 
-            ComboBox comboBoxGuiMap = (ComboBox) sender;
+            ComboBox comboBoxGuiMap = (ComboBox)sender;
             _guiMapValue = comboBoxGuiMap.Text;
         }
 
@@ -4211,23 +4405,23 @@ namespace Applenium
         private void NewBrowserThread(string browser)
         {
             Thread t = new Thread(delegate()
-                {
-                    // driver is not ready yet so lock execution (run scenario/test) buttons
-                    Dispatcher.Invoke(() => ShowStopBtnScenario());
-                    Dispatcher.Invoke(() => ShowStopBtn());
+            {
+                // driver is not ready yet so lock execution (run scenario/test) buttons
+                Dispatcher.Invoke(() => ShowStopBtnScenario());
+                Dispatcher.Invoke(() => ShowStopBtn());
 
-                    // preper the driver
-                    nullDriver = true;
-                    Selenium selenium = new Selenium();
-                    _driver = selenium.SetWebDriverBrowser(_driver, browser, true);
-                    nullDriver = false;
+                // preper the driver
+                nullDriver = true;
+                Selenium selenium = new Selenium();
+                _driver = selenium.SetWebDriverBrowser(_driver, browser, true);
+                nullDriver = false;
 
-                    // driver is ready, unlock buttons 
-                    Dispatcher.Invoke(() => HideStopBtnScenario());
-                    Dispatcher.Invoke(() => HideStopBtn());
+                // driver is ready, unlock buttons 
+                Dispatcher.Invoke(() => HideStopBtnScenario());
+                Dispatcher.Invoke(() => HideStopBtn());
 
 
-                });
+            });
             t.Start();
 
         }
@@ -4238,23 +4432,23 @@ namespace Applenium
         private void ClosingBrowserThread()
         {
             new Thread(delegate()
+            {
+                try
                 {
-                    try
-                    {
-                        _driver.Quit();
-                        nullDriver = true;
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        LogObject exceptionLogger2 = new LogObject();
-                        exceptionLogger2.StatusTag = Constants.ERROR;
-                        exceptionLogger2.Description = "Failed to close driver in new thread";
-                        exceptionLogger2.Exception = ex;
-                        logger.Print(exceptionLogger2);
+                    _driver.Quit();
+                    nullDriver = true;
+                }
+                catch (NullReferenceException ex)
+                {
+                    LogObject exceptionLogger2 = new LogObject();
+                    exceptionLogger2.StatusTag = Constants.ERROR;
+                    exceptionLogger2.Description = "Failed to close driver in new thread";
+                    exceptionLogger2.Exception = ex;
+                    logger.Print(exceptionLogger2);
 
 
-                    }
-                }).Start();
+                }
+            }).Start();
 
         }
 
@@ -4368,7 +4562,7 @@ namespace Applenium
                 string environmentVersionId = null;
 
 
-                var MOPobject = (DataRowView) ComboBox_MOP.SelectedValue;
+                var MOPobject = (DataRowView)ComboBox_MOP.SelectedValue;
                 var dataset = new DataSetAutoTest();
 
 
@@ -4538,57 +4732,87 @@ namespace Applenium
         //Creation Date: 5.2.2014
         private void SaveConfButton_Click(object sender, RoutedEventArgs e)
         {
-            //
-            string initDir = Constants.MemoryConf["AppleniumConfDir"];
-            // Configure save file dialog box
-            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "AppleniumConfiguration"; // Default file name
-            dlg.DefaultExt = ".text"; // Default file extension
-            dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            dlg.InitialDirectory = Path.GetFullPath(initDir);
-            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
-
-            // Show save file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Process save file dialog box results
-            if (result == true)
+            try
             {
-                // Save document
-                string filename = dlg.FileName;
-                File.Copy(@ConfigurationManager.AppSettings["ConfigurationJsonFile"], filename, true);
-            }
-            else
-            {
-                return;
-            }
 
+
+                //
+                string initDir = Constants.MemoryConf["AppleniumConfDir"];
+                // check if that folder exists 
+                bool isExists = System.IO.Directory.Exists(initDir);
+
+                if (!isExists)
+                    System.IO.Directory.CreateDirectory(initDir);
+                // Configure save file dialog box
+                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                dlg.FileName = "AppleniumConfiguration"; // Default file name
+                dlg.DefaultExt = ".text"; // Default file extension
+                dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                dlg.InitialDirectory = Path.GetFullPath(initDir);
+                dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+                // Show save file dialog box
+                Nullable<bool> result = dlg.ShowDialog();
+
+                // Process save file dialog box results
+                if (result == true)
+                {
+                    // Save document
+                    string filename = dlg.FileName;
+                    File.Copy(@ConfigurationManager.AppSettings["ConfigurationJsonFile"], filename, true);
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+            catch (Exception exception)
+            {
+
+                MessageBox.Show(exception.Message, "Applenium");
+            }
         }
 
         private void OpenConfButton_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            string initDir = Constants.MemoryConf["AppleniumConfDir"];
-
-            dlg.DefaultExt = ".txt"; // Set filter for file extension and default file extension
-            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension 
-            dlg.InitialDirectory = Path.GetFullPath(initDir);
-            //dlg.InitialDirectory = Path.GetFullPath(@"Y:\MobileClients\Config");
-            //dlg.InitialDirectory = Environment.GetFolderPath();
-            // Display OpenFileDialog by calling ShowDialog method
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox
-            if (result == true)
+            try
             {
-                // Open document
-                string filename = dlg.FileName;
-                File.Copy(filename, @ConfigurationManager.AppSettings["ConfigurationJsonFile"], true);
-                DataGrid_Configuration_Loaded(null, null);
-                var jp = new JsonParser();
-                Boolean res = jp.AddConfigToMemory("");
+
+
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                string initDir = Constants.MemoryConf["AppleniumConfDir"];
+                bool isExists = System.IO.Directory.Exists(initDir);
+
+                if (!isExists)
+                    System.IO.Directory.CreateDirectory(initDir);
+                dlg.DefaultExt = ".txt"; // Set filter for file extension and default file extension
+                dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension 
+                dlg.InitialDirectory = Path.GetFullPath(initDir);
+                //dlg.InitialDirectory = Path.GetFullPath(@"Y:\MobileClients\Config");
+                //dlg.InitialDirectory = Environment.GetFolderPath();
+                // Display OpenFileDialog by calling ShowDialog method
+                Nullable<bool> result = dlg.ShowDialog();
+
+                // Get the selected file name and display in a TextBox
+                if (result == true)
+                {
+                    // Open document
+                    string filename = dlg.FileName;
+                    File.Copy(filename, @ConfigurationManager.AppSettings["ConfigurationJsonFile"], true);
+                    DataGrid_Configuration_Loaded(null, null);
+                    var jp = new JsonParser();
+                    Boolean res = jp.AddConfigToMemory("");
+                }
             }
            
+            catch (Exception exception)
+            {
+
+                MessageBox.Show(exception.Message, "Applenium");
+            }
+
+
         }
 
         private void TreeViewLogs_Loaded(object sender, RoutedEventArgs e)
@@ -4817,40 +5041,40 @@ namespace Applenium
                 //separate thread 
 
                 ThreadStart ts = delegate
-                    {
-                        // Do long work here
-                        var result = HttpRequestExtensions.TryGetJson<List<LoaderIoResultModel>>(url, appKeyName, appKey,
-                                                                                                 300000);
-                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (EventHandler)
-                                                                          delegate
-                                                                          {
-                                                                              
-                                                                              if (result != null)
-                                                                              {
-                                                                                  comboBox.Text =
-                                                                                  "Loading tests was Completed. Please select the test";
-                                                                                  var newresult =
-                                                                                      new List
-                                                                                          <
-                                                                                              LoaderIoResultModelConcatenate
-                                                                                              >();
-                                                                                  foreach (
-                                                                                      var loaderresultmodel in result)
-                                                                                  {
+                {
+                    // Do long work here
+                    var result = HttpRequestExtensions.TryGetJson<List<LoaderIoResultModel>>(url, appKeyName, appKey,
+                                                                                             300000);
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (EventHandler)
+                                                                      delegate
+                                                                      {
 
-                                                                                      newresult.Add(
-                                                                                          new LoaderIoResultModelConcatenate
-                                                                                              (loaderresultmodel));
-                                                                                  }
-                                                                                  comboBox.ItemsSource = newresult;
-                                                                              }
-                                                                              else
+                                                                          if (result != null)
+                                                                          {
+                                                                              comboBox.Text =
+                                                                              "Loading tests was Completed. Please select the test";
+                                                                              var newresult =
+                                                                                  new List
+                                                                                      <
+                                                                                          LoaderIoResultModelConcatenate
+                                                                                          >();
+                                                                              foreach (
+                                                                                  var loaderresultmodel in result)
                                                                               {
-                                                                                  comboBox.Text =
-                                                                                "Can't load tests. Verify you Loader.io app key";
+
+                                                                                  newresult.Add(
+                                                                                      new LoaderIoResultModelConcatenate
+                                                                                          (loaderresultmodel));
                                                                               }
-                                                                          }, null, null);
-                    };
+                                                                              comboBox.ItemsSource = newresult;
+                                                                          }
+                                                                          else
+                                                                          {
+                                                                              comboBox.Text =
+                                                                            "Can't load tests. Verify you Loader.io app key";
+                                                                          }
+                                                                      }, null, null);
+                };
 
                 ts.BeginInvoke(delegate(IAsyncResult aysncResult) { ts.EndInvoke(aysncResult); }, null);
 
@@ -4892,9 +5116,9 @@ namespace Applenium
                         try
                         {
                             // Work in background
-                           _loadtestid = ComboboxSelectLoadTest.SelectedValue.ToString();
-                           _loadtestduration = Convert.ToInt32(TextboxSelectDurationtime.Text);
-                           _loderioAppKey = TextboxAppKey.Text.Trim();
+                            _loadtestid = ComboboxSelectLoadTest.SelectedValue.ToString();
+                            _loadtestduration = Convert.ToInt32(TextboxSelectDurationtime.Text);
+                            _loderioAppKey = TextboxAppKey.Text.Trim();
                             executionThread = new Thread(() => RunThreaded("loadtest"));
                             executionThread.Start();
                             NavigateWebBrowserLoadTest(_loadtestid);
@@ -4944,27 +5168,27 @@ namespace Applenium
         //    return result-id;
         //}
 
-        private string  RunLoadTest(string testId, int totalDuration, string appKey)
+        private string RunLoadTest(string testId, int totalDuration, string appKey)
         {
             try
             {
-                LoaderIoResultTestResultModel result=new LoaderIoResultTestResultModel();
+                LoaderIoResultTestResultModel result = new LoaderIoResultTestResultModel();
 
                 //multithread - make long work here 
 
                 //call api and run test.
-               
+
 
                 //calculate how many times to run test:
                 //1. get duration time from test_id
                 string appKeyName = "loaderio-auth";
-               // string appKey = TextboxAppKey.Text;
+                // string appKey = TextboxAppKey.Text;
                 //if (testId == string.Empty)
                 //{
                 //    testId = ComboboxSelectLoadTest.Text;
                 //}
 
-                
+
                 string url = string.Format("https://api.loader.io/v2/tests/{0}", testId);
 
                 LoaderIoResultModel loaderIoResultModelResult =
@@ -4973,20 +5197,20 @@ namespace Applenium
 
                 //2. calculate nuber of time to run loder.io test
                 int numberofTimesToRun = totalDuration / testDuration;
-                
+
                 for (int i = 0; i <= numberofTimesToRun; i++)
                 {
                     url = string.Format("https://api.loader.io/v2/tests/{0}/run", testId);
 
                     string postData = string.Empty;
                     //need to get results id 
-                     result = HttpRequestExtensions.TryPutJson<LoaderIoResultTestResultModel>(url, appKeyName, appKey,
-                                                                                                 postData, 300000);
+                    result = HttpRequestExtensions.TryPutJson<LoaderIoResultTestResultModel>(url, appKeyName, appKey,
+                                                                                                postData, 300000);
                     //wait till test completed 
                     Thread.Sleep(testDuration * 1000);
                 }
                 return result.result_id;
-                
+
 
             }
             catch (Exception exception)
@@ -4995,7 +5219,7 @@ namespace Applenium
                 //MessageBox.Show(exception.Message);
                 return string.Empty;
             }
-          
+
 
         }
 
@@ -5015,7 +5239,7 @@ namespace Applenium
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (EventHandler)
                                                                       delegate
                                                                       {
-                                                                        
+
                                                                           if (result != null)
                                                                           {
                                                                               ComboboxSelectLoadTest.Text =
@@ -5113,7 +5337,7 @@ namespace Applenium
         {
             try
             {
-                WebBrowser wb = (WebBrowser) sender;
+                WebBrowser wb = (WebBrowser)sender;
                 dynamic activeX = wb.GetType().InvokeMember("ActiveXInstance",
                     BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                     null, wb, new object[] { });
@@ -5181,14 +5405,14 @@ namespace Applenium
             string giumap_tmp = "";
             PopupTestCommand.IsOpen = false;
 
-            string cmd_val = TBCmdName.Text ;
+            string cmd_val = TBCmdName.Text;
             string guimap_name = TBGuiMapName.Text;
             string guimap_val = TBGuiMapValue.Text;
             string TagTypeName = TBGuiMapTagTypeName.Text;
             string TestStepID = TBTestStepID.Text;
             string testId = TBTestID.Text;
             string VersionClnID = TBVersionClnID.Text;
-            
+
             var sql = new Sql();
 
             string sql_cmd = "TagTypeValue ='" + guimap_val + "'";
@@ -5217,7 +5441,7 @@ namespace Applenium
             }
 
             string TagTypeID = sql.GetOneParameter("TagTypeID", GuiTagType, "TagType='" + TagTypeName + "'");
-            if (TagTypeID  == string.Empty)
+            if (TagTypeID == string.Empty)
             {
                 TagTypeID = "10";
             }

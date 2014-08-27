@@ -384,9 +384,9 @@
 
                                         <Button x:Name="WizardtnOK"  Grid.Row="5" Grid.Column="0" Margin="20" MaxWidth="120" HorizontalAlignment="Right" MinWidth="100" Content="OK" Click="AddNewCommandFromPopup"></Button>
                                         <Button x:Name="btnCancel" Grid.Row="5" Grid.Column="1" Margin="20" HorizontalAlignment="Left" MinWidth="100" Content="Cancel" Click="CancelAddNewCommandFromPopup"></Button>
-                                       
+
                                     </Grid>
-                                   
+
                                 </Border>
                             </Popup>
 
@@ -433,7 +433,7 @@
                                         <DataGridComboBoxColumn.EditingElementStyle>
                                             <Style TargetType="ComboBox">
                                                 <Setter Property="IsEditable" Value="True"/>
-                                                
+
                                             </Style>
                                         </DataGridComboBoxColumn.EditingElementStyle>
 
@@ -919,27 +919,29 @@
                          HorizontalAlignment="Stretch" MinWidth ="110" Loaded="ExecutionTab_Loaded" >
                     <Grid Background="White">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="4*" MinWidth="100" />
                             <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="8*" MinWidth="100" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="0.5*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="4*" />
-                            <RowDefinition Height="0.25*" />
-                            <RowDefinition Height="0.25*" />
-                            <RowDefinition Height="2*" />
-                            <RowDefinition />
+                            <RowDefinition Height="1*" MinHeight="50" />
+                            <RowDefinition Height="1*" MinHeight="50" />
+                            <RowDefinition Height="0.5*" MinHeight="25" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" MinHeight="100" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" MinHeight="50" MaxHeight="100" />
                         </Grid.RowDefinitions>
                         <GridSplitter HorizontalAlignment="right"
                                       VerticalAlignment="Stretch"
                                       Grid.Column="2" Grid.Row="0" ResizeBehavior="PreviousAndNext" Width="3" />
-                        <TreeView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Name="TreeViewBatch"
+                        <TreeView Grid.Column="0" Grid.Row="0" Name="TreeViewBatch"
                                   HorizontalAlignment="Stretch" Height="auto" Margin="0" VerticalAlignment="Stretch"
                                   Width="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                   SelectedItemChanged="TreeViewBatch_SelectedItemChanged" UseLayoutRounding="False"                                  
-                                  x:FieldModifier="private">
+                                  x:FieldModifier="private" Grid.RowSpan="2">
                             <TreeView.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem x:Name="MenuItemAddNewBatch" Header="Add New Batch"
@@ -965,7 +967,7 @@
                         </TreeView>
 
 
-                        <DataGrid Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="0" x:Name="DataGridBatchEditor"
+                        <DataGrid Grid.Column="2" Grid.Row="0" x:Name="DataGridBatchEditor"
                                   AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0"
                                   VerticalAlignment="Stretch" Height="auto" Width="auto" IsManipulationEnabled="True"
                                   RowEditEnding="DataGridBatchEditor_RowEditing"
@@ -973,7 +975,7 @@
                                   PreviewKeyDown="dataGridBatchEditor_PreviewKeyDown"
                                   BeginningEdit="DataGridBatchEditor_BeginingEdit"
                                   CellEditEnding="DataGridBatchEditor_CellEditEnding"
-                                  RowBackground="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" >
+                                  RowBackground="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" Grid.RowSpan="2" >
                             <DataGrid.Columns>
 
                                 <DataGridComboBoxColumn x:Name="DataGridComboboxColumnScenario"
@@ -1000,28 +1002,28 @@
                             </DataGrid.RowStyle>
 
                         </DataGrid>
-                    
-                    <Grid Grid.Row="4" Grid.ColumnSpan="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" MinWidth="210" />
-                            <ColumnDefinition Width="*" MinWidth="210" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="*" MinWidth="210" />
-                            <ColumnDefinition Width="*" MinWidth="210" />
-                        </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0" Grid.Row="0" x:Name="BtnRunBatch" Content="Run Batch"
+                        <Grid Grid.Row="4" Grid.ColumnSpan="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MinWidth="210" />
+                                <ColumnDefinition Width="*" MinWidth="210" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" MinWidth="210" />
+                                <ColumnDefinition Width="*" MinWidth="210" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" Grid.Row="0" x:Name="BtnRunBatch" Content="Run Batch"
                                 HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="210"
                                 Click="btnRunBatch_Click" Height="47" />
-                        <Button Grid.Column="1" Grid.Row="0" x:Name="BtnNewBatch" Content="New Batch"
+                            <Button Grid.Column="1" Grid.Row="0" x:Name="BtnNewBatch" Content="New Batch"
                                 HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="210"
                                 Height="47" Click="btnNewBatch_Click" />
-                        <Button Grid.Column="4" Grid.Row="0" x:Name="BtnStopBatch" Content="StopCurrentBatch"
+                            <Button Grid.Column="4" Grid.Row="0" x:Name="BtnStopBatch" Content="StopCurrentBatch"
                                 HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="210"
                                 Click="btnStopBatch_Click" Height="47" IsEnabled="False" />
-                    </Grid>
+                        </Grid>
 
-                    <Popup x:Name="PopupNewBatch" Width="auto" Height="auto" StaysOpen="True"
+                        <Popup x:Name="PopupNewBatch" Width="auto" Height="auto" StaysOpen="True"
                                AllowsTransparency="False" Placement="Center" PopupAnimation="Fade"
                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -1062,6 +1064,20 @@
                                 </StackPanel>
                             </Border>
                         </Popup>
+                        <Button x:Name="BtnMoveStepUpExecution" Grid.Column="4" Grid.Row="0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="auto" 
+                                    Click="btnMoveStepUpExec_Click" IsEnabled="False" Margin="0">
+                            <StackPanel>
+                                <Image Source="..\5 - Resources\StockIndexUp.png" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="BtnMoveStepDownExecution" Grid.Column="4" Grid.Row="1"
+                                    HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="auto"
+                                    Click="btnMoveStepDownExec_Click" IsEnabled="False" Margin="0">
+                            <StackPanel>
+                                <Image Source="..\5 - Resources\StockIndexDown.png"/>
+                            </StackPanel>
+                        </Button>
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TabItemAnalyzingZone" Header="Analyzing" Margin="0"  Width="auto"
@@ -1326,14 +1342,14 @@
                         <TabItem Name="TabItemLoaderIo" Header="Loader.io" Loaded="TabItemLoaderIo_loaded"  >
                             <GroupBox  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="auto" Height="auto">
                                 <Grid Background="White">
-                               
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="4*" MinWidth="100" />
-                                    <ColumnDefinition Width="4*" MinWidth="100" />
-                                    <ColumnDefinition Width="4*" MinWidth="100" />
-                                    <ColumnDefinition Width="2*" MinWidth="100" />
-                                    <ColumnDefinition Width="2*" MinWidth="100" />
-                                    <ColumnDefinition Width="2*" MinWidth="100" />
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*" MinWidth="100" />
+                                        <ColumnDefinition Width="4*" MinWidth="100" />
+                                        <ColumnDefinition Width="4*" MinWidth="100" />
+                                        <ColumnDefinition Width="2*" MinWidth="100" />
+                                        <ColumnDefinition Width="2*" MinWidth="100" />
+                                        <ColumnDefinition Width="2*" MinWidth="100" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="1*" />
@@ -1347,10 +1363,10 @@
                                     <Label Content="Select Duration Time in sec: " Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="auto" Height="auto" />
                                     <Button x:Name ="ButtonRunLoadTest" Content="Run Load Test" Grid.Column="3" HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch" Click="ButtonRunTest_Click"/>
                                     <Button x:Name ="ButtonStopLoadTest" Content="Stop Load Test" Grid.Column="4" HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch" Click="ButtonStopTest_Click"/>
-                                    <ComboBox Name="ComboboxSelectLoadTest" Text="Loading AllTests from Loader.io...- This operation can take several minutes" Grid.ColumnSpan="2" DisplayMemberPath="ConcatenateName" SelectedValuePath="test_id"  HorizontalAlignment="Stretch" Grid.Column="0"  Grid.Row="2" VerticalAlignment="Stretch" IsEditable="True"  Loaded="Combobox_SelectLoadTest_Loaded"/>                                       
+                                    <ComboBox Name="ComboboxSelectLoadTest" Text="Loading AllTests from Loader.io...- This operation can take several minutes" Grid.ColumnSpan="2" DisplayMemberPath="ConcatenateName" SelectedValuePath="test_id"  HorizontalAlignment="Stretch" Grid.Column="0"  Grid.Row="2" VerticalAlignment="Stretch" IsEditable="True"  Loaded="Combobox_SelectLoadTest_Loaded"/>
                                     <TextBox Name="TextboxSelectDurationtime"  HorizontalAlignment="Stretch" Grid.Column="2"  Grid.Row="2" VerticalAlignment="Stretch"  />
                                     <Label  Grid.Row="0" Grid.Column="0" Content="Change App key if wrong:" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="auto" Height="auto"/>
-                                    
+
                                     <TextBox Name="TextboxAppKey"  HorizontalAlignment="Stretch" Grid.Column="1"  Grid.Row="0" VerticalAlignment="Stretch" SelectionChanged="TextboxAppKey_SelectionChanged"  />
                                     <Button Name="ButtonLoadTests" Content="Load List of Tests" Grid.Column="3" HorizontalAlignment="Stretch"  Grid.Row="0" VerticalAlignment="Stretch" Click="ButtonLoadTests_Click"/>
                                     <WebBrowser x:Name="WebBrowserLoaderio" Margin="0" Grid.Column="0"  Grid.Row="3" Grid.ColumnSpan="6" Grid.RowSpan="3"

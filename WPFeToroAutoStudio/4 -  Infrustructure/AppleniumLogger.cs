@@ -22,8 +22,6 @@ namespace Applenium
 
         }
 
-        LoggerDLL.BackendLogger _aLogger = new LoggerDLL.BackendLogger();
-        
         /// <summary>
         /// Prints the results of a step execution
         /// </summary>
@@ -46,7 +44,7 @@ namespace Applenium
                     logger.StatusTag = log.StatusTag;
                     logger.printLog(log.StatusTag);
                     insertToDB(log);
-                    break;              
+                    break;
 
                 case ResultStatus.ERROR: ClientLogger loggerError = new ClientLogger();
                     loggerError.Description = log.Description + " - " + log.StepName;

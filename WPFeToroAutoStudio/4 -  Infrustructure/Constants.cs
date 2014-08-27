@@ -13,6 +13,7 @@ namespace Applenium
         public const string StrGuiTestSteps = "GuiTestSteps";
         public const string StrInputTable = "InputTable";
         public const string StrInputScenarioTable = "InputScenarioTable";
+        public const string StrInputBatchTable = "InputBatchTable";
         public const string StrGuiProjects = "GuiProjects";
         public const string StrTestStepsToSelenium = "TestStepsToSelenium";
         public const string StrGuiScenario = "GuiScenario";
@@ -30,6 +31,7 @@ namespace Applenium
         public const string StrPopUpNewBatch = "PopUpNewBatch";
         public const string StrBatchScenariosToSelenium = "BatchScenariosToSelenium";
         public const string StrTestViewer = "TestViewer";
+        public const string StrScenarioViewer = "ScenarioViewer";
         public const string StrRowsId = "RowsID";
         public const string StrGuiProjectsNewBatch = "GuiProjectsNewBatch";
         public const string StrLogResults = "LogResults";
@@ -38,7 +40,7 @@ namespace Applenium
         public const string StrAnalayzing = "StrAnalayzing";
         public const string StrEnvironmentVersionMove = "StrEnvironmentVersionMove";
 
-
+        
         public const int PASSED = 1;
         public const int FAILED = 2;
         public const int DONE = 3;

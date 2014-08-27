@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using Applenium._3___DAL.DataSetAutoTestTableAdapters;
 using Applenium.Properties;
 using System.Text.RegularExpressions;
+using OpenQA.Selenium.Support.UI;
 
 namespace Applenium
 {
@@ -117,6 +118,26 @@ namespace Applenium
                             break;
                         case Constants.StrInputTable:
                         case Constants.StrInputScenarioTable:
+                            query = _inputTable;
+                            if (!string.IsNullOrEmpty(input))
+                            {
+                                string testInputTableName = GetInputDataTableName(input, true);
+                                if (testInputTableName == string.Empty)
+                                {
+                                    testInputTableName = GetTestName(input);
+                                }
+                                if (IsTableExists(testInputTableName, false))
+                                {
+                                    query = "select * from QA_Autotest.Test." + testInputTableName;
+                                }
+                                else
+                                {
+                                    isTable = false;
+                                }
+                            }
+                            break;
+                       
+                        case Constants.StrInputBatchTable:
                             query = _inputTable;
                             if (!string.IsNullOrEmpty(input))
                             {
@@ -757,6 +778,7 @@ namespace Applenium
            
         }
 
+        
 
         public void DeleteCurrentVersionTestSteps(string currentEnvironmentVersionColumn, int guiTestId)
         {

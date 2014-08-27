@@ -2,6 +2,10 @@
 {
     public partial class DataSetAutoTest
     {
+        partial class BatchLogicDataTable
+        {
+        }
+    
         partial class GuiMapDataTable
         {
         }
@@ -26,10 +30,7 @@ namespace Applenium._3___DAL.DataSetAutoTestTableAdapters
     {
     }
 
-    partial class EnvironmentVersionTableAdapter
-    {
-    }
-
+    
     partial class GuiTagTypeTableAdapter
     {
     }
@@ -76,5 +77,20 @@ namespace Applenium._3___DAL.DataSetAutoTestTableAdapters
         {
             throw new System.NotImplementedException();
         }
+    }
+}
+namespace Applenium._3___DAL.DataSetAutoTestTableAdapters
+{
+    
+    
+    public partial class BatchLogicTableAdapter {
+    }
+}
+
+namespace Applenium._3___DAL.DataSetAutoTestTableAdapters
+{
+    
+    
+    public partial class EnvironmentVersionTableAdapter {
     }
 }

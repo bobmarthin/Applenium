@@ -34,7 +34,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationRevision>34</ApplicationRevision>
     <ApplicationVersion>3.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -95,12 +95,6 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutomaticTest">
-      <HintPath>..\packages\AutomaticTest.dll</HintPath>
-    </Reference>
-    <Reference Include="Common">
-      <HintPath>..\packages\Common.dll</HintPath>
-    </Reference>
     <Reference Include="ExtendedGrid">
       <HintPath>..\packages\ExtendedGrid.dll</HintPath>
     </Reference>
@@ -196,14 +190,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="2 - Business Logic\CreateUserApiRequest.cs" />
-    <Compile Include="2 - Business Logic\CreateUserApiResponse.cs" />
     <Compile Include="2 - Business Logic\LoaderIoResultModel.cs" />
     <Compile Include="4 -  Infrustructure\ssh_client.cs" />
     <Compile Include="4 -  Infrustructure\Utilities.cs" />
     <Compile Include="4 -  Infrustructure\XMLfileValidator.cs" />
     <Compile Include="4 -  Infrustructure\Constants.cs" />
-    <Compile Include="2 - Business Logic\CreateTestUser.cs" />
     <Compile Include="2 - Business Logic\ExecutionManager.cs" />
     <Compile Include="2 - Business Logic\FacebookTestUserRequest.cs" />
     <Compile Include="2 - Business Logic\FacebookTestUserResultModel.cs" />
@@ -212,7 +203,6 @@
     <Compile Include="4 -  Infrustructure\AppleniumLogger.cs" />
     <Compile Include="4 -  Infrustructure\LoginRequest.cs" />
     <Compile Include="4 -  Infrustructure\LoginResultModel.cs" />
-    <Compile Include="2 - Business Logic\OpenBookValidator.cs" />
     <Compile Include="4 -  Infrustructure\ResultModel.cs" />
     <Compile Include="4 -  Infrustructure\ScreenShotRemoteWebDriver.cs" />
     <Compile Include="4 -  Infrustructure\Singleton.cs" />
@@ -237,12 +227,7 @@
     </Compile>
     <Compile Include="2 - Business Logic\Selenium.cs" />
     <Compile Include="3 - DAL\SQL.cs" />
-    <Compile Include="2 - Business Logic\StreamsAPIRequest.cs" />
-    <Compile Include="2 - Business Logic\StreamsApiResultModel.cs" />
-    <Compile Include="2 - Business Logic\StreamScenario.cs" />
     <Compile Include="4 -  Infrustructure\TextParser.cs" />
-    <Compile Include="2 - Business Logic\VersionManger.cs" />
-    <Compile Include="1 - User Interface\UIStateManager.cs" />
     <Page Include="1 - User Interface\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

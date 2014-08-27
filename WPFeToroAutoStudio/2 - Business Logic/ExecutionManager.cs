@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Applenium._3___DAL.DataSetAutoTestTableAdapters;
+using NUnit.Framework.Constraints;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using LoggerDLL;
@@ -303,6 +304,25 @@ namespace Applenium
                 if (inputDataRow != null)
                 {
 
+
+                    if (inputDataRow.IndexOf("rand", 0, StringComparison.Ordinal) >= 0)
+                    {
+                        if (inputDataRow.IndexOf("-", 0, StringComparison.Ordinal) >= 0)
+                        {
+                            string[] rows = inputDataRow.Split('-','(',')');
+                          //get rundom number
+
+                            Random random=new Random();
+                            int rownumber=random.Next(Convert.ToInt32(rows[1]), Convert.ToInt32(rows[2]));
+
+                            testresult = ExecuteOneTest(testId, rownumber.ToString(), driver,
+                                ref testStatus);
+                            if (testresult == false)
+                                recursivetestresult = false;
+                            
+                        return recursivetestresult;
+                        }
+                    }
 
                     if (inputDataRow.IndexOf("-", 0, StringComparison.Ordinal) >= 0)
                     {
@@ -620,7 +640,7 @@ namespace Applenium
             foreach (DataRow row in dtScenario.Rows)
             {
                 adapterBatchLogic.Update(Convert.ToInt32(row["BatchID"]), Convert.ToInt32(row["ScenarioID"]),
-                                         Convert.ToInt32(row["BrowserID"]), status,
+                                         Convert.ToInt32(row["BrowserID"]), status, Convert.ToInt32(row["StepsOrder"]),
                                          Convert.ToInt32(row["BatchLogicID"]));
             }
             return true;

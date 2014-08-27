@@ -6,6 +6,8 @@
   "TestingEnvironmentBack": "192.168.13.198",
   "RunJavaScriptOnPageLoad": "",
   "AutomaticHedgerPath": "C:\\AutomaticHedger\\Debug\\AutomaticHedgerService.exe",
+  "EtoroDbServerName": "RealMirrorQA",
+  "KYCServiceUrl": "http://ta-cash-w12-02:81/api/v1/users",
   "--------------------Mobile Testing Settings--------------------": "----------------------------------------",
   "Appium": "C:\\AppiumForWindows\\Appium\\node_modules\\.bin\\appium.cmd",
   "AppiumServerHost":"10.10.90.155",
