@@ -1,15 +1,18 @@
 Applenium (APPium+seLENIUM)=APPLENIUM
 =========
 
-
 Automation UI tool to create, execute and analyze Web and Mobile applications based on Selenium and Appium engines. The tool was designed and developed by Maxim Guenis and Alon Engler.
 
-What you need in order to run it: Download c# source code from :https://github.com/bobmarthin/Applenium Dependencies that you need:
+What you need in order to run it: 
 
-Selenium : http://docs.seleniumhq.org/download/ There are also some dependencies like Newtonsoft.json and log4net fin them on Nuget http://www.nuget.org/packages/newtonsoft.json/
+Download C# source code from [here](https://github.com/bobmarthin/Applenium).
 
-DB : Install MSSQL and import offline db
+Dependencies that you need to install: 
 
-*If you need compiled exe let me know and i'll add it to github too.(maximguenis@gmail.com) or tweet on @maximguenis
+1. [Selenium](http://docs.seleniumhq.org/download/)  
+2. There are also some dependencies like [Newtonsoft.json](http://www.nuget.org/packages/newtonsoft.json/) and [log4net](https://www.nuget.org/packages/log4net/) which you can find on Nuget.
+3. Install MSSQL and import offline db file.
 
-User Guide : http://www.slideshare.net/MaximGuenis/public-copy-of-applenium-user-guide-27965864
+If you need compiled exe let me know and I'll add it to Github too.([maximguenis@gmail.com](mailto:maximguenis@gmail.com)) or tweet me [@maximguenis](https://twitter.com/maximguenis)
+
+Find the User Guide [here](http://www.slideshare.net/MaximGuenis/public-copy-of-applenium-user-guide-27965864).
